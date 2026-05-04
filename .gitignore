@@ -22,3 +22,21 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# ==========================================
+# SPECIFIC PROJECT RULES
+# ==========================================
+
+# 1. Exception: We want to upload .jar files that are in lib/
+!lib/*.jar
+
+# 2. Ignore automatically generated files from the libraries
+sportactivity.db
+avatars/
+
+# 3. Ignore compilation folders
+build/
+dist/
+
+# 4. Ingore private NetBeans configurations
+nbproject/private/
