@@ -60,26 +60,29 @@
             <StackPane prefWidth="200.0" styleClass="floating-field">
                <children>
               <TextField fx:id="usernameField" maxWidth="280.0" styleClass="custom-textfield" />
-                  <Label styleClass="floating-label" text="Usuario*" />
+                  <Label styleClass="floating-label" text="Usuario*" StackPane.alignment="TOP_LEFT" />
                </children>
                <VBox.margin>
-                  <Insets />
+                  <Insets top="10.0" />
                </VBox.margin>
             </StackPane>
             <StackPane prefWidth="200.0" styleClass="floating-field">
                <children>
               <PasswordField fx:id="passwordField" maxWidth="280.0" styleClass="custom-textfield" />
-                  <Label styleClass="floating-label" text="Contraseña*" />
+                  <Label styleClass="floating-label" text="Contraseña*" StackPane.alignment="TOP_LEFT" />
                </children>
             </StackPane>
-        <Button id="join-button" defaultButton="true" mnemonicParsing="false" text="Entrar">
+        <Button id="join-button" defaultButton="true" mnemonicParsing="false" text="ENTRAR">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></Button>
-        <Hyperlink mnemonicParsing="false" text="¿No tienes cuenta? Regístrate" />
+        <Hyperlink mnemonicParsing="false" text="¿No tienes cuenta? Regístrate">
+               <font>
+                  <Font name="Sans Serif Collection" size="14.0" />
+               </font></Hyperlink>
       </children>
       <padding>
         <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
