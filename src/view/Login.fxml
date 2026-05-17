@@ -44,43 +44,45 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
-  <center>
-    <VBox alignment="CENTER" spacing="12.0" BorderPane.alignment="CENTER">
-      <children>
-        <Label text="Running la Safor">
-          <font>
-            <Font name="System Bold" size="24.0" />
-          </font>
-        </Label>
-        <Label text="Inicia sesión para continuar">
-          <font>
-            <Font size="14.0" />
-          </font>
-        </Label>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
-    <TextField fx:id="usernameField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
-    <Label styleClass="floating-label" text="Usuario" labelFor="$usernameField" mouseTransparent="true" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
-</AnchorPane>
+    <center>
+        <VBox alignment="CENTER" spacing="12.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Running la Safor">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Label>
+                <Label text="Inicia sesión para continuar">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
+                    <TextField fx:id="usernameField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
+                    <Label labelFor="$usernameField" mouseTransparent="true" styleClass="floating-label" text="Usuario" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+                </AnchorPane>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
-    <PasswordField fx:id="passwordField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
-    <Label styleClass="floating-label" text="Contraseña" labelFor="$passwordField" mouseTransparent="true" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
-</AnchorPane>
-        <Button id="login-button" defaultButton="true" mnemonicParsing="false" text="ENTRAR">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin></Button>
-        <Hyperlink fx:id="registerLink" mnemonicParsing="false" onAction="#handleRegisterAction" text="¿No tienes cuenta? Regístrate">
-               <font>
-                  <Font size="14.0" />
-               </font></Hyperlink>
-      </children>
-      <padding>
-        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
-      </padding>
-    </VBox>
-  </center>
+                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
+                    <PasswordField fx:id="passwordField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
+                    <Label labelFor="$passwordField" mouseTransparent="true" styleClass="floating-label" text="Contraseña" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+                </AnchorPane>
+                <Button id="login-button" defaultButton="true" mnemonicParsing="false" text="ENTRAR">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </Button>
+                <Hyperlink fx:id="registerLink" mnemonicParsing="false" onAction="#handleRegisterAction" text="¿No tienes cuenta? Regístrate">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Hyperlink>
+            </children>
+            <padding>
+                <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+            </padding>
+        </VBox>
+    </center>
 </BorderPane>
