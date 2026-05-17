@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package application;
 
 import javafx.application.Application;
@@ -14,7 +9,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author jose
+ * @author Abdel
  */
 public class App extends Application {
     
@@ -22,6 +17,7 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
+        Application.setUserAgentStylesheet("/resources/nord-light.css");
         Scene scene = new Scene(root);
         stage.setTitle("Running la Safor");
         stage.setScene(scene);
