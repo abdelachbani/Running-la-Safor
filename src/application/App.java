@@ -22,6 +22,8 @@ public class App extends Application {
         scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
         stage.setTitle("Running la Safor");
         stage.setScene(scene);
+        stage.setMinWidth(400);
+        stage.setMinHeight(400);  
         stage.show();
     }
 

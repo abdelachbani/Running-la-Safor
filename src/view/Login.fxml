@@ -38,8 +38,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -57,21 +57,15 @@
             <Font size="14.0" />
           </font>
         </Label>
-            <StackPane prefWidth="200.0" styleClass="floating-field">
-               <children>
-              <TextField fx:id="usernameField" maxWidth="280.0" styleClass="custom-textfield" />
-                  <Label styleClass="floating-label" text="Usuario*" StackPane.alignment="TOP_LEFT" />
-               </children>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </StackPane>
-            <StackPane prefWidth="200.0" styleClass="floating-field">
-               <children>
-              <PasswordField fx:id="passwordField" maxWidth="280.0" styleClass="custom-textfield" />
-                  <Label styleClass="floating-label" text="Contraseña*" StackPane.alignment="TOP_LEFT" />
-               </children>
-            </StackPane>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
+    <TextField fx:id="usernameField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
+    <Label styleClass="floating-label" text="Usuario*" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+</AnchorPane>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
+    <PasswordField fx:id="passwordField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
+    <Label styleClass="floating-label" text="Contraseña*" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+</AnchorPane>
         <Button id="join-button" defaultButton="true" mnemonicParsing="false" text="ENTRAR">
                <font>
                   <Font name="System Bold" size="14.0" />

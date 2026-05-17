@@ -5,31 +5,27 @@
 
 /* Floating labels on fields*/
 
-/* Applied to StackPane */
+/* Applied to AnchorPane */
 .floating-field {
-    -fx-alignment: center;
+    -fx-pref-height: 45px;
 }
 
-/* Applied to field */
+/* Applied to fields */
 .custom-textfield {
     -fx-background-color: transparent;
-    -fx-border-color: #00BFFF; /* Cyan blue */
+    -fx-border-color: #00BFFF;
     -fx-border-width: 1.5px;
     -fx-border-radius: 6px;
     -fx-background-radius: 6px;
     -fx-padding: 12px 10px 6px 10px;
-    -fx-pref-height: 45px;
 }
 
-/* Applied to label */
+/* Applied to labels */
 .floating-label {
-    -fx-font-size: 16px;
-    -fx-background-color: -color-bg-default; /* Container background color */
-    -fx-padding: 0 4px;
-    -fx-translate-y: -12px;  /* Label to upper border */
-    -fx-translate-x: 170px;
-    -fx-alignment: top-left;
-;}
+    -fx-font-size: 15px;
+    -fx-background-color: -color-bg-default;
+    -fx-padding: -3px 4px;
+}
 
 /* Floating labels on fields*/
 
