@@ -59,12 +59,12 @@
         </Label>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
     <TextField fx:id="usernameField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
-    <Label styleClass="floating-label" text="Usuario*" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+    <Label styleClass="floating-label" text="Usuario" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
 </AnchorPane>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
     <PasswordField fx:id="passwordField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
-    <Label styleClass="floating-label" text="Contraseña*" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+    <Label styleClass="floating-label" text="Contraseña" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
 </AnchorPane>
         <Button id="join-button" defaultButton="true" mnemonicParsing="false" text="ENTRAR">
                <font>
