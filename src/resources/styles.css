@@ -1,0 +1,35 @@
+/* 
+    Created on : 17 may 2026, 16:41:56
+    Author     : abdel
+*/
+
+/* Floating labels on fields*/
+
+/* Applied to AnchorPane */
+.floating-field {
+    -fx-pref-height: 45px;
+}
+
+/* Applied to fields */
+.custom-textfield {
+    -fx-background-color: transparent;
+    -fx-border-color: #00BFFF;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 12px 10px 6px 10px;
+}
+
+/* Applied to labels */
+.floating-label {
+    -fx-font-size: 15px;
+    -fx-background-color: -color-bg-default;
+    -fx-padding: -3px 4px;
+}
+
+/* Floating labels on fields*/
+
+#join-button {
+    -fx-background-radius: 10;
+}
+
