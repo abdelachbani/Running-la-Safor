@@ -73,7 +73,7 @@
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></Button>
-        <Hyperlink mnemonicParsing="false" text="¿No tienes cuenta? Regístrate">
+        <Hyperlink fx:id="registerLink" mnemonicParsing="false" onAction="#handleRegisterAction" text="¿No tienes cuenta? Regístrate">
                <font>
                   <Font name="Sans Serif Collection" size="14.0" />
                </font></Hyperlink>
