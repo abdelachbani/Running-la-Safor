@@ -81,7 +81,7 @@
                </VBox.margin></Button>
         <Hyperlink mnemonicParsing="false" onAction="#handleRegister" text="¿No tienes cuenta? Regístrate">
                <font>
-                  <Font name="Sans Serif Collection" size="14.0" />
+                  <Font name="SansSerif" size="14.0" />
                </font></Hyperlink>
       </children>
       <padding>
