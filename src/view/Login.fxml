@@ -72,14 +72,14 @@
                   <Label styleClass="floating-label" text="Contraseña*" StackPane.alignment="TOP_LEFT" />
                </children>
             </StackPane>
-        <Button id="join-button" defaultButton="true" mnemonicParsing="false" text="ENTRAR">
+        <Button id="join-button" defaultButton="true" mnemonicParsing="false" onAction="#handleLogin" text="ENTRAR">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></Button>
-        <Hyperlink mnemonicParsing="false" text="¿No tienes cuenta? Regístrate">
+        <Hyperlink mnemonicParsing="false" onAction="#handleRegister" text="¿No tienes cuenta? Regístrate">
                <font>
                   <Font name="Sans Serif Collection" size="14.0" />
                </font></Hyperlink>
