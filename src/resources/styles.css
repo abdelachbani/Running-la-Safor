@@ -27,7 +27,6 @@
     -fx-background-color: -color-bg-default; /* Container background color */
     -fx-padding: 0 4px;
     -fx-translate-y: -12px;  /* Label to upper border */
-    -fx-translate-x: 170px;
     -fx-alignment: top-left;
 }
 
@@ -36,4 +35,3 @@
 #join-button {
     -fx-background-radius: 10;
 }
-
