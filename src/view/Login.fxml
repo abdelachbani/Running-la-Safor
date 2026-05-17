@@ -39,10 +39,11 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
   <center>
     <VBox alignment="CENTER" spacing="12.0" BorderPane.alignment="CENTER">
       <children>
@@ -56,13 +57,32 @@
             <Font size="14.0" />
           </font>
         </Label>
-        <TextField fx:id="usernameField" maxWidth="280.0" promptText="Usuario o email" />
-        <PasswordField fx:id="passwordField" maxWidth="280.0" promptText="Contraseña" />
-        <Button defaultButton="true" mnemonicParsing="false" prefWidth="280.0" text="Entrar" />
-        <Hyperlink mnemonicParsing="false" text="¿Has olvidado tu contraseña?" />
+            <StackPane prefWidth="200.0" styleClass="floating-field">
+               <children>
+              <TextField fx:id="usernameField" maxWidth="280.0" styleClass="custom-textfield" />
+                  <Label styleClass="floating-label" text="Usuario*" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </StackPane>
+            <StackPane prefWidth="200.0" styleClass="floating-field">
+               <children>
+              <PasswordField fx:id="passwordField" maxWidth="280.0" styleClass="custom-textfield" />
+                  <Label styleClass="floating-label" text="Contraseña*" />
+               </children>
+            </StackPane>
+        <Button id="join-button" defaultButton="true" mnemonicParsing="false" text="Entrar">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Button>
+        <Hyperlink mnemonicParsing="false" text="¿No tienes cuenta? Regístrate" />
       </children>
       <padding>
-        <Insets left="24.0" right="24.0" top="24.0" bottom="24.0" />
+        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
       </padding>
     </VBox>
   </center>

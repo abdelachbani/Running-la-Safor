@@ -19,6 +19,7 @@ public class App extends Application {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo.png")));
         Application.setUserAgentStylesheet("/resources/nord-light.css");
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
         stage.setTitle("Running la Safor");
         stage.setScene(scene);
         stage.show();

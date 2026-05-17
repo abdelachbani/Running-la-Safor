@@ -1,0 +1,39 @@
+/* 
+    Created on : 17 may 2026, 16:41:56
+    Author     : abdel
+*/
+
+/* Floating labels on fields*/
+
+/* Applied to StackPane */
+.floating-field {
+    -fx-alignment: center;
+}
+
+/* Applied to field */
+.custom-textfield {
+    -fx-background-color: transparent;
+    -fx-border-color: #00BFFF; /* Cyan blue */
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 12px 10px 6px 10px;
+    -fx-pref-height: 45px;
+}
+
+/* Applied to label */
+.floating-label {
+    -fx-font-size: 16px;
+    -fx-background-color: -color-bg-default; /* Container background color */
+    -fx-padding: 0 4px;
+    -fx-translate-y: -12px;  /* Label to upper border */
+    -fx-translate-x: 170px;
+    -fx-alignment: top-left;
+;}
+
+/* Floating labels on fields*/
+
+#join-button {
+    -fx-background-radius: 10;
+}
+
