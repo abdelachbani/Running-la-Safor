@@ -33,3 +33,6 @@
     -fx-background-radius: 10;
 }
 
+#wrong-credentials-text {
+    -fx-fill: -color-danger-5;
+}
