@@ -27,8 +27,8 @@
         </AnchorPane>
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
             <children>
-                <TextField fx:id="usernameField1" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
-                <Label labelFor="$usernameField1" mouseTransparent="true" styleClass="floating-label" text="Email*" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+                <TextField fx:id="emailField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
+                <Label labelFor="$emailField" mouseTransparent="true" styleClass="floating-label" text="Email*" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
             </children>
         </AnchorPane>
         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">

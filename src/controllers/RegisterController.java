@@ -21,7 +21,7 @@ public class RegisterController implements Initializable {
     @FXML
     private TextField usernameField;
     @FXML
-    private TextField usernameField1;
+    private TextField emailField;
     @FXML
     private PasswordField passwordField;
     @FXML
