@@ -54,12 +54,7 @@
                     <Label labelFor="$usernameField11" mouseTransparent="true" styleClass="floating-label" text="Subir avatar" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
                 </children>
             </AnchorPane>
-            <Button fx:id="browseButton" onAction="#handleBrowse" prefHeight="40.0" prefWidth="30.0">
-                <styleClass>
-                    <String fx:value="button-circle" />
-                    <String fx:value="button-icon" />
-                </styleClass>
-            </Button>
+            <Button fx:id="browseButton" onAction="#handleBrowse" prefHeight="40.0" prefWidth="30.0" text="..." />
         </HBox>
         <Button id="login-button" fx:id="loginButton" defaultButton="true" mnemonicParsing="false" onAction="#onRegisterClick" text="REGISTRARSE">
             <font>
