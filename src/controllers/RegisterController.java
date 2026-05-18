@@ -31,9 +31,9 @@ public class RegisterController implements Initializable {
     @FXML
     private Button browseButton;
     @FXML
-    private Button loginButton;
+    private Button registerButton;
     @FXML
-    private Hyperlink registerLink;
+    private Hyperlink loginLink;
 
     /**
      * Initializes the controller class.

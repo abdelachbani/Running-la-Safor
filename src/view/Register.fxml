@@ -56,12 +56,12 @@
             </AnchorPane>
             <Button fx:id="browseButton" onAction="#handleBrowse" prefHeight="40.0" prefWidth="30.0" text="..." />
         </HBox>
-        <Button id="login-button" fx:id="loginButton" defaultButton="true" mnemonicParsing="false" onAction="#onRegisterClick" text="REGISTRARSE">
+        <Button id="login-button" fx:id="registerButton" defaultButton="true" mnemonicParsing="false" onAction="#onRegisterClick" text="REGISTRARSE">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>
         </Button>
-        <Hyperlink fx:id="registerLink" mnemonicParsing="false" onAction="#handleLoginAction" text="¿Ya tienes cuenta? Inicia sesión">
+        <Hyperlink fx:id="loginLink" mnemonicParsing="false" onAction="#handleLoginAction" text="¿Ya tienes cuenta? Inicia sesión">
             <font>
                 <Font size="14.0" />
             </font>
