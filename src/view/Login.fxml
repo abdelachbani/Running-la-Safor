@@ -67,7 +67,7 @@
                     <PasswordField fx:id="passwordField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
                     <Label labelFor="$passwordField" mouseTransparent="true" styleClass="floating-label" text="Contraseña" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
                 </AnchorPane>
-            <Text id="wrong-credentials-text" fx:id="wrongCredentialsText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Las credenciales no son correctas" visible="false" />
+            <Text id="wrong-credentials-text" fx:id="wrongCredentialsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Las credenciales no son correctas" visible="false" />
                 <Button id="login-button" fx:id="loginButton" defaultButton="true" mnemonicParsing="false" onAction="#onLoginClick" text="ENTRAR">
                     <font>
                         <Font name="System Bold" size="14.0" />
