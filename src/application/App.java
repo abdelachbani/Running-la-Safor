@@ -12,7 +12,7 @@ import javafx.stage.Stage;
  * @author Abdel
  */
 public class App extends Application {
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
@@ -23,7 +23,7 @@ public class App extends Application {
         stage.setTitle("Running la Safor");
         stage.setScene(scene);
         stage.setMinWidth(400);
-        stage.setMinHeight(400);  
+        stage.setMinHeight(400);
         stage.show();
     }
 
@@ -33,5 +33,5 @@ public class App extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
