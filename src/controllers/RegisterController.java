@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.util.Duration;
 import upv.ipc.sportlib.User;
 
 /**
@@ -46,6 +47,14 @@ public class RegisterController implements Initializable {
     private Label passwordError;
     @FXML
     private Label dateError;
+    @FXML
+    private Tooltip usernameErrorTooltip;
+    @FXML
+    private Tooltip mailErrorTooltip;
+    @FXML
+    private Tooltip passwordErrorTooltip;
+    @FXML
+    private Tooltip ageErrorTooltip;
 
     /**
      * Initializes the controller class.
@@ -57,10 +66,10 @@ public class RegisterController implements Initializable {
 
     private void setupValidation() {
         // Tooltips with validation rules
-        usernameError.setTooltip(new Tooltip("Entre 6 y 15 caracteres, solo letras, dígitos, guion o subguion."));
-        emailError.setTooltip(new Tooltip("Formato de email no válido (usuario@dominio)."));
-        passwordError.setTooltip(new Tooltip("Entre 8 y 20 caracteres, al menos una mayúscula, una minúscula, un dígito y un símbolo (!@#$%&*()-+=)."));
-        dateError.setTooltip(new Tooltip("Debes tener más de 12 años."));
+        usernameErrorTooltip.setShowDelay(Duration.valueOf("200ms"));
+        mailErrorTooltip.setShowDelay(Duration.valueOf("200ms"));
+        passwordErrorTooltip.setShowDelay(Duration.valueOf("200ms"));
+        ageErrorTooltip.setShowDelay(Duration.valueOf("200ms"));
 
         // Listeners for real-time validation
         usernameField.textProperty().addListener((obs, oldVal, newVal) -> {
