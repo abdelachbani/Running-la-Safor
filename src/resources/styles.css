@@ -36,9 +36,3 @@
 #wrong-credentials-text {
     -fx-fill: -color-danger-5;
 }
-
-.error-icon {
-    -fx-text-fill: red;
-    -fx-font-weight: bold;
-    -fx-font-size: 16px;
-}
