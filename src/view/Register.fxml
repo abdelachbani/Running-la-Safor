@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterController">
+    <children>
+        <Label text="Running la Safor">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
+            <children>
+                <TextField fx:id="usernameField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
+                <Label labelFor="$usernameField" mouseTransparent="true" styleClass="floating-label" text="Usuario*" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+            </children>
+        </AnchorPane>
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
+            <children>
+                <TextField fx:id="usernameField1" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
+                <Label labelFor="$usernameField1" mouseTransparent="true" styleClass="floating-label" text="Email*" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+            </children>
+        </AnchorPane>
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
+            <children>
+                <PasswordField fx:id="passwordField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
+                <Label labelFor="$passwordField" mouseTransparent="true" styleClass="floating-label" text="Contraseña*" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+            </children>
+        </AnchorPane>
+        <HBox alignment="BOTTOM_LEFT" maxWidth="-Infinity" prefHeight="30.0" prefWidth="300.0">
+            <children>
+                <Label text="Fecha de Nacimiento*" />
+            </children>
+        </HBox>
+        <HBox maxWidth="-Infinity" prefHeight="30.0" prefWidth="300.0">
+            <children>
+                <DatePicker fx:id="datePicker" />
+            </children>
+        </HBox>
+        <HBox alignment="BOTTOM_LEFT" maxWidth="-Infinity" prefWidth="300.0" spacing="5">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="260.0" styleClass="floating-field">
+                <children>
+                    <TextField fx:id="usernameField11" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
+                    <Label labelFor="$usernameField11" mouseTransparent="true" styleClass="floating-label" text="Subir avatar" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+                </children>
+            </AnchorPane>
+            <Button fx:id="browseButton" onAction="#handleBrowse" prefHeight="40.0" prefWidth="30.0">
+                <styleClass>
+                    <String fx:value="button-circle" />
+                    <String fx:value="button-icon" />
+                </styleClass>
+            </Button>
+        </HBox>
+        <Button id="login-button" fx:id="loginButton" defaultButton="true" mnemonicParsing="false" onAction="#onRegisterClick" text="REGISTRARSE">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Button>
+        <Hyperlink fx:id="registerLink" mnemonicParsing="false" onAction="#handleLoginAction" text="¿Ya tienes cuenta? Inicia sesión">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Hyperlink>
+    </children>
+</VBox>
