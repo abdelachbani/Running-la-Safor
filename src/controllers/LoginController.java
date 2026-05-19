@@ -83,6 +83,19 @@ public class LoginController implements Initializable {
     private void onLoginClick(ActionEvent event) {
         if (!app.login(usernameField.getText(), passwordField.getText())) {
             wrongCredentialsText.setVisible(true);
+        } else {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/view/Home.fxml"));
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.setMinWidth(900);
+                stage.setMinHeight(600);
+                stage.show();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

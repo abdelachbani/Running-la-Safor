@@ -14,6 +14,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.util.Duration;
 import upv.ipc.sportlib.User;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import upv.ipc.sportlib.SportActivityApp;
 
 /**
  * FXML Controller class
@@ -55,6 +66,9 @@ public class RegisterController implements Initializable {
     private Tooltip passwordErrorTooltip;
     @FXML
     private Tooltip ageErrorTooltip;
+    
+    private final SportActivityApp app = SportActivityApp.getInstance();
+    private String avatarPath = null;
 
     /**
      * Initializes the controller class.
@@ -95,14 +109,83 @@ public class RegisterController implements Initializable {
 
     @FXML
     private void handleBrowse(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Selecciona un avatar");
+        fileChooser.getExtensionFilters().add(
+            new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+        if (selectedFile != null) {
+            avatarPath = selectedFile.getAbsolutePath();
+            usernameField11.setText(avatarPath);
+        }
     }
 
     @FXML
     private void onRegisterClick(ActionEvent event) {
+        String nick = usernameField.getText().trim();
+        String email = emailField.getText().trim();
+        String password = passwordField.getText();
+        LocalDate birthDate = datePicker.getValue();
+
+        boolean validNick = User.checkNickName(nick);
+        boolean validEmail = User.checkEmail(email);
+        boolean validPassword = User.checkPassword(password);
+        boolean validDate = birthDate != null && User.isOlderThan(birthDate, 12);
+
+        usernameError.setVisible(!validNick);
+        emailError.setVisible(!validEmail);
+        passwordError.setVisible(!validPassword);
+        dateError.setVisible(!validDate);
+
+        if (!validNick || !validEmail || !validPassword || !validDate) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Datos inválidos");
+            alert.setContentText("Revisa los campos del formulario.");
+            alert.showAndWait();
+            return;
+        }
+
+        boolean registered = app.registerUser(nick, email, password, birthDate, avatarPath);
+
+        Alert alert = new Alert(registered ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR);
+        alert.setTitle(registered ? "Registro correcto" : "Error");
+        alert.setHeaderText(null);
+        alert.setContentText(
+        registered
+            ? "Usuario registrado correctamente."
+            : "No se pudo registrar. Puede que el nickname ya exista."
+        );
+        alert.showAndWait();
+
+        if (registered) {
+            handleLoginAction(event);
+        }
     }
 
     @FXML
     private void handleLoginAction(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setMinWidth(400);
+            stage.setMinHeight(400);
+            stage.show();
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No se pudo abrir login");
+            alert.setContentText("Revisa la ruta del FXML o del CSS.");
+            alert.showAndWait();
     }
+}
 
 }
