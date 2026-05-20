@@ -17,7 +17,7 @@
    <top>
       <HBox maxHeight="-Infinity" prefHeight="60.0" prefWidth="600.0" spacing="10.0" BorderPane.alignment="CENTER_LEFT">
          <children>
-            <Label prefHeight="44.0" prefWidth="242.0" styleClass="screen-title" stylesheets="@../resources/styles.css" text="Running La Safor" HBox.hgrow="ALWAYS">
+            <Label prefHeight="44.0" prefWidth="242.0" styleClass="screen-title" stylesheets="@../resources/styles.css" text="Running la Safor" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="20.0" />
                </font>
