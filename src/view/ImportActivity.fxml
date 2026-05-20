@@ -13,15 +13,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="600.0" stylesheets="@../resources/nord-light.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ImportActivityController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="600.0" stylesheets="@../resources/nord-light.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ImportActivityController">
    <top>
       <HBox maxHeight="-Infinity" prefHeight="60.0" prefWidth="600.0" spacing="10.0" BorderPane.alignment="CENTER_LEFT">
          <children>
-            <Label prefHeight="44.0" prefWidth="266.0" styleClass="screen-title" stylesheets="@../resources/styles.css" text="Running La Safor" HBox.hgrow="ALWAYS">
+            <Label prefHeight="44.0" prefWidth="242.0" styleClass="screen-title" stylesheets="@../resources/styles.css" text="Running La Safor" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
+            <Region prefHeight="44.0" prefWidth="22.0" HBox.hgrow="ALWAYS" />
             <Label fx:id="lblUser" prefHeight="44.0" prefWidth="122.0" styleClass="user-name" stylesheets="@../resources/styles.css" text="usuarioejemplo" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="15.0" />

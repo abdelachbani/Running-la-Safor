@@ -194,7 +194,7 @@ public class HomeController implements Initializable {
     private void handleImportActivity(ActionEvent event) {
         URL importView = getClass().getResource("/view/ImportActivity.fxml");
         URL styles = getClass().getResource("/resources/styles.css");
-
+        
         if (importView == null || styles == null) {
           showError("Error", "No se pudo abrir la pantalla de importar actividad.");
          return;

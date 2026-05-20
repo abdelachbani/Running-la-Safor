@@ -124,7 +124,29 @@ public class ImportActivityController implements Initializable {
 
     @FXML
     private void handleLogOut(ActionEvent event) {
-        app.logout();
+        app.logout(); // Guarda la sesión automáticamente
+
+    URL loginView = getClass().getResource("/view/Login.fxml");
+    URL styles = getClass().getResource("/resources/styles.css");
+
+    if (loginView == null || styles == null) {
+        showError("Error, No se pudo volver a la pantalla de login.");
+        return;
+    }
+
+    try {
+        Parent root = FXMLLoader.load(loginView);
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(styles.toExternalForm());
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.setMinWidth(400);
+        stage.setMinHeight(400);
+        stage.show();
+    } catch (IOException ex) {
+        showError("Error, No se pudo volver a la pantalla de login.");
+    }
     }
     
     private void showError(String message) {
