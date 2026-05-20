@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package controllers;
 
 import java.io.File;
@@ -15,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -43,7 +40,7 @@ public class ImportActivityController implements Initializable {
     private Button btnExamine;
     @FXML
     private Button btnImport;
-    
+
     private final SportActivityApp app = SportActivityApp.getInstance();
     private File selectedFile = null;
 
@@ -56,8 +53,8 @@ public class ImportActivityController implements Initializable {
             lblUser.setText(app.getCurrentUser().getNickName());
             loadAvatar();
         }
-    }   
-    
+    }
+
     private void loadAvatar() {
         Image avatar = app.getCurrentUser().getAvatar();
         if (avatar != null) {
@@ -78,8 +75,8 @@ public class ImportActivityController implements Initializable {
         fileChooser.setTitle("Seleccionar fichero GPX");
 
         // Filtro para mostrar solo archivos .gpx
-        FileChooser.ExtensionFilter gpxFilter =
-            new FileChooser.ExtensionFilter("Ficheros GPX (*.gpx)", "*.gpx");
+        FileChooser.ExtensionFilter gpxFilter
+                = new FileChooser.ExtensionFilter("Ficheros GPX (*.gpx)", "*.gpx");
         fileChooser.getExtensionFilters().add(gpxFilter);
 
         // Obtener el Stage actual desde el evento
@@ -94,7 +91,7 @@ public class ImportActivityController implements Initializable {
 
     @FXML
     private void handleImport(ActionEvent event) {
-         
+
         if (selectedFile == null || txtFileRoute.getText().isBlank()) {
             showError("Por favor, selecciona un fichero GPX antes de importar.");
             return;
@@ -107,12 +104,12 @@ public class ImportActivityController implements Initializable {
         }
 
         try {
-            
+
             Activity activity = app.importActivity(selectedFile);
 
             if (activity != null) {
                 showSuccess("Actividad \"" + activity.getName() + "\" importada correctamente.");
-               
+
             } else {
                 showError("No se pudo importar la actividad. Comprueba que el fichero GPX es válido.");
             }
@@ -124,44 +121,23 @@ public class ImportActivityController implements Initializable {
 
     @FXML
     private void handleLogOut(ActionEvent event) {
-        app.logout(); // Guarda la sesión automáticamente
+        app.logout(); // Saves session
 
-    URL loginView = getClass().getResource("/view/Login.fxml");
-    URL styles = getClass().getResource("/resources/styles.css");
-
-    if (loginView == null || styles == null) {
-        showError("Error, No se pudo volver a la pantalla de login.");
-        return;
+        handleWindowChange("/view/Login.fxml", 400, 400, event);
     }
 
-    try {
-        Parent root = FXMLLoader.load(loginView);
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(styles.toExternalForm());
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.setMinWidth(400);
-        stage.setMinHeight(400);
-        stage.show();
-    } catch (IOException ex) {
-        showError("Error, No se pudo volver a la pantalla de login.");
-    }
-    }
-    
     private void showError(String message) {
-        // Opción simple: Alert
-        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
-            javafx.scene.control.Alert.AlertType.ERROR);
+        // Alert
+        Alert alert = new javafx.scene.control.Alert(
+                javafx.scene.control.Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
-    
+
     private void showSuccess(String message) {
-        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
-            javafx.scene.control.Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Éxito");
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -170,27 +146,30 @@ public class ImportActivityController implements Initializable {
 
     @FXML
     private void handleReturn(ActionEvent event) {
-    URL homeView = getClass().getResource("/view/Home.fxml");
-    URL styles = getClass().getResource("/resources/styles.css");
-
-    if (homeView == null || styles == null) {
-        showError("Error, No se pudo volver a la pantalla principal.");
-        return;
+        handleWindowChange("/view/Home.fxml", 900, 600, event);
     }
 
-    try {
-        Parent root = FXMLLoader.load(homeView);
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(styles.toExternalForm());
+    public void handleWindowChange(String path, int minWidth, int minHeight, ActionEvent event) {
+        URL homeView = getClass().getResource(path);
+        URL styles = getClass().getResource("/resources/styles.css");
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.setMinWidth(900);
-        stage.setMinHeight(600);
-        stage.show();
-    } catch (IOException ex) {
-        showError("Error, No se pudo volver a la pantalla principal.");
+        if (homeView == null || styles == null) {
+            showError("Error, No se pudo volver a la pantalla principal.");
+            return;
+        }
+
+        try {
+            Parent root = FXMLLoader.load(homeView);
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(styles.toExternalForm());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setMinWidth(minWidth);
+            stage.setMinHeight(minHeight);
+            stage.show();
+        } catch (IOException ex) {
+            showError("Error, No se pudo volver a la pantalla principal.");
+        }
     }
-    }
-    
 }
