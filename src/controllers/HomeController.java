@@ -196,9 +196,9 @@ public class HomeController implements Initializable {
         URL styles = getClass().getResource("/resources/styles.css");
         
         if (importView == null || styles == null) {
-          showError("Error", "No se pudo abrir la pantalla de importar actividad.");
-         return;
-     }
+            showError("Error", "No se pudo abrir la pantalla de importar actividad.");
+            return;
+        }
 
         try {
             Parent root = FXMLLoader.load(importView);
