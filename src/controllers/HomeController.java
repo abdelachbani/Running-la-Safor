@@ -192,7 +192,27 @@ public class HomeController implements Initializable {
 
     @FXML
     private void handleImportActivity(ActionEvent event) {
-        showInfo("Pendiente", "La pantalla de importar actividad será la siguiente que conectemos.");
+        URL importView = getClass().getResource("/view/ImportActivity.fxml");
+        URL styles = getClass().getResource("/resources/styles.css");
+        
+        if (importView == null || styles == null) {
+            showError("Error", "No se pudo abrir la pantalla de importar actividad.");
+            return;
+        }
+
+        try {
+            Parent root = FXMLLoader.load(importView);
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(styles.toExternalForm());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setMinWidth(600);
+            stage.setMinHeight(420);
+            stage.show();
+        } catch (IOException ex) {
+            showError("Error", "No se pudo abrir la pantalla de importar actividad.");
+        }
     }
 
     @FXML
