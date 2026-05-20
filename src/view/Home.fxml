@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
+
+    <top>
+        <VBox spacing="8.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="6.0" left="24.0" right="24.0" top="14.0" />
+            </padding>
+
+            <children>
+                <HBox alignment="TOP_LEFT">
+                    <children>
+                        <Label fx:id="titleLabel" text="Running la Safor - Mis actividades" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <VBox alignment="TOP_RIGHT" spacing="8.0">
+                            <children>
+                                <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                    <children>
+                                        <Label fx:id="usernameLabel" text="usuarioejemplo" />
+                                        <ImageView fx:id="avatarImageView" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true" />
+                                        <Button fx:id="logoutButton" onAction="#handleLogout" text="Cerrar sesión" />
+                                    </children>
+                                </HBox>
+
+                                <HBox alignment="CENTER_RIGHT" translateX="18.0" translateY="10.0">
+                                    <children>
+                                        <Button fx:id="importButton" onAction="#handleImportActivity" text="Importar actividad">
+                                 <HBox.margin>
+                                    <Insets right="80.0" />
+                                 </HBox.margin></Button>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="12.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="8.0" left="24.0" right="24.0" top="6.0" />
+            </padding>
+
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="14.0">
+                    <children>
+                        <Label fx:id="activitiesCountLabel" text="Actividades: 0" />
+                        <Label fx:id="lastActivityLabel" text="Última actividad: -" />
+                    </children>
+                </HBox>
+
+                <TableView fx:id="activitiesTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="nameColumn" prefWidth="420.0" text="Actividad" />
+                        <TableColumn fx:id="dateColumn" prefWidth="220.0" text="Fecha" />
+                        <TableColumn fx:id="distanceColumn" prefWidth="220.0" text="Distancia" />
+                    </columns>
+                </TableView>
+
+                <HBox alignment="CENTER_RIGHT" spacing="12.0">
+                    <children>
+                        <Button fx:id="openButton" onAction="#handleOpenActivity" text="Abrir actividad" />
+                        <Button fx:id="deleteButton" onAction="#handleDeleteActivity" text="Eliminar" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_LEFT" spacing="12.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="18.0" left="24.0" right="24.0" top="8.0" />
+            </padding>
+
+            <children>
+                <Button fx:id="profileButton" onAction="#handleProfile" text="Perfil" />
+
+                <Button fx:id="sessionsButton" onAction="#handleSessions" text="Historial de Sesiones" />
+
+                <Button fx:id="mapsButton" onAction="#handleMaps" text="Gestión de Mapas" />
+
+                <Button fx:id="accumulatedButton" onAction="#handleAccumulated" text="Acumulado" />
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>
