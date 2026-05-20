@@ -17,13 +17,12 @@
    <top>
       <HBox maxHeight="-Infinity" prefHeight="60.0" prefWidth="600.0" spacing="10.0" BorderPane.alignment="CENTER_LEFT">
          <children>
-            <Label prefHeight="70.0" prefWidth="215.0" stylesheets="@../resources/styles.css" text="Running La Safor" HBox.hgrow="ALWAYS">
+            <Label prefHeight="44.0" prefWidth="266.0" styleClass="screen-title" stylesheets="@../resources/styles.css" text="Running La Safor" HBox.hgrow="ALWAYS">
                <font>
-                  <Font size="25.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
-            <Region prefHeight="44.0" prefWidth="54.0" HBox.hgrow="ALWAYS" />
-            <Label fx:id="lblUser" prefHeight="44.0" prefWidth="118.0" styleClass="floating-label" stylesheets="@../resources/styles.css" text="usuarioejemplo" HBox.hgrow="ALWAYS">
+            <Label fx:id="lblUser" prefHeight="44.0" prefWidth="122.0" styleClass="user-name" stylesheets="@../resources/styles.css" text="usuarioejemplo" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="15.0" />
                </font>
@@ -33,9 +32,9 @@
                   <Image url="@../resources/logo.png" />
                </image>
             </ImageView>
-            <Button mnemonicParsing="false" onAction="#handleLogOut" prefHeight="10.0" prefWidth="110.0" text="Cerrar Sesión" HBox.hgrow="ALWAYS">
+            <Button mnemonicParsing="false" onAction="#handleLogOut" prefHeight="42.0" prefWidth="134.0" styleClass="top-action-button" stylesheets="@../resources/styles.css" text="Cerrar Sesión" HBox.hgrow="ALWAYS">
                <HBox.margin>
-                  <Insets top="8.0" />
+                  <Insets />
                </HBox.margin>
             </Button>
          </children>
@@ -56,9 +55,9 @@
             <Separator prefWidth="200.0" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#handleReturn" text="&lt;- Volver" />
-                  <Region prefHeight="67.0" prefWidth="85.0" />
-                  <Label prefHeight="31.0" prefWidth="232.0" stylesheets="@../resources/styles.css" text="Importar Actividad">
+                  <Button mnemonicParsing="false" onAction="#handleReturn" styleClass="nav-button" stylesheets="@../resources/styles.css" text="&lt;- Volver" />
+                  <Region prefHeight="69.0" prefWidth="55.0" />
+                  <Label prefHeight="40.0" prefWidth="333.0" styleClass="screen-title" stylesheets="@../resources/styles.css" text="Importar Actividad GPX">
                      <font>
                         <Font size="25.0" />
                      </font>
@@ -80,12 +79,12 @@
                         <Insets right="15.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button fx:id="btnExamine" mnemonicParsing="false" onAction="#handleExamine" prefHeight="30.0" text="Examinar" />
+                  <Button fx:id="btnExamine" mnemonicParsing="false" onAction="#handleExamine" prefHeight="30.0" styleClass="nav-button" stylesheets="@../resources/styles.css" text="Examinar" />
                </children>
             </HBox>
             <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="btnImport" mnemonicParsing="false" onAction="#handleImport" prefHeight="20.0" prefWidth="157.0" text="Importar Actividad" />
+                  <Button fx:id="btnImport" mnemonicParsing="false" onAction="#handleImport" prefHeight="42.0" prefWidth="174.0" styleClass="import-button" stylesheets="@../resources/styles.css" text="Importar Actividad" />
                </children>
             </HBox>
          </children>
