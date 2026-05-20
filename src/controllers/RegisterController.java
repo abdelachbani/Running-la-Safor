@@ -154,19 +154,24 @@ public class RegisterController implements Initializable {
 
         boolean registered = app.registerUser(nick, email, password, birthDate, avatarPath);
 
-        Alert alert = new Alert(registered ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR);
-        alert.setTitle(registered ? "Registro correcto" : "Error");
-        alert.setHeaderText(null);
-        alert.setContentText(
-        registered
-            ? "Usuario registrado correctamente."
-            : "No se pudo registrar. Puede que el nickname ya exista."
-        );
-        alert.showAndWait();
+        showRegisterAlert(registered);
 
         if (registered) {
             handleLoginAction(event);
         }
+    }
+    
+
+    private void showRegisterAlert(boolean success){
+        Alert alert = new Alert(success ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR);
+        alert.setTitle(success ? "Registro correcto" : "Error");
+        alert.setHeaderText(null);
+        alert.setContentText(
+        success
+            ? "Usuario registrado correctamente."
+            : "No se pudo registrar. Puede que el nickname ya exista."
+        );
+        alert.showAndWait();
     }
 
     @FXML
