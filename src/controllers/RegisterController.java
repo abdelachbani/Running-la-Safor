@@ -141,7 +141,9 @@ public class RegisterController implements Initializable {
         passwordError.setVisible(!validPassword);
         dateError.setVisible(!validDate);
 
-        if (!validNick || !validEmail || !validPassword || !validDate) {
+        boolean invalidData = !validNick || !validEmail || !validPassword || !validDate;
+        
+        if (invalidData) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Datos inválidos");
