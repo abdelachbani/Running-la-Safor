@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="650.0" prefWidth="1000.0"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.EditProfileController">
+
+    <top>
+        <VBox spacing="8.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="10.0" left="24.0" right="24.0" top="16.0" />
+            </padding>
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <Label text="Running la Safor">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Label>
+
+                        <Region HBox.hgrow="ALWAYS" />
+
+                        <Label fx:id="usernameLabel" text="" />
+
+                        <ImageView fx:id="headerAvatarImageView"
+                                   fitHeight="38.0"
+                                   fitWidth="38.0"
+                                   pickOnBounds="true"
+                                   preserveRatio="true"
+                                   styleClass="image-view">
+                            <image>
+                                <Image url="@../resources/UsuarioEjemplo.png" />
+                            </image>
+                        </ImageView>
+
+                        <Button fx:id="logoutButton"
+                                mnemonicParsing="false"
+                                onAction="#handleLogout"
+                                text="Cerrar Sesión" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox alignment="TOP_CENTER" spacing="32.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+            </padding>
+            <children>
+
+                <BorderPane prefWidth="860.0">
+                    <left>
+                        <Button fx:id="backButton"
+                                mnemonicParsing="false"
+                                onAction="#handleBack"
+                                text="← Volver"
+                                BorderPane.alignment="CENTER_LEFT" />
+                    </left>
+                    <center>
+                        <Label styleClass="screen-title"
+                               text="Modificar Perfil"
+                               BorderPane.alignment="CENTER" />
+                    </center>
+                </BorderPane>
+
+                <HBox alignment="CENTER" spacing="70.0">
+                    <children>
+
+                        <VBox alignment="CENTER" spacing="16.0">
+                            <children>
+                                <ImageView fx:id="avatarImageView"
+                                           fitHeight="160.0"
+                                           fitWidth="160.0"
+                                           pickOnBounds="true"
+                                           preserveRatio="true"
+                                           styleClass="image-view">
+                                    <image>
+                                        <Image url="@../resources/UsuarioEjemplo.png" />
+                                    </image>
+                                </ImageView>
+
+                                <Button fx:id="changeAvatarButton"
+                                        mnemonicParsing="false"
+                                        onAction="#handleChangeAvatar"
+                                        prefWidth="190.0"
+                                        text="Cambiar Avatar" />
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="18.0">
+                            <children>
+
+                                <AnchorPane maxHeight="-Infinity"
+                                            maxWidth="-Infinity"
+                                            minHeight="-Infinity"
+                                            minWidth="-Infinity"
+                                            prefWidth="320.0"
+                                            styleClass="floating-field">
+                                    <children>
+                                        <TextField fx:id="nicknameField"
+                                                   editable="false"
+                                                   styleClass="custom-textfield"
+                                                   AnchorPane.bottomAnchor="0.0"
+                                                   AnchorPane.leftAnchor="0.0"
+                                                   AnchorPane.rightAnchor="0.0"
+                                                   AnchorPane.topAnchor="8.0" />
+                                        <Label labelFor="$nicknameField"
+                                               mouseTransparent="true"
+                                               styleClass="floating-label"
+                                               text="Nickname"
+                                               AnchorPane.leftAnchor="10.0"
+                                               AnchorPane.topAnchor="0.0" />
+                                    </children>
+                                </AnchorPane>
+
+                                <AnchorPane maxHeight="-Infinity"
+                                            maxWidth="-Infinity"
+                                            minHeight="-Infinity"
+                                            minWidth="-Infinity"
+                                            prefWidth="320.0"
+                                            styleClass="floating-field">
+                                    <children>
+                                        <TextField fx:id="emailField"
+                                                   styleClass="custom-textfield"
+                                                   AnchorPane.bottomAnchor="0.0"
+                                                   AnchorPane.leftAnchor="0.0"
+                                                   AnchorPane.rightAnchor="0.0"
+                                                   AnchorPane.topAnchor="8.0" />
+                                        <Label labelFor="$emailField"
+                                               mouseTransparent="true"
+                                               styleClass="floating-label"
+                                               text="Email"
+                                               AnchorPane.leftAnchor="10.0"
+                                               AnchorPane.topAnchor="0.0" />
+                                        <Label fx:id="emailError"
+                                               styleClass="error-icon"
+                                               text="!"
+                                               visible="false"
+                                               AnchorPane.rightAnchor="10.0"
+                                               AnchorPane.topAnchor="15.0">
+                                            <tooltip>
+                                                <Tooltip fx:id="mailErrorTooltip"
+                                                         text="Formato de email no válido: usuario@dominio.com" />
+                                            </tooltip>
+                                        </Label>
+                                    </children>
+                                </AnchorPane>
+
+                                <AnchorPane maxHeight="-Infinity"
+                                            maxWidth="-Infinity"
+                                            minHeight="-Infinity"
+                                            minWidth="-Infinity"
+                                            prefWidth="320.0"
+                                            styleClass="floating-field">
+                                    <children>
+                                        <PasswordField fx:id="passwordField"
+                                                       styleClass="custom-textfield"
+                                                       AnchorPane.bottomAnchor="0.0"
+                                                       AnchorPane.leftAnchor="0.0"
+                                                       AnchorPane.rightAnchor="0.0"
+                                                       AnchorPane.topAnchor="8.0" />
+                                        <Label labelFor="$passwordField"
+                                               mouseTransparent="true"
+                                               styleClass="floating-label"
+                                               text="Contraseña"
+                                               AnchorPane.leftAnchor="10.0"
+                                               AnchorPane.topAnchor="0.0" />
+                                        <Label fx:id="passwordError"
+                                               styleClass="error-icon"
+                                               text="!"
+                                               visible="false"
+                                               AnchorPane.rightAnchor="10.0"
+                                               AnchorPane.topAnchor="15.0">
+                                            <tooltip>
+                                                <Tooltip fx:id="passwordErrorTooltip"
+                                                         text="Entre 8 y 20 caracteres, al menos una mayúscula, una minúscula, un dígito y un símbolo." />
+                                            </tooltip>
+                                        </Label>
+                                    </children>
+                                </AnchorPane>
+
+                                <HBox alignment="CENTER_LEFT"
+                                      maxWidth="-Infinity"
+                                      prefHeight="30.0"
+                                      prefWidth="320.0"
+                                      spacing="10.0">
+                                    <children>
+                                        <DatePicker fx:id="datePicker"
+                                                    prefWidth="280.0"
+                                                    promptText="Fecha de nacimiento" />
+                                        <Label fx:id="dateError"
+                                               styleClass="error-icon"
+                                               text="!"
+                                               visible="false">
+                                            <tooltip>
+                                                <Tooltip fx:id="ageErrorTooltip"
+                                                         text="Debes tener más de 12 años." />
+                                            </tooltip>
+                                        </Label>
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+
+                    </children>
+                </HBox>
+
+                <Button fx:id="saveButton"
+                        defaultButton="true"
+                        mnemonicParsing="false"
+                        onAction="#handleSave"
+                        prefHeight="42.0"
+                        prefWidth="230.0"
+                        text="GUARDAR CAMBIOS">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Button>
+
+            </children>
+        </VBox>
+    </center>
+
+</BorderPane>
