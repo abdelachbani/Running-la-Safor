@@ -57,16 +57,11 @@ public class ImportActivityController implements Initializable {
 
     private void loadAvatar() {
         Image avatar = app.getCurrentUser().getAvatar();
-        if (avatar != null) {
-            // Recortar el ImageView en forma circular
-            double radius = imgUser.getFitWidth() / 2;
-            Circle clip = new Circle(radius);
-            clip.setCenterX(radius);
-            clip.setCenterY(radius);
-            imgUser.setClip(clip);
-            imgUser.setImage(avatar);
-            // Si no hay avatar, el ImageView queda vacío  (imagen por defecto)
+        if (avatar == null) {
+            avatar = AvatarUtils.getDefaultAvatar();
         }
+
+        AvatarUtils.applyCircularAvatar(imgUser, avatar);
     }
 
     @FXML

@@ -16,10 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="650.0" prefWidth="1000.0"
-            xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.EditProfileController">
+<BorderPane prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EditProfileController">
 
     <top>
         <VBox spacing="8.0" BorderPane.alignment="CENTER">
@@ -39,21 +36,13 @@
 
                         <Label fx:id="usernameLabel" text="" />
 
-                        <ImageView fx:id="headerAvatarImageView"
-                                   fitHeight="38.0"
-                                   fitWidth="38.0"
-                                   pickOnBounds="true"
-                                   preserveRatio="true"
-                                   styleClass="image-view">
+                        <ImageView fx:id="headerAvatarImageView" fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view">
                             <image>
                                 <Image url="@../resources/UsuarioEjemplo.png" />
                             </image>
                         </ImageView>
 
-                        <Button fx:id="logoutButton"
-                                mnemonicParsing="false"
-                                onAction="#handleLogout"
-                                text="Cerrar Sesión" />
+                        <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#handleLogout" text="Cerrar Sesión" />
                     </children>
                 </HBox>
             </children>
@@ -69,16 +58,10 @@
 
                 <BorderPane prefWidth="860.0">
                     <left>
-                        <Button fx:id="backButton"
-                                mnemonicParsing="false"
-                                onAction="#handleBack"
-                                text="← Volver"
-                                BorderPane.alignment="CENTER_LEFT" />
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="← Volver" BorderPane.alignment="CENTER_LEFT" />
                     </left>
                     <center>
-                        <Label styleClass="screen-title"
-                               text="Modificar Perfil"
-                               BorderPane.alignment="CENTER" />
+                        <Label styleClass="screen-title" text="Modificar Perfil" BorderPane.alignment="CENTER" />
                     </center>
                 </BorderPane>
 
@@ -87,133 +70,56 @@
 
                         <VBox alignment="CENTER" spacing="16.0">
                             <children>
-                                <ImageView fx:id="avatarImageView"
-                                           fitHeight="160.0"
-                                           fitWidth="160.0"
-                                           pickOnBounds="true"
-                                           preserveRatio="true"
-                                           styleClass="image-view">
+                                <ImageView fx:id="avatarImageView" fitHeight="160.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view">
                                     <image>
                                         <Image url="@../resources/UsuarioEjemplo.png" />
                                     </image>
                                 </ImageView>
 
-                                <Button fx:id="changeAvatarButton"
-                                        mnemonicParsing="false"
-                                        onAction="#handleChangeAvatar"
-                                        prefWidth="190.0"
-                                        text="Cambiar Avatar" />
+                                <Button fx:id="changeAvatarButton" mnemonicParsing="false" onAction="#handleChangeAvatar" prefWidth="190.0" text="Cambiar Avatar" />
                             </children>
                         </VBox>
 
                         <VBox spacing="18.0">
                             <children>
 
-                                <AnchorPane maxHeight="-Infinity"
-                                            maxWidth="-Infinity"
-                                            minHeight="-Infinity"
-                                            minWidth="-Infinity"
-                                            prefWidth="320.0"
-                                            styleClass="floating-field">
+                                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="320.0" styleClass="floating-field">
                                     <children>
-                                        <TextField fx:id="nicknameField"
-                                                   editable="false"
-                                                   styleClass="custom-textfield"
-                                                   AnchorPane.bottomAnchor="0.0"
-                                                   AnchorPane.leftAnchor="0.0"
-                                                   AnchorPane.rightAnchor="0.0"
-                                                   AnchorPane.topAnchor="8.0" />
-                                        <Label labelFor="$nicknameField"
-                                               mouseTransparent="true"
-                                               styleClass="floating-label"
-                                               text="Nickname"
-                                               AnchorPane.leftAnchor="10.0"
-                                               AnchorPane.topAnchor="0.0" />
+                                        <TextField fx:id="nicknameField" editable="false" styleClass="custom-textfield" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" />
+                                        <Label labelFor="$nicknameField" mouseTransparent="true" styleClass="floating-label" text="Nickname" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0" />
                                     </children>
                                 </AnchorPane>
 
-                                <AnchorPane maxHeight="-Infinity"
-                                            maxWidth="-Infinity"
-                                            minHeight="-Infinity"
-                                            minWidth="-Infinity"
-                                            prefWidth="320.0"
-                                            styleClass="floating-field">
+                                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="320.0" styleClass="floating-field">
                                     <children>
-                                        <TextField fx:id="emailField"
-                                                   styleClass="custom-textfield"
-                                                   AnchorPane.bottomAnchor="0.0"
-                                                   AnchorPane.leftAnchor="0.0"
-                                                   AnchorPane.rightAnchor="0.0"
-                                                   AnchorPane.topAnchor="8.0" />
-                                        <Label labelFor="$emailField"
-                                               mouseTransparent="true"
-                                               styleClass="floating-label"
-                                               text="Email"
-                                               AnchorPane.leftAnchor="10.0"
-                                               AnchorPane.topAnchor="0.0" />
-                                        <Label fx:id="emailError"
-                                               styleClass="error-icon"
-                                               text="!"
-                                               visible="false"
-                                               AnchorPane.rightAnchor="10.0"
-                                               AnchorPane.topAnchor="15.0">
+                                        <TextField fx:id="emailField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" />
+                                        <Label labelFor="$emailField" mouseTransparent="true" styleClass="floating-label" text="Email" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0" />
+                                        <Label fx:id="emailError" styleClass="error-icon" text="!" visible="false" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="15.0">
                                             <tooltip>
-                                                <Tooltip fx:id="mailErrorTooltip"
-                                                         text="Formato de email no válido: usuario@dominio.com" />
+                                                <Tooltip fx:id="mailErrorTooltip" text="Formato de email no válido: usuario@dominio.com" />
                                             </tooltip>
                                         </Label>
                                     </children>
                                 </AnchorPane>
 
-                                <AnchorPane maxHeight="-Infinity"
-                                            maxWidth="-Infinity"
-                                            minHeight="-Infinity"
-                                            minWidth="-Infinity"
-                                            prefWidth="320.0"
-                                            styleClass="floating-field">
+                                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="320.0" styleClass="floating-field">
                                     <children>
-                                        <PasswordField fx:id="passwordField"
-                                                       styleClass="custom-textfield"
-                                                       AnchorPane.bottomAnchor="0.0"
-                                                       AnchorPane.leftAnchor="0.0"
-                                                       AnchorPane.rightAnchor="0.0"
-                                                       AnchorPane.topAnchor="8.0" />
-                                        <Label labelFor="$passwordField"
-                                               mouseTransparent="true"
-                                               styleClass="floating-label"
-                                               text="Contraseña"
-                                               AnchorPane.leftAnchor="10.0"
-                                               AnchorPane.topAnchor="0.0" />
-                                        <Label fx:id="passwordError"
-                                               styleClass="error-icon"
-                                               text="!"
-                                               visible="false"
-                                               AnchorPane.rightAnchor="10.0"
-                                               AnchorPane.topAnchor="15.0">
+                                        <PasswordField fx:id="passwordField" promptText="Escriba su contraseña para poder editar el perfil" styleClass="custom-textfield" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" />
+                                        <Label labelFor="$passwordField" mouseTransparent="true" styleClass="floating-label" text="Contraseña" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0" />
+                                        <Label fx:id="passwordError" styleClass="error-icon" text="!" visible="false" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="15.0">
                                             <tooltip>
-                                                <Tooltip fx:id="passwordErrorTooltip"
-                                                         text="Entre 8 y 20 caracteres, al menos una mayúscula, una minúscula, un dígito y un símbolo." />
+                                                <Tooltip fx:id="passwordErrorTooltip" text="Entre 8 y 20 caracteres, al menos una mayúscula, una minúscula, un dígito y un símbolo." />
                                             </tooltip>
                                         </Label>
                                     </children>
                                 </AnchorPane>
 
-                                <HBox alignment="CENTER_LEFT"
-                                      maxWidth="-Infinity"
-                                      prefHeight="30.0"
-                                      prefWidth="320.0"
-                                      spacing="10.0">
+                                <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="30.0" prefWidth="320.0" spacing="10.0">
                                     <children>
-                                        <DatePicker fx:id="datePicker"
-                                                    prefWidth="280.0"
-                                                    promptText="Fecha de nacimiento" />
-                                        <Label fx:id="dateError"
-                                               styleClass="error-icon"
-                                               text="!"
-                                               visible="false">
+                                        <DatePicker fx:id="datePicker" prefWidth="280.0" promptText="Fecha de nacimiento" />
+                                        <Label fx:id="dateError" styleClass="error-icon" text="!" visible="false">
                                             <tooltip>
-                                                <Tooltip fx:id="ageErrorTooltip"
-                                                         text="Debes tener más de 12 años." />
+                                                <Tooltip fx:id="ageErrorTooltip" text="Debes tener más de 12 años." />
                                             </tooltip>
                                         </Label>
                                     </children>
@@ -225,13 +131,7 @@
                     </children>
                 </HBox>
 
-                <Button fx:id="saveButton"
-                        defaultButton="true"
-                        mnemonicParsing="false"
-                        onAction="#handleSave"
-                        prefHeight="42.0"
-                        prefWidth="230.0"
-                        text="GUARDAR CAMBIOS">
+                <Button fx:id="saveButton" defaultButton="true" mnemonicParsing="false" onAction="#handleSave" prefHeight="42.0" prefWidth="230.0" text="GUARDAR CAMBIOS">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font>

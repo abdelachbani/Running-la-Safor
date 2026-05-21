@@ -2,13 +2,10 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,200 +20,173 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import upv.ipc.sportlib.Session;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
 
+// AI generated
 public class SessionHistoryController implements Initializable {
 
+    @FXML private TableView<Session> sessionsTable;
+    @FXML private TableColumn<Session, String> startColumn;
+    @FXML private TableColumn<Session, String> endColumn;
+    @FXML private TableColumn<Session, String> durationColumn;
+    @FXML private TableColumn<Session, String> importedColumn;
+    @FXML private TableColumn<Session, String> viewedColumn;
+    @FXML private TableColumn<Session, String> annotationsColumn;
+
     @FXML private Label titleLabel;
-    @FXML private Label screenTitleLabel;
     @FXML private Label usernameLabel;
     @FXML private ImageView avatarImageView;
     @FXML private Button logoutButton;
     @FXML private Button backButton;
 
-    @FXML private TableView<SessionRow> sessionsTable;
-    @FXML private TableColumn<SessionRow, String> startColumn;
-    @FXML private TableColumn<SessionRow, String> endColumn;
-    @FXML private TableColumn<SessionRow, String> durationColumn;
-    @FXML private TableColumn<SessionRow, String> activitiesColumn;
-    @FXML private TableColumn<SessionRow, String> notesColumn;
-
-    @FXML private HBox totalRowBox;
-    @FXML private Label totalTextLabel;
-    @FXML private Label totalEndLabel;
-    @FXML private Label totalDurationLabel;
-    @FXML private Label totalActivitiesLabel;
-    @FXML private Label totalNotesLabel;
+    @FXML private Label totalSessionsLabel;
+    @FXML private Label totalImportedLabel;
+    @FXML private Label totalViewedLabel;
+    @FXML private Label totalAnnotationsLabel;
 
     private final SportActivityApp app = SportActivityApp.getInstance();
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM HH:mm");
+    private final DateTimeFormatter dtFormatter =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configureTable();
-        loadUserData();
         loadSessions();
+        loadUserData();
         applyStyles();
     }
 
     private void configureTable() {
-        startColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStart()));
-        endColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEnd()));
-        durationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDuration()));
-        activitiesColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getActivities()));
-        notesColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNotes()));
+        startColumn.setCellValueFactory(cell -> {
+            Session s = cell.getValue();
+            String value = s.getStartTime() != null
+                    ? s.getStartTime().format(dtFormatter)
+                    : "-";
+            return new SimpleStringProperty(value);
+        });
+
+        endColumn.setCellValueFactory(cell -> {
+            Session s = cell.getValue();
+            String value = s.getEndTime() != null
+                    ? s.getEndTime().format(dtFormatter)
+                    : "-";
+            return new SimpleStringProperty(value);
+        });
+
+        durationColumn.setCellValueFactory(cell -> {
+            Session s = cell.getValue();
+            long totalSeconds = s.getDuration().getSeconds();
+            long hours = totalSeconds / 3600;
+            long minutes = (totalSeconds % 3600) / 60;
+            long seconds = totalSeconds % 60;
+            String value = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+            return new SimpleStringProperty(value);
+        });
+
+        importedColumn.setCellValueFactory(cell ->
+            new SimpleStringProperty(
+                String.valueOf(cell.getValue().getImportedActivities())));
+
+        viewedColumn.setCellValueFactory(cell ->
+            new SimpleStringProperty(
+                String.valueOf(cell.getValue().getViewedActivities())));
+
+        annotationsColumn.setCellValueFactory(cell ->
+            new SimpleStringProperty(
+                String.valueOf(cell.getValue().getAnnotationsCreated())));
+    }
+
+    private void loadSessions() {
+        User currentUser = app.getCurrentUser();
+        if (currentUser == null) {
+            return;
+        }
+
+        List<Session> sessions = app.getSessionsByUser(currentUser);
+        sessionsTable.getItems().setAll(sessions);
+
+        totalSessionsLabel.setText("Total sesiones: " + sessions.size());
+
+        int totalImported = sessions.stream().mapToInt(Session::getImportedActivities).sum();
+        int totalViewed = sessions.stream().mapToInt(Session::getViewedActivities).sum();
+        int totalAnnotations = sessions.stream().mapToInt(Session::getAnnotationsCreated).sum();
+
+        totalImportedLabel.setText("Actividades importadas (total): " + totalImported);
+        totalViewedLabel.setText("Actividades vistas (total): " + totalViewed);
+        totalAnnotationsLabel.setText("Anotaciones creadas (total): " + totalAnnotations);
     }
 
     private void loadUserData() {
         User currentUser = app.getCurrentUser();
-
         if (currentUser == null) {
             usernameLabel.setText("Usuario");
-            avatarImageView.setImage(null);
+            AvatarUtils.applyCircularAvatar(avatarImageView, AvatarUtils.getDefaultAvatar());
             return;
         }
 
         usernameLabel.setText(currentUser.getNickName());
 
         Image avatar = currentUser.getAvatar();
-        if (avatar != null) {
-            avatarImageView.setImage(avatar);
-        }
-    }
-
-    private void loadSessions() {
-        User user = app.getCurrentUser();
-        ObservableList<SessionRow> rows = FXCollections.observableArrayList();
-
-        if (user == null) {
-            sessionsTable.setItems(rows);
-            updateTotals(0, 0, 0, 0);
-            return;
+        if (avatar == null) {
+            avatar = AvatarUtils.getDefaultAvatar();
         }
 
-        var sessions = app.getSessionsByUser(user);
-
-        long totalMinutes = 0;
-        int totalImported = 0;
-        int totalViewed = 0;
-        int totalNotes = 0;
-
-        for (Session session : sessions) {
-            if (!isRelevantSession(session)) {
-                continue;
-            }
-
-            LocalDateTime start = session.getStartTime();
-            LocalDateTime end = session.getEndTime();
-            int imported = session.getImportedActivities();
-            int viewed = session.getViewedActivities();
-            int notes = session.getAnnotationsCreated();
-            long minutes = calculateMinutes(start, end);
-
-            totalMinutes += minutes;
-            totalImported += imported;
-            totalViewed += viewed;
-            totalNotes += notes;
-
-            rows.add(new SessionRow(
-                    formatDateTime(start),
-                    formatDateTime(end),
-                    formatDuration(minutes),
-                    imported + "/" + viewed,
-                    String.valueOf(notes)
-            ));
-        }
-
-        sessionsTable.setItems(rows);
-        updateTotals(totalMinutes, totalImported, totalViewed, totalNotes);
-    }
-
-    private boolean isRelevantSession(Session session) {
-        return hasActivityData(session) || hasUsefulDuration(session);
-    }
-
-    private boolean hasActivityData(Session session) {
-        return session.getImportedActivities() > 0
-                || session.getViewedActivities() > 0
-                || session.getAnnotationsCreated() > 0;
-    }
-
-    private boolean hasUsefulDuration(Session session) {
-        LocalDateTime start = session.getStartTime();
-        LocalDateTime end = session.getEndTime();
-        long minutes = calculateMinutes(start, end);
-        return minutes > 1;
-    }
-
-    private long calculateMinutes(LocalDateTime start, LocalDateTime end) {
-        if (start == null || end == null) {
-            return 0;
-        }
-
-        return Math.max(0, Duration.between(start, end).toMinutes());
-    }
-
-    private void updateTotals(long totalMinutes, int totalImported, int totalViewed, int totalNotes) {
-        totalDurationLabel.setText(formatDuration(totalMinutes));
-        totalActivitiesLabel.setText(totalImported + "/" + totalViewed);
-        totalNotesLabel.setText(String.valueOf(totalNotes));
-    }
-
-    private String formatDateTime(LocalDateTime value) {
-        return value == null ? "-" : value.format(formatter);
-    }
-
-    private String formatDuration(long totalMinutes) {
-        long hours = totalMinutes / 60;
-        long minutes = totalMinutes % 60;
-        return hours + "h " + minutes + "m";
+        AvatarUtils.applyCircularAvatar(avatarImageView, avatar);
     }
 
     private void applyStyles() {
         titleLabel.getStyleClass().add("screen-title");
-        screenTitleLabel.getStyleClass().add("screen-title");
         usernameLabel.getStyleClass().add("user-name");
-        logoutButton.getStyleClass().add("top-action-button");
-        backButton.getStyleClass().add("top-action-button");
+        logoutButton.getStyleClass().add("profile-top-button");
+        backButton.getStyleClass().add("profile-back-button");
         sessionsTable.getStyleClass().add("activities-table");
-        totalRowBox.getStyleClass().add("history-total-row");
-        totalTextLabel.getStyleClass().add("history-total-cell");
-        totalEndLabel.getStyleClass().add("history-total-cell");
-        totalDurationLabel.getStyleClass().add("history-total-cell");
-        totalActivitiesLabel.getStyleClass().add("history-total-cell");
-        totalNotesLabel.getStyleClass().add("history-total-cell");
     }
 
     @FXML
-    private void handleBack(ActionEvent event) {
-        openView(event, "/view/Home.fxml", 900, 600, "No se pudo volver a la pantalla principal.");
+private void handleBack(ActionEvent event) {
+    try {
+        Parent root = FXMLLoader.load(getClass().getResource("/view/Home.fxml"));
+        Scene scene = new Scene(root, 1000, 650);
+        scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMaximized(false);
+        stage.setScene(scene);
+        stage.setWidth(1000);
+        stage.setHeight(650);
+        stage.setMinWidth(1000);
+        stage.setMinHeight(650);
+        stage.centerOnScreen();
+        stage.show();
+    } catch (IOException e) {
+        showError("Error", "No se pudo volver a la pantalla principal.");
     }
+}
 
     @FXML
-    private void handleLogout(ActionEvent event) {
-        app.logout();
-        openView(event, "/view/Login.fxml", 400, 400, "No se pudo volver a la pantalla de login.");
-    }
+private void handleLogout(ActionEvent event) {
+    app.logout();
+    try {
+        Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
+        Scene scene = new Scene(root, 640, 400);
+        scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
 
-    private void openView(ActionEvent event, String fxmlPath, double minWidth, double minHeight, String errorText) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setMinWidth(minWidth);
-            stage.setMinHeight(minHeight);
-            stage.show();
-        } catch (IOException e) {
-            showError("Error", errorText);
-        }
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMaximized(false);
+        stage.setScene(scene);
+        stage.setWidth(640);
+        stage.setHeight(400);
+        stage.setMinWidth(640);
+        stage.setMinHeight(400);
+        stage.centerOnScreen();
+        stage.show();
+    } catch (IOException e) {
+        showError("Error", "No se pudo volver al login.");
     }
+}
 
     private void showError(String title, String text) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -224,41 +194,5 @@ public class SessionHistoryController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(text);
         alert.showAndWait();
-    }
-
-    public static class SessionRow {
-        private final String start;
-        private final String end;
-        private final String duration;
-        private final String activities;
-        private final String notes;
-
-        public SessionRow(String start, String end, String duration, String activities, String notes) {
-            this.start = start;
-            this.end = end;
-            this.duration = duration;
-            this.activities = activities;
-            this.notes = notes;
-        }
-
-        public String getStart() {
-            return start;
-        }
-
-        public String getEnd() {
-            return end;
-        }
-
-        public String getDuration() {
-            return duration;
-        }
-
-        public String getActivities() {
-            return activities;
-        }
-
-        public String getNotes() {
-            return notes;
-        }
     }
 }

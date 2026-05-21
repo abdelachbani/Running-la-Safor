@@ -111,20 +111,20 @@ public class HomeController implements Initializable {
 
     private void loadUserData() {
         User currentUser = app.getCurrentUser();
-
         if (currentUser == null) {
             usernameLabel.setText("Usuario");
-            avatarImageView.setImage(null);
+            AvatarUtils.applyCircularAvatar(avatarImageView, AvatarUtils.getDefaultAvatar());
             return;
         }
 
         usernameLabel.setText(currentUser.getNickName());
 
         Image avatar = currentUser.getAvatar();
-        if(avatar != null){
-            avatarImageView.setImage(avatar);
+        if (avatar == null) {
+            avatar = AvatarUtils.getDefaultAvatar();
         }
 
+        AvatarUtils.applyCircularAvatar(avatarImageView, avatar);
     }
 
     private void loadActivities() {
@@ -242,7 +242,7 @@ public class HomeController implements Initializable {
             stage.setMinHeight(600);
             stage.show();
         } catch (IOException e) {
-            showError("Error", "No se pudo abrir la pantalla de historial de sesiones.");
+            showError("Error", "No se pudo abrir el historial de sesiones.");
         }
     }
 
