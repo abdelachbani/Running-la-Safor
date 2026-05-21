@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ImportActivityController">
+   <top>
+      <HBox maxHeight="-Infinity" prefHeight="60.0" prefWidth="600.0" spacing="10.0" BorderPane.alignment="CENTER_LEFT">
+         <children>
+            <Label prefHeight="44.0" prefWidth="242.0" styleClass="screen-title" stylesheets="@../resources/styles.css" text="Running la Safor" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Region prefHeight="44.0" prefWidth="22.0" HBox.hgrow="ALWAYS" />
+            <Label fx:id="lblUser" prefHeight="44.0" prefWidth="122.0" styleClass="user-name" stylesheets="@../resources/styles.css" text="usuarioejemplo" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imgUser" fitHeight="47.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+               <image>
+                  <Image url="@../resources/logo.png" />
+               </image>
+            </ImageView>
+            <Button mnemonicParsing="false" onAction="#handleLogOut" prefHeight="42.0" prefWidth="134.0" styleClass="top-action-button" stylesheets="@../resources/styles.css" text="Cerrar Sesión" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </top>
+   <center>
+      <VBox prefHeight="258.0" prefWidth="458.0" spacing="20.0" BorderPane.alignment="TOP_CENTER">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" />
+         </padding>
+         <children>
+            <Separator prefWidth="200.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleReturn" styleClass="nav-button" stylesheets="@../resources/styles.css" text="&lt;- Volver" />
+                  <Region prefHeight="69.0" prefWidth="55.0" />
+                  <Label prefHeight="40.0" prefWidth="333.0" styleClass="screen-title" stylesheets="@../resources/styles.css" text="Importar Actividad GPX">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="18.0" prefWidth="539.0">
+               <children>
+                  <Label styleClass="floating-label" stylesheets="@../resources/styles.css" text="Selecciona un fichero GPX de tu ordenador:" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="txtFileRoute" prefHeight="30.0" prefWidth="402.0" styleClass="custom-textfield" stylesheets="@../resources/styles.css" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Button fx:id="btnExamine" mnemonicParsing="false" onAction="#handleExamine" prefHeight="30.0" styleClass="nav-button" stylesheets="@../resources/styles.css" text="Examinar" />
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="btnImport" mnemonicParsing="false" onAction="#handleImport" prefHeight="42.0" prefWidth="174.0" styleClass="import-button" stylesheets="@../resources/styles.css" text="Importar Actividad" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
