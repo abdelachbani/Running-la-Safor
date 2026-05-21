@@ -121,7 +121,10 @@ public class HomeController implements Initializable {
         usernameLabel.setText(currentUser.getNickName());
 
         Image avatar = currentUser.getAvatar();
-        avatarImageView.setImage(avatar);
+        if(avatar != null){
+            avatarImageView.setImage(avatar);
+        }
+
     }
 
     private void loadActivities() {
@@ -142,18 +145,14 @@ public class HomeController implements Initializable {
         usernameLabel.getStyleClass().add("user-name");
         activitiesCountLabel.getStyleClass().add("summary-label");
         lastActivityLabel.getStyleClass().add("summary-label");
-
-        logoutButton.getStyleClass().add("top-action-button");
+        logoutButton.getStyleClass().add("profile-top-button");
         importButton.getStyleClass().add("import-button");
-
         openButton.getStyleClass().add("table-action-button");
         deleteButton.getStyleClass().add("table-action-button");
-
-        profileButton.getStyleClass().add("nav-button");
-        sessionsButton.getStyleClass().add("nav-button");
-        mapsButton.getStyleClass().add("nav-button");
-        accumulatedButton.getStyleClass().add("nav-button");
-
+        profileButton.getStyleClass().add("profile-menu-button");
+        sessionsButton.getStyleClass().add("profile-menu-button");
+        mapsButton.getStyleClass().add("profile-menu-button");
+        accumulatedButton.getStyleClass().add("profile-menu-button");
         activitiesTable.getStyleClass().add("activities-table");
     }
 
@@ -197,12 +196,34 @@ public class HomeController implements Initializable {
 
     @FXML
     private void handleProfile(ActionEvent event) {
-        showInfo("Pendiente", "La pantalla de perfil será la siguiente que conectemos.");
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/view/EditProfile.fxml"));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setMinWidth(900);
+            stage.setMinHeight(600);
+            stage.show();
+        } catch (IOException e) {
+            showError("Error", "No se pudo abrir la pantalla de perfil.");
+        }
     }
 
     @FXML
     private void handleSessions(ActionEvent event) {
-        showInfo("Pendiente", "La pantalla de historial de sesiones será la siguiente que conectemos.");
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/view/SessionHistory.fxml"));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setMinWidth(900);
+            stage.setMinHeight(600);
+            stage.show();
+        } catch (IOException e) {
+            showError("Error", "No se pudo abrir la pantalla de historial de sesiones.");
+        }
     }
 
     @FXML
