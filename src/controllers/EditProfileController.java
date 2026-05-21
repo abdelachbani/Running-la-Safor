@@ -74,10 +74,11 @@ public class EditProfileController implements Initializable {
     private void loadUserAvatar(User currentUser) {
         Image avatar = currentUser.getAvatar();
         if (avatar == null) {
-            return;
+            avatar = AvatarUtils.getDefaultAvatar();
         }
-        avatarImageView.setImage(avatar);
-        headerAvatarImageView.setImage(avatar);
+
+        AvatarUtils.applyCircularAvatar(avatarImageView, avatar);
+        AvatarUtils.applyCircularAvatar(headerAvatarImageView, avatar);
     }
 
     private void applyStyles() {
@@ -155,11 +156,12 @@ public class EditProfileController implements Initializable {
         if (selectedFile == null) {
             return;
         }
-
+        
         newAvatarPath = selectedFile.getAbsolutePath();
         Image newAvatar = new Image(selectedFile.toURI().toString());
-        avatarImageView.setImage(newAvatar);
-        headerAvatarImageView.setImage(newAvatar);
+
+        AvatarUtils.applyCircularAvatar(avatarImageView, newAvatar);
+        AvatarUtils.applyCircularAvatar(headerAvatarImageView, newAvatar);
     }
 
     @FXML
