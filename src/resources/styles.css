@@ -72,26 +72,26 @@
 .table-action-button,
 .nav-button {
     -fx-font-weight: bold;
-    -fx-text-fill: #0F2A3A;
-    -fx-background-color: #00A3E1;
-    -fx-border-color: #0093CB;
-    -fx-border-width: 1px;
-    -fx-background-radius: 12px;
-    -fx-border-radius: 12px;
-    -fx-padding: 10px 16px 10px 16px;
+    -fx-text-fill: #0B6FA4;
+    -fx-background-color: #8ED8F8;
+    -fx-border-color: #1698D5;
+    -fx-border-width: 2px;
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+    -fx-padding: 6px 18px 6px 18px;
     -fx-cursor: hand;
 }
 
 .top-action-button:hover,
 .table-action-button:hover,
 .nav-button:hover {
-    -fx-background-color: #1BB3EA;
+    -fx-background-color: #A5E1FB;
 }
 
 .top-action-button:pressed,
 .table-action-button:pressed,
 .nav-button:pressed {
-    -fx-background-color: #008FC4;
+    -fx-background-color: #79CDEE;
 }
 
 .import-button {
@@ -115,58 +115,118 @@
 }
 
 .activities-table {
-    -fx-background-color: #CFEFFD;
-    -fx-border-color: #00A3E1;
-    -fx-border-width: 1.2px;
-    -fx-border-radius: 14px;
-    -fx-background-radius: 14px;
-    -fx-padding: 8px;
+    -fx-background-color: white;
+    -fx-border-color: #1698D5;
+    -fx-border-width: 2px;
+    -fx-border-radius: 16px;
+    -fx-background-radius: 16px;
+    -fx-padding: 0px;
+    -fx-table-cell-border-color: transparent;
+    -fx-selection-bar: #BFE9FB;
+    -fx-selection-bar-non-focused: #BFE9FB;
 }
 
 .activities-table .column-header-background {
-    -fx-background-color: #00A3E1;
-    -fx-background-radius: 10px 10px 0 0;
+    -fx-background-color: #8ED8F8;
+    -fx-background-radius: 14px 14px 0px 0px;
+    -fx-border-color: transparent transparent #1698D5 transparent;
+    -fx-border-width: 0px 0px 2px 0px;
+    -fx-background-insets: 0px;
+    -fx-padding: 0px;
 }
 
 .activities-table .column-header,
 .activities-table .filler {
-    -fx-background-color: #00A3E1;
-    -fx-border-color: transparent transparent #008FC4 transparent;
-    -fx-padding: 8px 6px 8px 6px;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-size: 46px;
+}
+
+.activities-table .column-header:first-visible {
+    -fx-background-radius: 0px;
+}
+
+.activities-table .column-header:last-visible {
+    -fx-background-radius: 0px;
 }
 
 .activities-table .column-header .label {
-    -fx-text-fill: white;
+    -fx-text-fill: #0B6FA4;
     -fx-font-weight: bold;
     -fx-font-size: 14px;
+    -fx-alignment: CENTER;
+}
+
+.activities-table .virtual-flow {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0px 0px 14px 14px;
+}
+
+.activities-table .clipped-container {
+    -fx-background-color: transparent;
+}
+
+.activities-table .sheet {
+    -fx-background-color: white;
 }
 
 .activities-table .table-row-cell {
-    -fx-background-color: #F7FCFF;
+    -fx-background-color: white;
     -fx-border-color: transparent;
+    -fx-cell-size: 46px;
 }
 
 .activities-table .table-row-cell:odd {
-    -fx-background-color: #ECF9FF;
+    -fx-background-color: #F5FCFF;
 }
 
-.activities-table .table-row-cell:filled:hover {
-    -fx-background-color: #D7F2FD;
+.activities-table .table-row-cell:hover {
+    -fx-background-color: #E4F6FD;
 }
 
-.activities-table .table-row-cell:filled:selected {
-    -fx-background-color: #9EDFFD;
+.activities-table .table-row-cell:selected {
+    -fx-background-color: #BFE9FB;
 }
 
 .activities-table .table-cell {
-    -fx-text-fill: #1F2D3D;
+    -fx-text-fill: #1994C8;
     -fx-font-size: 14px;
-    -fx-padding: 12px 10px 12px 10px;
     -fx-border-color: transparent;
+    -fx-alignment: CENTER;
+    -fx-padding: 10px 12px 10px 12px;
 }
 
 .activities-table .table-row-cell:selected .text {
-    -fx-fill: #1F2D3D;
+    -fx-fill: #146D97;
+}
+
+.activities-table .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-padding: 4px;
+}
+
+.activities-table .scroll-bar:vertical .track {
+    -fx-background-color: #DDF4FD;
+    -fx-background-radius: 10px;
+}
+
+.activities-table .scroll-bar:vertical .thumb {
+    -fx-background-color: #6CCCF2;
+    -fx-background-radius: 10px;
+}
+
+.activities-table .scroll-bar:vertical .increment-button,
+.activities-table .scroll-bar:vertical .decrement-button,
+.activities-table .scroll-bar:horizontal .increment-button,
+.activities-table .scroll-bar:horizontal .decrement-button {
+    -fx-padding: 0px;
+    -fx-background-color: transparent;
+}
+
+.activities-table .scroll-bar .increment-arrow,
+.activities-table .scroll-bar .decrement-arrow {
+    -fx-shape: "";
+    -fx-padding: 0px;
 }
 
 .image-view {
@@ -204,4 +264,77 @@
     -fx-font-weight: bold;
     -fx-text-fill: #1F2937;
 }
+.profile-top-button, .profile-back-button {
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: #008FC4;
+    -fx-border-color: #0077A6;
+    -fx-border-width: 1px;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-padding: 4px 14px 4px 14px;
+    -fx-cursor: hand;
+}
 
+.profile-top-button:hover, .profile-back-button:hover {
+    -fx-background-color: #0A9AD1;
+}
+
+.profile-top-button:pressed, .profile-back-button:pressed {
+    -fx-background-color: #0077A6;
+}
+.profile-menu-button {
+    -fx-font-weight: bold;
+    -fx-text-fill: #0B6FA4;
+    -fx-background-color: #8ED8F8;
+    -fx-border-color: #1698D5;
+    -fx-border-width: 2px;
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+    -fx-padding: 6px 18px 6px 18px;
+    -fx-cursor: hand;
+}
+
+.profile-menu-button:hover {
+    -fx-background-color: #A5E1FB;
+}
+
+.profile-menu-button:pressed {
+    -fx-background-color: #79CDEE;
+}
+.total-row {
+    -fx-background-color: #00A3E1;
+    -fx-border-color: #0093CB;
+    -fx-border-width: 1px 0 0 0;
+}
+
+.total-row .table-cell {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-color: transparent;
+}
+
+.total-row:selected {
+    -fx-background-color: #00A3E1;
+}
+
+.total-row:selected .table-cell {
+    -fx-text-fill: white;
+}
+.history-total-row {
+    -fx-background-color: #8ED8F8;
+    -fx-border-color: #1698D5;
+    -fx-border-width: 0 2px 2px 2px;
+    -fx-border-radius: 0 0 16px 16px;
+    -fx-background-radius: 0 0 16px 16px;
+    -fx-translate-y: -15px;
+}
+
+.history-total-cell {
+    -fx-text-fill: #0B6FA4;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER;
+    -fx-padding: 10px 12px 10px 12px;
+}
