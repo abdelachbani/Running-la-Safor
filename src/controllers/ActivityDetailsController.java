@@ -238,24 +238,29 @@ public class ActivityDetailsController implements Initializable {
         double viewportW = viewport.getWidth();
         double viewportH = viewport.getHeight();
 
-        if (viewportW <= 0 || viewportH <= 0 || currentMapWidth <= 0 || currentMapHeight <= 0) {
+        if (!hasValidDimensions(viewportW, viewportH)) {
             return;
         }
 
         double scaleX = viewportW / currentMapWidth;
         double scaleY = viewportH / currentMapHeight;
 
-        double initialZoom = Math.min(scaleX, scaleY);
-
-        if (!Double.isFinite(initialZoom) || initialZoom <= 0) {
-            initialZoom = 1.0;
-        }
+        double initialZoom = sanitizeZoom(Math.min(scaleX, scaleY));
 
         zoomSlider.setMin(initialZoom);
         zoomSlider.setMax(Math.max(2.0, initialZoom + 1.0));
         zoomSlider.setValue(initialZoom);
 
         applyZoom(initialZoom);
+    }
+
+    private boolean hasValidDimensions(double viewportW, double viewportH) {
+        return viewportW > 0 && viewportH > 0
+                && currentMapWidth > 0 && currentMapHeight > 0;
+    }
+
+    private double sanitizeZoom(double zoom) {
+        return (Double.isFinite(zoom) && zoom > 0) ? zoom : 1.0;
     }
 
     private void applyZoom(double zoom) {
@@ -308,39 +313,46 @@ public class ActivityDetailsController implements Initializable {
 
     private void drawAnnotations() {
         for (Annotation annotation : activity.getAnnotations()) {
-            if (annotation == null ||
-                annotation.getGeoPoints() == null ||
-                annotation.getGeoPoints().isEmpty()) {
+            if (!hasGeoPoints(annotation)) {
                 continue;
             }
 
             Color color = safeColor(annotation.getColor(), Color.ORANGE);
 
             switch (annotation.getType()) {
-                case POINT -> {
-                    Point2D p = projection.project(annotation.getGeoPoints().get(0));
-                    Circle c = new Circle(p.getX(), p.getY(), 6);
-                    c.setFill(color);
-                    c.setStroke(Color.WHITE);
-                    mapPane.getChildren().add(c);
-                }
-                case LINE -> {
-                    if (annotation.getGeoPoints().size() < 2) {
-                        continue;
-                    }
-
-                    Point2D p1 = projection.project(annotation.getGeoPoints().get(0));
-                    Point2D p2 = projection.project(annotation.getGeoPoints().get(1));
-
-                    Line line = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
-                    line.setStroke(color);
-                    line.setStrokeWidth(2);
-                    mapPane.getChildren().add(line);
-                }
-                default -> {
-                }
+                case POINT -> drawPointAnnotation(annotation, color);
+                case LINE  -> drawLineAnnotation(annotation, color);
+                default -> { }
             }
         }
+    }
+
+    private boolean hasGeoPoints(Annotation annotation) {
+        return annotation != null
+                && annotation.getGeoPoints() != null
+                && !annotation.getGeoPoints().isEmpty();
+    }
+
+    private void drawPointAnnotation(Annotation annotation, Color color) {
+        Point2D p = projection.project(annotation.getGeoPoints().get(0));
+        Circle c = new Circle(p.getX(), p.getY(), 6);
+        c.setFill(color);
+        c.setStroke(Color.WHITE);
+        mapPane.getChildren().add(c);
+    }
+
+    private void drawLineAnnotation(Annotation annotation, Color color) {
+        if (annotation.getGeoPoints().size() < 2) {
+            return;
+        }
+
+        Point2D p1 = projection.project(annotation.getGeoPoints().get(0));
+        Point2D p2 = projection.project(annotation.getGeoPoints().get(1));
+
+        Line line = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+        line.setStroke(color);
+        line.setStrokeWidth(2);
+        mapPane.getChildren().add(line);
     }
 
     private void addMarker(Point2D p, Color color, String text) {
