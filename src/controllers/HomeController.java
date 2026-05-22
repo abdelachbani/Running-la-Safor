@@ -1,9 +1,6 @@
 package controllers;
 
-import utils.AlertUtils;
-import utils.AvatarUtils;
-import utils.NavigationTarget;
-import utils.NavigationUtils;
+import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -11,7 +8,11 @@ import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -20,6 +21,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import utils.AlertUtils;
+import utils.AvatarUtils;
+import utils.NavigationTarget;
+import utils.NavigationUtils;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
@@ -157,13 +163,29 @@ public class HomeController implements Initializable {
     @FXML
     private void handleOpenActivity(ActionEvent event) {
         Activity selected = activitiesTable.getSelectionModel().getSelectedItem();
-
         if (selected == null) {
             AlertUtils.showWarning("Selecciona una actividad", "Debes seleccionar una actividad para abrirla.");
             return;
         }
 
-        AlertUtils.showInfo("Pendiente", "La pantalla de visualización de actividad será la siguiente que conectemos.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ActivityDetails.fxml"));
+            Parent root = loader.load();
+
+            ActivityDetailsController controller = loader.getController();
+            controller.setActivity(selected);
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setMinWidth(1200);
+            stage.setMinHeight(780);
+            stage.show();
+        } catch (IOException ex) {
+            AlertUtils.showError("Error", "No se pudo abrir la pantalla de visualización de actividad.");
+        }
     }
 
     @FXML
