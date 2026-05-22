@@ -1,5 +1,6 @@
 package controllers;
 
+import application.AvatarUtils;
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
