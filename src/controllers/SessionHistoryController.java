@@ -2,6 +2,7 @@ package controllers;
 
 import utils.AlertUtils;
 import utils.AvatarUtils;
+import utils.NavigationTarget;
 import utils.NavigationUtils;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
@@ -143,16 +144,22 @@ public class SessionHistoryController implements Initializable {
 
     @FXML
     private void handleBack(ActionEvent event) {
-        NavigationUtils.navigateTo(event, "/view/Home.fxml",
-                1000, 650, 1000, 650,
-                "No se pudo volver a la pantalla principal.");
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/Home.fxml")
+                .size(1000, 650)
+                .minSize(1000, 650)
+                .center()
+                .onError("No se pudo volver a la pantalla principal.")
+                .build());
     }
 
     @FXML
     private void handleLogout(ActionEvent event) {
         app.logout();
-        NavigationUtils.navigateTo(event, "/view/Login.fxml",
-                640, 400, 640, 400,
-                "No se pudo volver al login.");
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/Login.fxml")
+                .size(640, 400)
+                .minSize(640, 400)
+                .center()
+                .onError("No se pudo volver al login.")
+                .build());
     }
 }
