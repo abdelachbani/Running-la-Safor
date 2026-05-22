@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefWidth="900" prefHeight="600"
-            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.SessionHistoryController">
        
