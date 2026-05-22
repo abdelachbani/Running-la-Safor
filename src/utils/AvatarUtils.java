@@ -1,4 +1,4 @@
-package application;
+package utils;
 
 import javafx.beans.binding.Bindings;
 import javafx.scene.image.Image;
