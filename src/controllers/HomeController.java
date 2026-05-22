@@ -232,7 +232,21 @@ public class HomeController implements Initializable {
 
     @FXML
     private void handleAccumulated(ActionEvent event) {
-        showInfo("Pendiente", "La pantalla de acumulado será la siguiente que conectemos.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Accumulated.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setMinWidth(1200);
+            stage.setMinHeight(780);
+            stage.show();
+        } catch (IOException ex) {
+            showError("Error", "No se pudo abrir la pantalla de acumulado.");
+        }
     }
 
     @FXML
