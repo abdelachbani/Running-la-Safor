@@ -1,6 +1,5 @@
 package controllers;
 
-import utils.AlertUtils;
 import utils.AvatarUtils;
 import utils.NavigationTarget;
 import utils.NavigationUtils;
