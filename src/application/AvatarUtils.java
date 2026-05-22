@@ -1,4 +1,4 @@
-package controllers;
+package application;
 
 import javafx.beans.binding.Bindings;
 import javafx.scene.image.Image;
