@@ -232,6 +232,38 @@
 .image-view {
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.10), 8, 0, 0, 2);
 }
+
+.background {
+    -fx-background-color: #EEF1F5;
+}
+
+.details-card {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-padding: 16;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.10), 10, 0, 0, 2);
+}
+
+.section-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.stat-value {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111827;
+}
+
+.summary-label {
+    -fx-text-fill: #6B7280;
+}
+
+.stat-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2937;
+}
 .profile-top-button, .profile-back-button {
     -fx-font-weight: bold;
     -fx-text-fill: white;
