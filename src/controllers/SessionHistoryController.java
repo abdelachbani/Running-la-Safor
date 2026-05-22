@@ -1,7 +1,8 @@
 package controllers;
 
-import application.AvatarUtils;
-import java.io.IOException;
+import utils.AlertUtils;
+import utils.AvatarUtils;
+import utils.NavigationUtils;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -9,19 +10,13 @@ import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import upv.ipc.sportlib.Session;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
@@ -147,53 +142,17 @@ public class SessionHistoryController implements Initializable {
     }
 
     @FXML
-private void handleBack(ActionEvent event) {
-    try {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/Home.fxml"));
-        Scene scene = new Scene(root, 1000, 650);
-        scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setMaximized(false);
-        stage.setScene(scene);
-        stage.setWidth(1000);
-        stage.setHeight(650);
-        stage.setMinWidth(1000);
-        stage.setMinHeight(650);
-        stage.centerOnScreen();
-        stage.show();
-    } catch (IOException e) {
-        showError("Error", "No se pudo volver a la pantalla principal.");
+    private void handleBack(ActionEvent event) {
+        NavigationUtils.navigateTo(event, "/view/Home.fxml",
+                1000, 650, 1000, 650,
+                "No se pudo volver a la pantalla principal.");
     }
-}
 
     @FXML
-private void handleLogout(ActionEvent event) {
-    app.logout();
-    try {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
-        Scene scene = new Scene(root, 640, 400);
-        scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setMaximized(false);
-        stage.setScene(scene);
-        stage.setWidth(640);
-        stage.setHeight(400);
-        stage.setMinWidth(640);
-        stage.setMinHeight(400);
-        stage.centerOnScreen();
-        stage.show();
-    } catch (IOException e) {
-        showError("Error", "No se pudo volver al login.");
-    }
-}
-
-    private void showError(String title, String text) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(text);
-        alert.showAndWait();
+    private void handleLogout(ActionEvent event) {
+        app.logout();
+        NavigationUtils.navigateTo(event, "/view/Login.fxml",
+                640, 400, 640, 400,
+                "No se pudo volver al login.");
     }
 }
