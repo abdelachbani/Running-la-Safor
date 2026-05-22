@@ -240,15 +240,14 @@ public class HomeController implements Initializable {
 
     @FXML
     private void handleAccumulated(ActionEvent event) {
-        AlertUtils.showInfo("Pendiente", "La pantalla de acumulado será la siguiente que conectemos.");
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/Accumulated.fxml")
+                .minSize(1200, 780)
+                .onError("No se pudo abrir la pantalla de acumulado.")
+                .build());
     }
 
     @FXML
     private void handleLogout(ActionEvent event) {
-        app.logout();
-        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/Login.fxml")
-                .minSize(400, 400)
-                .onError("No se pudo volver a la pantalla de login.")
-                .build());
+        NavigationUtils.logoutAndNavigateToLogin(event);
     }
 }
