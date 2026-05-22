@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefWidth="900" prefHeight="600"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.SessionHistoryController">
+       
+    <top>
+        <VBox>
+            <padding><Insets top="14" bottom="6" left="24" right="24"/></padding>
+            <HBox alignment="TOP_LEFT">
+                <Label fx:id="titleLabel" text="Running la Safor - Historial de Sesiones" styleClass="screen-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <VBox alignment="TOP_RIGHT" spacing="8.0">
+                    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                        <Label fx:id="usernameLabel" text="usuario" styleClass="user-name"/>
+                        <ImageView fx:id="avatarImageView" fitHeight="42.0" fitWidth="42.0"
+                                   pickOnBounds="true" preserveRatio="true"/>
+                        <Button fx:id="logoutButton" onAction="#handleLogout"
+                                text="Cerrar sesión" styleClass="profile-top-button"/>
+                    </HBox>
+                </VBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="12">
+            <padding><Insets top="6" bottom="8" left="24" right="24"/></padding>
+            <TableView fx:id="sessionsTable" VBox.vgrow="ALWAYS" styleClass="activities-table">
+                <columns>
+                    <TableColumn fx:id="startColumn"       text="Inicio"      prefWidth="190"/>
+                    <TableColumn fx:id="endColumn"         text="Fin"         prefWidth="190"/>
+                    <TableColumn fx:id="durationColumn"    text="Duración"    prefWidth="100"/>
+                    <TableColumn fx:id="importedColumn"    text="Importadas"  prefWidth="105"/>
+                    <TableColumn fx:id="viewedColumn"      text="Vistas"      prefWidth="90"/>
+                    <TableColumn fx:id="annotationsColumn" text="Anotaciones" prefWidth="120"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+    <bottom>
+        <VBox spacing="8">
+            <padding><Insets top="10" bottom="18" left="24" right="24"/></padding>
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <Label fx:id="totalSessionsLabel"    text="Total sesiones: 0"                 styleClass="summary-label"/>
+                <Label fx:id="totalImportedLabel"    text="Actividades importadas (total): 0" styleClass="summary-label"/>
+                <Label fx:id="totalViewedLabel"      text="Actividades vistas (total): 0"     styleClass="summary-label"/>
+                <Label fx:id="totalAnnotationsLabel" text="Anotaciones creadas (total): 0"    styleClass="summary-label"/>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <padding><Insets top="4"/></padding>
+                <Button fx:id="backButton" onAction="#handleBack"
+                        text="← Volver" styleClass="profile-back-button"/>
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>   
