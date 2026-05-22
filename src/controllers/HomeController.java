@@ -248,10 +248,6 @@ public class HomeController implements Initializable {
 
     @FXML
     private void handleLogout(ActionEvent event) {
-        app.logout();
-        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/Login.fxml")
-                .minSize(400, 400)
-                .onError("No se pudo volver a la pantalla de login.")
-                .build());
+        NavigationUtils.logoutAndNavigateToLogin(event);
     }
 }

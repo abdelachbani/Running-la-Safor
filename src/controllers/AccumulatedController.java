@@ -1,6 +1,5 @@
 package controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.time.Month;
@@ -16,21 +15,20 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
+import utils.NavigationTarget;
+import utils.NavigationUtils;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
@@ -121,85 +119,114 @@ public class AccumulatedController implements Initializable {
     }
 
     private void loadAccumulatedData() {
-        List<Activity> allActivities = app.getUserActivities();
+        List<Activity> filtered = filterActivitiesByPeriod();
+        monthlyActivitiesTable.getItems().setAll(filtered);
+        updateSummaryLabels(filtered);
+        updateStatusLabel(filtered);
+    }
 
-        List<Activity> filtered = new ArrayList<>();
-        for (Activity activity : allActivities) {
-            if (activity != null
-                    && activity.getStartTime() != null
-                    && YearMonth.from(activity.getStartTime()).equals(selectedPeriod)) {
-                filtered.add(activity);
+    private List<Activity> filterActivitiesByPeriod() {
+        List<Activity> result = new ArrayList<>();
+        for (Activity activity : app.getUserActivities()) {
+            if (belongsToPeriod(activity)) {
+                result.add(activity);
             }
         }
+        return result;
+    }
 
-        monthlyActivitiesTable.getItems().setAll(filtered);
+    private boolean belongsToPeriod(Activity activity) {
+        return activity != null
+                && activity.getStartTime() != null
+                && YearMonth.from(activity.getStartTime()).equals(selectedPeriod);
+    }
 
+    private void updateSummaryLabels(List<Activity> filtered) {
         double totalDistance = 0.0;
         double totalGain = 0.0;
         double totalLoss = 0.0;
-        Duration totalDuration = Duration.ZERO;
 
         for (Activity activity : filtered) {
             totalDistance += activity.getTotalDistance();
             totalGain += activity.getElevationGain();
             totalLoss += activity.getElevationLoss();
-
-            if (activity.getDuration() != null) {
-                totalDuration = totalDuration.plus(activity.getDuration());
-            }
         }
 
         activitiesCountLabel.setText("Actividades: " + filtered.size());
-        totalTimeLabel.setText("Tiempo total: " + formatDuration(totalDuration));
+        totalTimeLabel.setText("Tiempo total: " + formatDuration(sumDurations(filtered)));
         totalDistanceLabel.setText("Distancia total: " + formatDistance(totalDistance));
         totalGainLabel.setText(String.format(Locale.ROOT, "Ascenso total: %.0f m", totalGain));
         totalLossLabel.setText(String.format(Locale.ROOT, "Descenso total: %.0f m", totalLoss));
+    }
 
-        if (filtered.isEmpty()) {
-            statusLabel.setText("No hay actividades en " + periodDescription());
-        } else {
-            statusLabel.setText("Mostrando actividades de " + periodDescription());
+    private Duration sumDurations(List<Activity> activities) {
+        Duration total = Duration.ZERO;
+        for (Activity activity : activities) {
+            Duration d = activity.getDuration();
+            if (d != null) {
+                total = total.plus(d);
+            }
         }
+        return total;
+    }
+
+    private void updateStatusLabel(List<Activity> filtered) {
+        String prefix = filtered.isEmpty()
+                ? "No hay actividades en "
+                : "Mostrando actividades de ";
+        statusLabel.setText(prefix + periodDescription());
     }
 
     @FXML
     private void handlePeriodSelection(ActionEvent event) {
-        ComboBox<Month> monthCombo = new ComboBox<>(FXCollections.observableArrayList(Month.values()));
-        monthCombo.setValue(selectedPeriod.getMonth());
-        monthCombo.setMaxWidth(Double.MAX_VALUE);
-        monthCombo.setCellFactory(cb -> new javafx.scene.control.ListCell<>() {
-            @Override
-            protected void updateItem(Month item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? null : capitalize(item.getDisplayName(TextStyle.FULL, spanishLocale)));
-            }
-        });
-        monthCombo.setButtonCell(new javafx.scene.control.ListCell<>() {
-            @Override
-            protected void updateItem(Month item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? null : capitalize(item.getDisplayName(TextStyle.FULL, spanishLocale)));
-            }
-        });
+        ComboBox<Month> monthCombo = createMonthCombo();
+        ComboBox<Integer> yearCombo = createYearCombo();
 
+        Dialog<YearMonth> dialog = buildPeriodDialog(monthCombo, yearCombo);
+
+        dialog.showAndWait().ifPresent(this::applySelectedPeriod);
+    }
+
+    private ComboBox<Month> createMonthCombo() {
+        ComboBox<Month> combo = new ComboBox<>(FXCollections.observableArrayList(Month.values()));
+        combo.setValue(selectedPeriod.getMonth());
+        combo.setMaxWidth(Double.MAX_VALUE);
+        combo.setCellFactory(cb -> createMonthCell());
+        combo.setButtonCell(createMonthCell());
+        return combo;
+    }
+
+    private ListCell<Month> createMonthCell() {
+        return new ListCell<>() {
+            @Override
+            protected void updateItem(Month item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null
+                        ? null
+                        : capitalize(item.getDisplayName(TextStyle.FULL, spanishLocale)));
+            }
+        };
+    }
+
+    private ComboBox<Integer> createYearCombo() {
         int currentYear = 2026;
         List<Integer> years = new ArrayList<>();
         for (int y = currentYear - 3; y <= currentYear + 3; y++) {
             years.add(y);
         }
 
-        ComboBox<Integer> yearCombo = new ComboBox<>(FXCollections.observableArrayList(years));
-        yearCombo.setValue(selectedPeriod.getYear());
-        yearCombo.setMaxWidth(Double.MAX_VALUE);
+        ComboBox<Integer> combo = new ComboBox<>(FXCollections.observableArrayList(years));
+        combo.setValue(selectedPeriod.getYear());
+        combo.setMaxWidth(Double.MAX_VALUE);
+        return combo;
+    }
 
-        javafx.scene.control.Dialog<YearMonth> dialog = new javafx.scene.control.Dialog<>();
+    private Dialog<YearMonth> buildPeriodDialog(ComboBox<Month> monthCombo, ComboBox<Integer> yearCombo) {
+        Dialog<YearMonth> dialog = new Dialog<>();
         dialog.setTitle("Seleccionar periodo");
         dialog.setHeaderText("Elige mes y año");
 
-        dialog.getDialogPane().getButtonTypes().addAll(
-                javafx.scene.control.ButtonType.OK,
-                javafx.scene.control.ButtonType.CANCEL
-        );
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
@@ -214,7 +241,7 @@ public class AccumulatedController implements Initializable {
         dialog.getDialogPane().setContent(grid);
 
         dialog.setResultConverter(button -> {
-            if (button == javafx.scene.control.ButtonType.OK) {
+            if (button == ButtonType.OK) {
                 Integer year = yearCombo.getValue();
                 Month month = monthCombo.getValue();
                 if (year != null && month != null) {
@@ -224,44 +251,26 @@ public class AccumulatedController implements Initializable {
             return null;
         });
 
-        dialog.showAndWait().ifPresent(period -> {
-            selectedPeriod = period;
-            updatePeriodButtonText();
-            loadAccumulatedData();
-        });
+        return dialog;
+    }
+
+    private void applySelectedPeriod(YearMonth period) {
+        selectedPeriod = period;
+        updatePeriodButtonText();
+        loadAccumulatedData();
     }
 
     @FXML
     private void handleBack(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Home.fxml"));
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setMinWidth(900);
-            stage.setMinHeight(600);
-            stage.show();
-        } catch (IOException ex) {
-            showError("No se pudo volver a la pantalla principal.");
-        }
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/Home.fxml")
+                .minSize(900, 600)
+                .onError("No se pudo volver a la pantalla principal.")
+                .build());
     }
 
     @FXML
     private void handleLogout(ActionEvent event) {
-        app.logout();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setMinWidth(400);
-            stage.setMinHeight(400);
-            stage.show();
-        } catch (IOException ex) {
-            showError("No se pudo cerrar sesión.");
-        }
+        NavigationUtils.logoutAndNavigateToLogin(event);
     }
 
     private void loadUserData() {
@@ -303,13 +312,5 @@ public class AccumulatedController implements Initializable {
 
     private String safeText(String value) {
         return value == null || value.isBlank() ? "-" : value;
-    }
-
-    private void showError(String text) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(text);
-        alert.showAndWait();
     }
 }
