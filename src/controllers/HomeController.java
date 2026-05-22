@@ -160,13 +160,29 @@ public class HomeController implements Initializable {
     @FXML
     private void handleOpenActivity(ActionEvent event) {
         Activity selected = activitiesTable.getSelectionModel().getSelectedItem();
-
         if (selected == null) {
             showWarning("Selecciona una actividad", "Debes seleccionar una actividad para abrirla.");
             return;
         }
 
-        showInfo("Pendiente", "La pantalla de visualización de actividad será la siguiente que conectemos.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ActivityDetails.fxml"));
+            Parent root = loader.load();
+
+            ActivityDetailsController controller = loader.getController();
+            controller.setActivity(selected);
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setMinWidth(1200);
+            stage.setMinHeight(780);
+            stage.show();
+        } catch (IOException ex) {
+            showError("Error", "No se pudo abrir la pantalla de visualización de actividad.");
+        }
     }
 
     @FXML
