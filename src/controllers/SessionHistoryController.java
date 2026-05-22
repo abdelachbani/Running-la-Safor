@@ -134,11 +134,9 @@ public class SessionHistoryController implements Initializable {
     }
 
     private void applyStyles() {
-        titleLabel.getStyleClass().add("screen-title");
-        usernameLabel.getStyleClass().add("user-name");
-        logoutButton.getStyleClass().add("profile-top-button");
-        backButton.getStyleClass().add("profile-back-button");
-        sessionsTable.getStyleClass().add("activities-table");
+        // Styles are already declared in SessionHistory.fxml.
+        // Keep this method to preserve existing call sites without
+        // duplicating entries in each node's styleClass list.
     }
 
     @FXML
