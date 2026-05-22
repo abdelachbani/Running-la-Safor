@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import upv.ipc.sportlib.SportActivityApp;
 
 /**
  * Centralises FXML scene‐switching logic so that every controller can
@@ -68,5 +69,20 @@ public final class NavigationUtils {
         } catch (IOException e) {
             AlertUtils.showError("Error", target.getErrorMsg());
         }
+    }
+
+    /**
+     * Logs out the current user and navigates to the Login screen.
+     * Encapsulates the common {@code app.logout() + navigateTo(Login)}
+     * pattern shared by every controller's logout handler.
+     *
+     * @param event the originating ActionEvent
+     */
+    public static void logoutAndNavigateToLogin(ActionEvent event) {
+        SportActivityApp.getInstance().logout();
+        navigateTo(event, NavigationTarget.to("/view/Login.fxml")
+                .minSize(400, 400)
+                .onError("No se pudo volver a la pantalla de login.")
+                .build());
     }
 }
