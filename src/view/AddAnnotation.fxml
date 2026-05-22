@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
@@ -25,10 +26,11 @@
             <!-- Volver -->
             <HBox alignment="CENTER_LEFT">
                 <Button onAction="#handleBack" styleClass="nav-button" stylesheets="@../resources/styles.css" text="← Volver" />
+            <Region prefHeight="41.0" prefWidth="120.0" />
+   
+               <!-- Título -->
+               <Label style="-fx-font-size:20; -fx-font-weight:bold;" styleClass="screen-title" stylesheets="@../resources/styles.css" text="Añadir Anotación" />
             </HBox>
-
-            <!-- Título -->
-            <Label style="-fx-font-size:20; -fx-font-weight:bold;" styleClass="screen-title" stylesheets="@../resources/styles.css" text="Añadir Anotación" />
 
             <!-- Tipo de anotación -->
             <Label style="-fx-font-weight:bold;" text="Tipo de anotación" />
@@ -62,7 +64,7 @@
                 <VBox spacing="4">
                     <Label style="-fx-font-weight:bold;" text="Grosor del trazo" />
                     <HBox alignment="CENTER_LEFT" spacing="6">
-                        <TextField fx:id="txtStrokeWidth" prefWidth="50" styleClass="custom-textfield" text="2" />
+                  <ComboBox fx:id="comboStrokeWidth" editable="true" prefHeight="26.0" prefWidth="85.0" />
                         <Label text="px" />
                     </HBox>
                 </VBox>

@@ -49,8 +49,6 @@ public class AddAnnotationController implements Initializable {
     @FXML
     private ColorPicker colorPicker;
     @FXML
-    private TextField txtStrokeWidth;
-    @FXML
     private Label lblUser;
     @FXML
     private ImageView imgUser;
@@ -61,6 +59,8 @@ public class AddAnnotationController implements Initializable {
     
     private Activity currentActivity;
     private List<GeoPoint> geoPoints;
+    @FXML
+    private ComboBox<String> comboStrokeWidth;
     
     public void setData(Activity activity, List<GeoPoint> geoPoints) {
         this.currentActivity = activity;
@@ -72,6 +72,9 @@ public class AddAnnotationController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        comboStrokeWidth.getItems().addAll("2", "3", "4", "5");
+        comboStrokeWidth.setValue("2");
+        
         colorPicker.setValue(Color.web("#E74C3C"));
         
         // Sincronizar TextField de color con ColorPicker
@@ -149,9 +152,11 @@ public class AddAnnotationController implements Initializable {
 
         
         String color = txtColor.getText().replace("#", "");
+        String raw;
         double strokeWidth;
         try {
-            strokeWidth = Double.parseDouble(txtStrokeWidth.getText());
+            raw = comboStrokeWidth.getValue().trim();
+            strokeWidth = Double.parseDouble(raw);
         } catch (NumberFormatException e) {
             showError("Grosor inválido", "Introduce un número válido para el grosor.");
             return;
