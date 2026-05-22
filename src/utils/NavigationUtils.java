@@ -22,69 +22,51 @@ public final class NavigationUtils {
     }
 
     /**
-     * Loads an FXML view, applies the shared stylesheet, and replaces the
-     * current scene on the stage obtained from {@code event}.
+     * Loads an FXML view described by {@code target}, applies the shared
+     * stylesheet, and replaces the current scene on the stage obtained
+     * from {@code event}.
      *
-     * @param event      the originating ActionEvent (used to obtain the Stage)
-     * @param fxmlPath   absolute classpath to the FXML file, e.g. "/view/Home.fxml"
-     * @param minWidth   minimum stage width after navigation
-     * @param minHeight  minimum stage height after navigation
-     * @param errorMsg   message shown in an error alert if loading fails
+     * @param event  the originating ActionEvent (used to obtain the Stage)
+     * @param target a {@link NavigationTarget} holding the FXML path,
+     *               dimensions, and error message
      */
-    public static void navigateTo(ActionEvent event, String fxmlPath,
-                                  double minWidth, double minHeight,
-                                  String errorMsg) {
+    public static void navigateTo(ActionEvent event, NavigationTarget target) {
         try {
             Parent root = FXMLLoader.load(
-                    NavigationUtils.class.getResource(fxmlPath));
-            Scene scene = new Scene(root);
+                    NavigationUtils.class.getResource(target.getFxmlPath()));
+
+            Scene scene;
+            if (target.hasExplicitSize()) {
+                scene = new Scene(root, target.getWidth(), target.getHeight());
+            } else {
+                scene = new Scene(root);
+            }
             scene.getStylesheets().add(
                     NavigationUtils.class.getResource(STYLESHEET).toExternalForm());
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            if (target.hasExplicitSize()) {
+                stage.setMaximized(false);
+            }
+
             stage.setScene(scene);
-            stage.setMinWidth(minWidth);
-            stage.setMinHeight(minHeight);
+
+            if (target.hasExplicitSize()) {
+                stage.setWidth(target.getWidth());
+                stage.setHeight(target.getHeight());
+            }
+
+            stage.setMinWidth(target.getMinWidth());
+            stage.setMinHeight(target.getMinHeight());
+
+            if (target.isCenterOnScreen()) {
+                stage.centerOnScreen();
+            }
+
             stage.show();
         } catch (IOException e) {
-            AlertUtils.showError("Error", errorMsg);
-        }
-    }
-
-    /**
-     * Overload that also sets an explicit window size and centres the stage.
-     * Useful when the target view requires fixed dimensions (e.g. Login).
-     *
-     * @param event      the originating ActionEvent
-     * @param fxmlPath   absolute classpath to the FXML file
-     * @param width      explicit stage width
-     * @param height     explicit stage height
-     * @param minWidth   minimum stage width
-     * @param minHeight  minimum stage height
-     * @param errorMsg   message shown in an error alert if loading fails
-     */
-    public static void navigateTo(ActionEvent event, String fxmlPath,
-                                  double width, double height,
-                                  double minWidth, double minHeight,
-                                  String errorMsg) {
-        try {
-            Parent root = FXMLLoader.load(
-                    NavigationUtils.class.getResource(fxmlPath));
-            Scene scene = new Scene(root, width, height);
-            scene.getStylesheets().add(
-                    NavigationUtils.class.getResource(STYLESHEET).toExternalForm());
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setMaximized(false);
-            stage.setScene(scene);
-            stage.setWidth(width);
-            stage.setHeight(height);
-            stage.setMinWidth(minWidth);
-            stage.setMinHeight(minHeight);
-            stage.centerOnScreen();
-            stage.show();
-        } catch (IOException e) {
-            AlertUtils.showError("Error", errorMsg);
+            AlertUtils.showError("Error", target.getErrorMsg());
         }
     }
 }

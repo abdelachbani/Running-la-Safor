@@ -2,6 +2,7 @@ package controllers;
 
 import utils.AlertUtils;
 import utils.AvatarUtils;
+import utils.NavigationTarget;
 import utils.NavigationUtils;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
@@ -188,23 +189,26 @@ public class HomeController implements Initializable {
 
     @FXML
     private void handleImportActivity(ActionEvent event) {
-        NavigationUtils.navigateTo(event, "/view/ImportActivity.fxml",
-                600, 420,
-                "No se pudo abrir la pantalla de importar actividad.");
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/ImportActivity.fxml")
+                .minSize(600, 420)
+                .onError("No se pudo abrir la pantalla de importar actividad.")
+                .build());
     }
 
     @FXML
     private void handleProfile(ActionEvent event) {
-        NavigationUtils.navigateTo(event, "/view/EditProfile.fxml",
-                900, 600,
-                "No se pudo abrir la pantalla de perfil.");
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/EditProfile.fxml")
+                .minSize(900, 600)
+                .onError("No se pudo abrir la pantalla de perfil.")
+                .build());
     }
 
     @FXML
     private void handleSessions(ActionEvent event) {
-        NavigationUtils.navigateTo(event, "/view/SessionHistory.fxml",
-                900, 600,
-                "No se pudo abrir el historial de sesiones.");
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/SessionHistory.fxml")
+                .minSize(900, 600)
+                .onError("No se pudo abrir el historial de sesiones.")
+                .build());
     }
 
     @FXML
@@ -220,8 +224,9 @@ public class HomeController implements Initializable {
     @FXML
     private void handleLogout(ActionEvent event) {
         app.logout();
-        NavigationUtils.navigateTo(event, "/view/Login.fxml",
-                400, 400,
-                "No se pudo volver a la pantalla de login.");
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/Login.fxml")
+                .minSize(400, 400)
+                .onError("No se pudo volver a la pantalla de login.")
+                .build());
     }
 }
