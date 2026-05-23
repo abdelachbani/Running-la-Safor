@@ -1,5 +1,6 @@
-package utils;
+package utils.ui_navigation;
 
+import utils.ui_navigation.NavigationTarget;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import upv.ipc.sportlib.SportActivityApp;
+import utils.AlertUtils;
 
 /**
  * Centralises FXML scene‐switching logic so that every controller can
