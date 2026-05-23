@@ -52,6 +52,7 @@ import upv.ipc.sportlib.MapRegion;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.TrackPoint;
 import upv.ipc.sportlib.User;
+import utils.AvatarUtils;
 
 public class ActivityDetailsController implements Initializable {
 
@@ -421,16 +422,21 @@ public class ActivityDetailsController implements Initializable {
     }
 
     private void loadUserData() {
-        User user = app.getCurrentUser();
-        if (user == null) {
+        User currentUser = app.getCurrentUser();
+        if (currentUser == null) {
             usernameLabel.setText("Usuario");
-            avatarImageView.setImage(null);
+            AvatarUtils.applyCircularAvatar(avatarImageView, AvatarUtils.getDefaultAvatar());
             return;
         }
 
-        usernameLabel.setText(user.getNickName());
-        avatarImageView.setImage(user.getAvatar());
-    }
+        usernameLabel.setText(currentUser.getNickName());
+
+        Image avatar = currentUser.getAvatar();
+        if (avatar == null) {
+            avatar = AvatarUtils.getDefaultAvatar();
+        }
+        AvatarUtils.applyCircularAvatar(avatarImageView, avatar);
+    }   
 
     private void startMapDrag(MouseEvent event) {
         if (!event.isPrimaryButtonDown()) {
