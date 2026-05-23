@@ -27,6 +27,8 @@ import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
 import utils.AlertUtils;
 import utils.AvatarUtils;
+import utils.GeoBounds;
+import utils.MapFormData;
 import utils.NavigationTarget;
 import utils.NavigationUtils;
 
@@ -184,32 +186,24 @@ public class MapManagementController implements Initializable {
 
     @FXML
     private void handleAddMap(ActionEvent event) {
-        String name = text(nameField);
-        String imagePath = text(imagePathField);
-        String latMinText = text(latMinField);
-        String latMaxText = text(latMaxField);
-        String lonMinText = text(lonMinField);
-        String lonMaxText = text(lonMaxField);
+        MapFormData.Result result = MapFormData.parse(
+                text(nameField), text(imagePathField),
+                text(latMinField), text(latMaxField),
+                text(lonMinField), text(lonMaxField));
 
-        if (!allFieldsFilled(name, imagePath, latMinText, latMaxText, lonMinText, lonMaxText)) {
+        if (!result.isOk()) {
+            AlertUtils.showError("Error", result.getError());
             return;
         }
 
-        File imageFile = new File(imagePath);
-        if (!validateImageFile(imageFile)) {
-            return;
-        }
+        MapFormData form = result.getData();
+        GeoBounds bounds = form.getBounds();
 
-        double[] coords = parseCoordinates(latMinText, latMaxText, lonMinText, lonMaxText);
-        if (coords == null) {
-            return;
-        }
+        MapRegion created = app.addMapRegion(
+                form.getName(), form.getImageFile(),
+                bounds.getLatMin(), bounds.getLatMax(),
+                bounds.getLonMin(), bounds.getLonMax());
 
-        if (!validateCoordinateRanges(coords[0], coords[1], coords[2], coords[3])) {
-            return;
-        }
-
-        MapRegion created = app.addMapRegion(name, imageFile, coords[0], coords[1], coords[2], coords[3]);
         if (created == null) {
             AlertUtils.showError("Error", "No se pudo añadir el mapa. Revisa el nombre y las coordenadas.");
             return;
@@ -220,63 +214,7 @@ public class MapManagementController implements Initializable {
                 + "exactamente las que imprime el script generar_mapas_hd.py.");
         clearForm();
         loadMaps();
-        selectMapByName(created.getName());
-    }
-
-    private boolean allFieldsFilled(String... fields) {
-        for (String field : fields) {
-            if (field.isBlank()) {
-                AlertUtils.showError("Error", "Rellena todos los campos del mapa.");
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean validateImageFile(File imageFile) {
-        if (!imageFile.exists()) {
-            AlertUtils.showError("Error", "El fichero de imagen no existe.");
-            return false;
-        }
-        if (!imageFile.getName().toLowerCase().matches(".*\\.(jpg|jpeg|png)$")) {
-            AlertUtils.showError("Error", "El fichero debe ser JPG, JPEG o PNG.");
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Parses four coordinate strings into doubles.
-     *
-     * @return an array {@code [latMin, latMax, lonMin, lonMax]}, or {@code null}
-     *         if any value is not a valid number.
-     */
-    private double[] parseCoordinates(String latMinText, String latMaxText,
-                                      String lonMinText, String lonMaxText) {
-        try {
-            return new double[] {
-                Double.parseDouble(latMinText),
-                Double.parseDouble(latMaxText),
-                Double.parseDouble(lonMinText),
-                Double.parseDouble(lonMaxText)
-            };
-        } catch (NumberFormatException ex) {
-            AlertUtils.showError("Error", "Las coordenadas deben ser números válidos.");
-            return null;
-        }
-    }
-
-    private boolean validateCoordinateRanges(double latMin, double latMax,
-                                             double lonMin, double lonMax) {
-        if (latMin >= latMax) {
-            AlertUtils.showError("Error", "La latitud mínima debe ser menor que la máxima.");
-            return false;
-        }
-        if (lonMin >= lonMax) {
-            AlertUtils.showError("Error", "La longitud mínima debe ser menor que la máxima.");
-            return false;
-        }
-        return true;
+        selectMap(created);
     }
 
     @FXML
@@ -339,9 +277,9 @@ public class MapManagementController implements Initializable {
                 .anyMatch(r -> r != null && safeText(r.getName()).equals(safeText(region.getName())));
     }
 
-    private void selectMapByName(String name) {
+    private void selectMap(MapRegion target) {
         for (MapRegion region : mapsTable.getItems()) {
-            if (region != null && safeText(region.getName()).equals(safeText(name))) {
+            if (region != null && safeText(region.getName()).equals(safeText(target.getName()))) {
                 mapsTable.getSelectionModel().select(region);
                 mapsTable.scrollTo(region);
                 return;
