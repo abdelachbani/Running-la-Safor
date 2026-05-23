@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package controllers;
 
 import java.io.IOException;
@@ -58,14 +54,14 @@ public class AddAnnotationController implements Initializable {
     private ImageView imgUser;
     @FXML
     private ToggleGroup tipoGroup;
-    
+
     private final SportActivityApp app = SportActivityApp.getInstance();
-    
+
     private Activity currentActivity;
     private List<GeoPoint> geoPoints;
     @FXML
     private ComboBox<String> comboStrokeWidth;
-    
+
     public void setData(Activity activity, List<GeoPoint> geoPoints) {
         this.currentActivity = activity;
         this.geoPoints = geoPoints;
@@ -78,22 +74,22 @@ public class AddAnnotationController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         comboStrokeWidth.getItems().addAll("2", "3", "4", "5");
         comboStrokeWidth.setValue("2");
-        
+
         colorPicker.setValue(Color.web("#E74C3C"));
-        
-        // Sincronizar TextField de color con ColorPicker
+
         txtColor.textProperty().addListener((obs, oldVal, newVal) -> {
             try {
                 colorPicker.setValue(Color.web(newVal));
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         });
-        
+
         if (app.getCurrentUser() != null) {
             lblUser.setText(app.getCurrentUser().getNickName());
             loadAvatar();
         }
     }
-    
+
     private void loadAvatar() {
         Image avatar = app.getCurrentUser().getAvatar();
         if (avatar == null) {
@@ -102,24 +98,19 @@ public class AddAnnotationController implements Initializable {
 
         AvatarUtils.applyCircularAvatar(imgUser, avatar);
     }
-    
-    
-      
 
     @FXML
     private void handleBack(ActionEvent event) {
-         navigateBackToDetails(event);
+        navigateBackToDetails(event);
     }
-    
-
 
     @FXML
     private void handleColorPickerChange(ActionEvent event) {
         Color c = colorPicker.getValue();
         String hex = String.format("#%02X%02X%02X",
-            (int)(c.getRed() * 255),
-            (int)(c.getGreen() * 255),
-            (int)(c.getBlue() * 255));
+                (int) (c.getRed() * 255),
+                (int) (c.getGreen() * 255),
+                (int) (c.getBlue() * 255));
         txtColor.setText(hex);
     }
 
@@ -130,68 +121,91 @@ public class AddAnnotationController implements Initializable {
 
     @FXML
     private void handleSave(ActionEvent event) {
-          
-        if (currentActivity == null || geoPoints == null || geoPoints.isEmpty()) {
+        if (!isStateValid()) {
             AlertUtils.showError("Error", "No hay actividad o puntos geográficos seleccionados.");
             return;
         }
 
-       
         AnnotationType type = getSelectedType();
+        if (!arePointsSufficient(type)) {
+            return;
+        }
 
-        // Validar número de GeoPoints según el tipo
-        int requiredPoints = (type == AnnotationType.POINT || type == AnnotationType.TEXT) ? 1 : 2;
+        Double strokeWidth = getValidStrokeWidth();
+        if (strokeWidth == null) {
+            return;
+        }
+
+        processSave(type, strokeWidth, event);
+    }
+
+    private boolean isStateValid() {
+        if (currentActivity == null) {
+            return false;
+        }
+        if (geoPoints == null) {
+            return false;
+        }
+        return !geoPoints.isEmpty();
+    }
+
+    private boolean arePointsSufficient(AnnotationType type) {
+        int requiredPoints = 2;
+        if (type == AnnotationType.POINT) {
+            requiredPoints = 1;
+        } else if (type == AnnotationType.TEXT) {
+            requiredPoints = 1;
+        }
+
         if (geoPoints.size() < requiredPoints) {
             AlertUtils.showError("Puntos insuficientes",
-                "Este tipo de anotación necesita " + requiredPoints + " punto(s) en el mapa.");
-            return;
+                    "Este tipo de anotación necesita " + requiredPoints + " punto(s) en el mapa.");
+            return false;
         }
+        return true;
+    }
 
-        
-        String color = txtColor.getText().replace("#", "");
-        String raw;
-        double strokeWidth;
+    private Double getValidStrokeWidth() {
         try {
-            raw = comboStrokeWidth.getValue().trim();
-            strokeWidth = Double.parseDouble(raw);
+            return Double.parseDouble(comboStrokeWidth.getValue().trim());
         } catch (NumberFormatException e) {
             AlertUtils.showError("Grosor inválido", "Introduce un número válido para el grosor.");
-            return;
+            return null;
         }
+    }
 
-        // Crear y guardar la anotación con la librería
-        Annotation ann = new Annotation(
-            type,
-            txtAnnotationText.getText(),
-            color,
-            strokeWidth,
-            geoPoints
-        );
-
+    private void processSave(AnnotationType type, double strokeWidth, ActionEvent event) {
+        String color = txtColor.getText().replace("#", "");
+        Annotation ann = new Annotation(type, txtAnnotationText.getText(), color, strokeWidth, geoPoints);
         Annotation saved = app.addAnnotation(currentActivity, ann);
 
         if (saved != null) {
             AlertUtils.showInfo("Anotación guardada", "La anotación se ha guardado correctamente.");
-            handleBack(event); // Volver a la pantalla anterior
+            handleBack(event);
         } else {
             AlertUtils.showError("Error", "No se pudo guardar la anotación.");
         }
     }
-    
+
     private AnnotationType getSelectedType() {
-        if (rbText.isSelected())   return AnnotationType.TEXT;
-        if (rbLine.isSelected())   return AnnotationType.LINE;
-        if (rbCircle.isSelected()) return AnnotationType.CIRCLE;
-        return AnnotationType.POINT; // por defecto
+        if (rbText.isSelected()) {
+            return AnnotationType.TEXT;
+        }
+        if (rbLine.isSelected()) {
+            return AnnotationType.LINE;
+        }
+        if (rbCircle.isSelected()) {
+            return AnnotationType.CIRCLE;
+        }
+        return AnnotationType.POINT;
     }
-    
 
     @FXML
     private void handleLogOut(ActionEvent event) {
         NavigationUtils.logoutAndNavigateToLogin(event);
     }
-    
-     public void handleWindowChange(String path, int minWidth, int minHeight, ActionEvent event) {
+
+    public void handleWindowChange(String path, int minWidth, int minHeight, ActionEvent event) {
         URL homeView = getClass().getResource(path);
         URL styles = getClass().getResource("/resources/styles.css");
 
@@ -214,32 +228,29 @@ public class AddAnnotationController implements Initializable {
             AlertUtils.showError("Error", "No se pudo volver a la pantalla principal.");
         }
     }
-     
-    
-      
-      private void navigateBackToDetails(ActionEvent event) {
-    try {
-        FXMLLoader loader = new FXMLLoader(
-            getClass().getResource("/view/ActivityDetails.fxml")
-        );
-        Parent root = loader.load();
 
-        ActivityDetailsController controller = loader.getController();
-        controller.setActivity(currentActivity); // ← pasa la actividad
+    private void navigateBackToDetails(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/view/ActivityDetails.fxml")
+            );
+            Parent root = loader.load();
 
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(
-            getClass().getResource("/resources/styles.css").toExternalForm()
-        );
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setMinWidth(1200);
-        stage.setMinHeight(780);
-        stage.setScene(scene);
-        stage.show();
+            ActivityDetailsController controller = loader.getController();
+            controller.setActivity(currentActivity); // ← pasa la actividad
 
-    } catch (IOException e) {
-        AlertUtils.showError("Error", "No se pudo volver a la actividad.");
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(
+                    getClass().getResource("/resources/styles.css").toExternalForm()
+            );
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setMinWidth(1200);
+            stage.setMinHeight(780);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            AlertUtils.showError("Error", "No se pudo volver a la actividad.");
+        }
     }
 }
-}
-
