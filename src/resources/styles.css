@@ -338,3 +338,93 @@
     -fx-alignment: CENTER;
     -fx-padding: 10px 12px 10px 12px;
 }
+.radio-button {
+    -fx-font-size: 13px;
+    -fx-text-fill: #2c3e50;
+}
+
+.radio-button .radio {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #5BBFD6;
+    -fx-border-radius: 100%;
+    -fx-border-width: 2px;
+}
+
+.radio-button:selected .radio {
+    -fx-background-color: #5BBFD6;
+    -fx-border-color: #3a9db5;
+}
+
+/* Ocultamos el dot para que el círculo quede completamente relleno */
+.radio-button:selected .dot {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
+}
+
+.radio-button:hover .radio {
+    -fx-border-color: #3a9db5;
+    -fx-effect: dropshadow(gaussian, rgba(91,191,214,0.35), 6, 0, 0, 0);
+}
+
+.radio-button:focused .radio {
+    -fx-border-color: #3a9db5;
+    -fx-effect: dropshadow(gaussian, rgba(91,191,214,0.5), 8, 0, 0, 0);
+}
+
+.combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #5BBFD6;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-font-size: 13px;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 4px 10px;
+}
+
+.combo-box:hover {
+    -fx-border-color: #3a9db5;
+    -fx-effect: dropshadow(gaussian, rgba(91,191,214,0.3), 6, 0, 0, 0);
+}
+
+.combo-box:focused {
+    -fx-border-color: #3a9db5;
+    -fx-effect: dropshadow(gaussian, rgba(91,191,214,0.5), 8, 0, 0, 0);
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.combo-box .arrow {
+    -fx-background-color: #5BBFD6;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #5BBFD6;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 10, 0, 0, 3);
+}
+
+.combo-box-popup .list-cell {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #2c3e50;
+    -fx-font-size: 13px;
+    -fx-padding: 6px 12px;
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #e8f7fa;
+    -fx-text-fill: #2c3e50;
+}
+
+.combo-box-popup .list-cell:selected {
+    -fx-background-color: #5BBFD6;
+    -fx-text-fill: #ffffff;
+}
+
