@@ -25,13 +25,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import utils.NavigationTarget;
-import utils.NavigationUtils;
+import utils.ui_navigation.NavigationTarget;
+import utils.ui_navigation.NavigationUtils;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
+import utils.AvatarUtils;
 
 public class AccumulatedController implements Initializable {
 
@@ -277,12 +279,17 @@ public class AccumulatedController implements Initializable {
         User currentUser = app.getCurrentUser();
         if (currentUser == null) {
             usernameLabel.setText("Usuario");
-            avatarImageView.setImage(null);
+            AvatarUtils.applyCircularAvatar(avatarImageView, AvatarUtils.getDefaultAvatar());
             return;
         }
 
         usernameLabel.setText(currentUser.getNickName());
-        avatarImageView.setImage(currentUser.getAvatar());
+
+        Image avatar = currentUser.getAvatar();
+        if (avatar == null) {
+            avatar = AvatarUtils.getDefaultAvatar();
+        }
+        AvatarUtils.applyCircularAvatar(avatarImageView, avatar);
     }
 
     private String periodDescription() {

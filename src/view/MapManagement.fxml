@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="780.0"
+            prefWidth="1200.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.MapManagementController">
+
+    <top>
+        <VBox spacing="8.0">
+            <padding>
+                <Insets top="14.0" right="24.0" bottom="6.0" left="24.0"/>
+            </padding>
+
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="14.0">
+                    <children>
+                        <Button fx:id="backButton"
+                                text="← Volver"
+                                onAction="#handleBack"
+                                styleClass="nav-button"/>
+
+                        <Label fx:id="titleLabel"
+                               text="Running la Safor - Gestión de mapas"
+                               styleClass="screen-title"/>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <Label fx:id="usernameLabel"
+                               text="usuario"
+                               styleClass="user-name"/>
+
+                        <ImageView fx:id="avatarImageView"
+                                   fitHeight="42"
+                                   fitWidth="42"
+                                   preserveRatio="true"/>
+
+                        <Button fx:id="logoutButton"
+                                text="Cerrar sesión"
+                                onAction="#handleLogout"
+                                styleClass="top-action-button"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.47">
+            <items>
+
+                <VBox spacing="12.0">
+                    <padding>
+                        <Insets top="12.0" right="12.0" bottom="12.0" left="24.0"/>
+                    </padding>
+
+                    <children>
+                        <HBox alignment="CENTER_LEFT">
+                            <children>
+                                <Label text="Mapas registrados"
+                                       styleClass="section-title"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="mapsCountLabel"
+                                       text="Mapas: 0"
+                                       styleClass="summary-label"/>
+                            </children>
+                        </HBox>
+
+                        <TableView fx:id="mapsTable"
+                                   VBox.vgrow="ALWAYS"
+                                   styleClass="activities-table">
+                            <columns>
+                                <TableColumn fx:id="nameColumn"
+                                             text="Nombre"
+                                             prefWidth="170.0"/>
+                                <TableColumn fx:id="imageColumn"
+                                             text="Imagen"
+                                             prefWidth="220.0"/>
+                                <TableColumn fx:id="statusColumn"
+                                             text="Estado"
+                                             prefWidth="100.0"/>
+                            </columns>
+                        </TableView>
+
+                        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                            <children>
+                                <Button fx:id="deleteButton"
+                                        text="Eliminar mapa"
+                                        onAction="#handleDeleteMap"
+                                        styleClass="table-action-button"/>
+                                <Button fx:id="refreshButton"
+                                        text="Actualizar"
+                                        onAction="#handleRefresh"
+                                        styleClass="table-action-button"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+
+                <ScrollPane fitToWidth="true" fitToHeight="true">
+                    <content>
+                        <VBox spacing="14.0">
+                            <padding>
+                                <Insets top="12.0" right="24.0" bottom="12.0" left="12.0"/>
+                            </padding>
+
+                            <children>
+                                <Label text="Detalle del mapa seleccionado"
+                                       styleClass="section-title"/>
+
+                                <StackPane prefHeight="240.0" maxWidth="420.0">
+                                    <children>
+                                        <ImageView fx:id="previewImageView"
+                                                   fitWidth="420.0"
+                                                   fitHeight="240.0"
+                                                   preserveRatio="true"
+                                                   pickOnBounds="true"/>
+                                        <Label fx:id="previewPlaceholderLabel"
+                                               text="Selecciona un mapa para ver la vista previa"
+                                               styleClass="summary-label"/>
+                                    </children>
+                                </StackPane>
+
+                                <GridPane hgap="10.0" vgap="8.0">
+                                    <children>
+                                        <Label text="Nombre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                        <Label fx:id="selectedNameLabel" text="-" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                                        <Label text="Archivo:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                        <Label fx:id="selectedPathLabel" text="-" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                                        <Label text="Latitud mín.:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                        <Label fx:id="selectedLatMinLabel" text="-" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                                        <Label text="Latitud máx.:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                        <Label fx:id="selectedLatMaxLabel" text="-" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                                        <Label text="Longitud mín.:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                                        <Label fx:id="selectedLonMinLabel" text="-" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                                        <Label text="Longitud máx.:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                                        <Label fx:id="selectedLonMaxLabel" text="-" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                                        <Label text="Estado:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                                        <Label fx:id="selectedStatusLabel" text="-" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                                    </children>
+                                </GridPane>
+
+                                <Separator/>
+
+                                <Label text="Añadir nuevo mapa" styleClass="section-title"/>
+
+                                <GridPane hgap="10.0" vgap="10.0">
+                                    <children>
+                                        <Label text="Nombre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                        <TextField fx:id="nameField" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"/>
+
+                                        <Label text="Archivo JPG:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                        <TextField fx:id="imagePathField" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"/>
+                                        <Button fx:id="browseButton"
+                                                text="Examinar"
+                                                onAction="#handleBrowseMap"
+                                                styleClass="nav-button"
+                                                GridPane.rowIndex="1"
+                                                GridPane.columnIndex="2"/>
+
+                                        <Label text="Latitud mín.:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                        <TextField fx:id="latMinField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                                        <Label text="Latitud máx.:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                        <TextField fx:id="latMaxField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                                        <Label text="Longitud mín.:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                                        <TextField fx:id="lonMinField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                                        <Label text="Longitud máx.:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                                        <TextField fx:id="lonMaxField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                                    </children>
+                                </GridPane>
+
+                                <HBox alignment="CENTER_RIGHT">
+                                    <children>
+                                        <Button fx:id="addButton"
+                                                text="Añadir mapa"
+                                                onAction="#handleAddMap"
+                                                styleClass="import-button"/>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+            </items>
+        </SplitPane>
+    </center>
+
+</BorderPane>

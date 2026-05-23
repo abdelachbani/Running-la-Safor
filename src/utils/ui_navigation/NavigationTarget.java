@@ -1,4 +1,4 @@
-package utils;
+package utils.ui_navigation;
 
 /**
  * Encapsulates all the parameters needed for a scene navigation,

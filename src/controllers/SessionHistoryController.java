@@ -1,8 +1,8 @@
 package controllers;
 
 import utils.AvatarUtils;
-import utils.NavigationTarget;
-import utils.NavigationUtils;
+import utils.ui_navigation.NavigationTarget;
+import utils.ui_navigation.NavigationUtils;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.List;

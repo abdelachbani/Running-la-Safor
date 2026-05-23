@@ -1,7 +1,6 @@
 package controllers;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.List;
@@ -12,14 +11,10 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
@@ -33,7 +28,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -41,17 +35,19 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polyline;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.Annotation;
-import upv.ipc.sportlib.AnnotationType;
 import upv.ipc.sportlib.GeoPoint;
 import upv.ipc.sportlib.MapProjection;
 import upv.ipc.sportlib.MapRegion;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.TrackPoint;
 import upv.ipc.sportlib.User;
+import utils.AlertUtils;
+import utils.AvatarUtils;
+import utils.ui_navigation.NavigationTarget;
+import utils.ui_navigation.NavigationUtils;
 
 public class ActivityDetailsController implements Initializable {
 
@@ -389,48 +385,33 @@ public class ActivityDetailsController implements Initializable {
 
     @FXML
     private void handleBack(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Home.fxml"));
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setMinWidth(900);
-            stage.setMinHeight(600);
-            stage.show();
-        } catch (IOException ex) {
-            showError("No se pudo volver.");
-        }
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/Home.fxml")
+                .minSize(900, 600)
+                .onError("No se pudo volver.")
+                .build());
     }
 
     @FXML
     private void handleLogout(ActionEvent event) {
-        app.logout();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setMinWidth(400);
-            stage.setMinHeight(400);
-            stage.show();
-        } catch (IOException ex) {
-            showError("No se pudo cerrar sesión.");
-        }
+        NavigationUtils.logoutAndNavigateToLogin(event);
     }
 
     private void loadUserData() {
-        User user = app.getCurrentUser();
-        if (user == null) {
+        User currentUser = app.getCurrentUser();
+        if (currentUser == null) {
             usernameLabel.setText("Usuario");
-            avatarImageView.setImage(null);
+            AvatarUtils.applyCircularAvatar(avatarImageView, AvatarUtils.getDefaultAvatar());
             return;
         }
 
-        usernameLabel.setText(user.getNickName());
-        avatarImageView.setImage(user.getAvatar());
-    }
+        usernameLabel.setText(currentUser.getNickName());
+
+        Image avatar = currentUser.getAvatar();
+        if (avatar == null) {
+            avatar = AvatarUtils.getDefaultAvatar();
+        }
+        AvatarUtils.applyCircularAvatar(avatarImageView, avatar);
+    }   
 
     private void startMapDrag(MouseEvent event) {
         if (!event.isPrimaryButtonDown()) {
@@ -507,10 +488,7 @@ public class ActivityDetailsController implements Initializable {
     }
 
     private void showError(String text) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(null);
-        alert.setContentText(text);
-        alert.showAndWait();
+        AlertUtils.showError("Error", text);
     }
 
     private Callback<TableColumn<Annotation, String>, TableCell<Annotation, String>> createWrappingCellFactory() {
