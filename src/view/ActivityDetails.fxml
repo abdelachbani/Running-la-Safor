@@ -26,7 +26,10 @@
             <children>
                 <HBox alignment="CENTER_LEFT" spacing="14.0">
                     <children>
-                        <Button fx:id="backButton" onAction="#handleBack" styleClass="nav-button" text="← Volver" />
+                        <Button fx:id="backButton"
+                                text="← Volver"
+                                onAction="#handleBack"
+                                styleClass="profile-back-button"/>
 
                         <Label fx:id="titleLabel" styleClass="screen-title" text="Running la Safor - Activity" />
 
@@ -40,7 +43,10 @@
                             </image>
                         </ImageView>
 
-                        <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="top-action-button" text="Cerrar sesión" />
+                        <Button fx:id="logoutButton"
+                                text="Cerrar sesión"
+                                onAction="#handleLogout"
+                                styleClass="profile-top-button"/>
                     </children>
                 </HBox>
 
