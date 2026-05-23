@@ -15,63 +15,41 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="780.0"
-            prefWidth="1200.0"
-            xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.ActivityDetailsController"
-            stylesheets="@../resources/styles.css">
+<BorderPane prefHeight="780.0" prefWidth="1200.0" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ActivityDetailsController">
 
     <top>
         <VBox spacing="8.0">
             <padding>
-                <Insets top="14.0" right="24.0" bottom="6.0" left="24.0"/>
+                <Insets bottom="6.0" left="24.0" right="24.0" top="14.0" />
             </padding>
 
             <children>
                 <HBox alignment="CENTER_LEFT" spacing="14.0">
                     <children>
-                        <Button fx:id="backButton"
-                                text="← Volver"
-                                onAction="#handleBack"
-                                styleClass="nav-button"/>
+                        <Button fx:id="backButton" onAction="#handleBack" styleClass="nav-button" text="← Volver" />
 
-                        <Label fx:id="titleLabel"
-                               text="Running la Safor - Activity"
-                               styleClass="screen-title"/>
+                        <Label fx:id="titleLabel" styleClass="screen-title" text="Running la Safor - Activity" />
 
-                        <Region HBox.hgrow="ALWAYS"/>
+                        <Region HBox.hgrow="ALWAYS" />
 
-                        <Label fx:id="usernameLabel"
-                               text="usuario"
-                               styleClass="user-name"/>
+                        <Label fx:id="usernameLabel" styleClass="user-name" text="usuario" />
 
-                        <ImageView fx:id="avatarImageView"
-                                   fitHeight="42"
-                                   fitWidth="42"
-                                   preserveRatio="true">
+                        <ImageView fx:id="avatarImageView" fitHeight="42" fitWidth="42" preserveRatio="true">
                             <image>
-                                <Image url="@../resources/logo.png"/>
+                                <Image url="@../resources/logo.png" />
                             </image>
                         </ImageView>
 
-                        <Button fx:id="logoutButton"
-                                text="Cerrar sesión"
-                                onAction="#handleLogout"
-                                styleClass="top-action-button"/>
+                        <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="top-action-button" text="Cerrar sesión" />
                     </children>
                 </HBox>
 
                 <HBox alignment="CENTER_RIGHT" spacing="8.0">
                     <children>
-                        <Label text="Zoom"/>
-                        <Button text="-" onAction="#handleZoomOut"/>
-                        <Slider fx:id="zoomSlider"
-                                min="0.5"
-                                max="2.0"
-                                value="1.0"
-                                prefWidth="220"/>
-                        <Button text="+" onAction="#handleZoomIn"/>
+                        <Label text="Zoom" />
+                        <Button onAction="#handleZoomOut" text="-" />
+                        <Slider fx:id="zoomSlider" max="2.0" min="0.5" prefWidth="220" value="1.0" />
+                        <Button onAction="#handleZoomIn" text="+" />
                     </children>
                 </HBox>
             </children>
@@ -81,112 +59,83 @@
     <center>
         <HBox spacing="12.0">
             <padding>
-                <Insets top="6.0" right="24.0" bottom="8.0" left="24.0"/>
+                <Insets bottom="8.0" left="24.0" right="24.0" top="6.0" />
             </padding>
 
             <children>
                 <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <Label text="Mapa y trazado"
-                               styleClass="section-title"/>
+                        <Label styleClass="section-title" text="Mapa y trazado" />
 
-                        <ScrollPane fx:id="mapScrollPane"
-                                    pannable="false"
-                                    fitToWidth="false"
-                                    fitToHeight="false"
-                                    HBox.hgrow="ALWAYS">
+                        <ScrollPane fx:id="mapScrollPane" fitToHeight="false" fitToWidth="false" pannable="false" HBox.hgrow="ALWAYS">
                             <content>
-                                <StackPane fx:id="mapContentPane"
-                                           prefWidth="900"
-                                           prefHeight="560"/>
+                                <StackPane fx:id="mapContentPane" prefHeight="560" prefWidth="900" />
                             </content>
                         </ScrollPane>
 
-                        <Label fx:id="mapStatusLabel"
-                               text=""
-                               styleClass="summary-label"/>
+                        <Label fx:id="mapStatusLabel" styleClass="summary-label" text="" />
                     </children>
                 </VBox>
 
-                <VBox spacing="12.0"
-                      minWidth="360"
-                      prefWidth="360"
-                      maxWidth="360">
+                <VBox maxWidth="360" minWidth="360" prefWidth="360" spacing="12.0">
                     <children>
-                        <Label text="Estadísticas"
-                               styleClass="section-title"/>
+                        <Label styleClass="section-title" text="Estadísticas" />
 
                         <VBox spacing="10.0">
                             <children>
                                 <HBox spacing="10">
                                     <children>
-                                        <Label text="Distancia:"
-                                               styleClass="stat-label"/>
-                                        <Label fx:id="distanceValueLabel"
-                                               styleClass="stat-value"/>
+                                        <Label styleClass="stat-label" text="Distancia:" />
+                                        <Label fx:id="distanceValueLabel" styleClass="stat-value" />
                                     </children>
                                 </HBox>
 
                                 <HBox spacing="10">
                                     <children>
-                                        <Label text="Duración:"
-                                               styleClass="stat-label"/>
-                                        <Label fx:id="durationValueLabel"
-                                               styleClass="stat-value"/>
+                                        <Label styleClass="stat-label" text="Duración:" />
+                                        <Label fx:id="durationValueLabel" styleClass="stat-value" />
                                     </children>
                                 </HBox>
 
                                 <HBox spacing="10">
                                     <children>
-                                        <Label text="Velocidad media:"
-                                               styleClass="stat-label"/>
-                                        <Label fx:id="speedValueLabel"
-                                               styleClass="stat-value"/>
+                                        <Label styleClass="stat-label" text="Velocidad media:" />
+                                        <Label fx:id="speedValueLabel" styleClass="stat-value" />
                                     </children>
                                 </HBox>
 
                                 <HBox spacing="10">
                                     <children>
-                                        <Label text="Ritmo medio:"
-                                               styleClass="stat-label"/>
-                                        <Label fx:id="paceValueLabel"
-                                               styleClass="stat-value"/>
+                                        <Label styleClass="stat-label" text="Ritmo medio:" />
+                                        <Label fx:id="paceValueLabel" styleClass="stat-value" />
                                     </children>
                                 </HBox>
 
                                 <HBox spacing="10">
                                     <children>
-                                        <Label text="Desnivel +:"
-                                               styleClass="stat-label"/>
-                                        <Label fx:id="gainValueLabel"
-                                               styleClass="stat-value"/>
+                                        <Label styleClass="stat-label" text="Desnivel +:" />
+                                        <Label fx:id="gainValueLabel" styleClass="stat-value" />
                                     </children>
                                 </HBox>
 
                                 <HBox spacing="10">
                                     <children>
-                                        <Label text="Desnivel -:"
-                                               styleClass="stat-label"/>
-                                        <Label fx:id="lossValueLabel"
-                                               styleClass="stat-value"/>
+                                        <Label styleClass="stat-label" text="Desnivel -:" />
+                                        <Label fx:id="lossValueLabel" styleClass="stat-value" />
                                     </children>
                                 </HBox>
 
                                 <HBox spacing="10">
                                     <children>
-                                        <Label text="Altitud mín.:"
-                                               styleClass="stat-label"/>
-                                        <Label fx:id="minElevationValueLabel"
-                                               styleClass="stat-value"/>
+                                        <Label styleClass="stat-label" text="Altitud mín.:" />
+                                        <Label fx:id="minElevationValueLabel" styleClass="stat-value" />
                                     </children>
                                 </HBox>
 
                                 <HBox spacing="10">
                                     <children>
-                                        <Label text="Altitud máx.:"
-                                               styleClass="stat-label"/>
-                                        <Label fx:id="maxElevationValueLabel"
-                                               styleClass="stat-value"/>
+                                        <Label styleClass="stat-label" text="Altitud máx.:" />
+                                        <Label fx:id="maxElevationValueLabel" styleClass="stat-value" />
                                     </children>
                                 </HBox>
                             </children>
@@ -194,33 +143,20 @@
 
                         <HBox alignment="CENTER_LEFT" spacing="10">
                             <children>
-                                <Label text="Anotaciones"
-                                       styleClass="section-title"/>
+                                <Label styleClass="section-title" text="Anotaciones" />
 
-                                <Region HBox.hgrow="ALWAYS"/>
+                                <Region HBox.hgrow="ALWAYS" />
 
-                                <Button fx:id="addAnnotationButton"
-                                        text="+ Añadir"
-                                        onAction="#handleAddAnnotation"
-                                        styleClass="import-button"/>
+                                <Button fx:id="DeleteAnnotationButton" onAction="#handleDeleteAnnotation" styleClass="import-button" text="- Eliminar" />
+                        <Button fx:id="addAnnotationButton" layoutX="282.0" layoutY="10.0" onAction="#handleAddAnnotation" styleClass="import-button" text="+ Añadir" />
                             </children>
                         </HBox>
 
-                        <TableView fx:id="annotationTable"
-                                   prefHeight="300"
-                                   minHeight="300"
-                                   maxHeight="300"
-                                   styleClass="activities-table">
+                        <TableView fx:id="annotationTable" maxHeight="300" minHeight="300" prefHeight="300" styleClass="activities-table">
                             <columns>
-                                <TableColumn fx:id="annotationTypeColumn"
-                                             text="Tipo"
-                                             prefWidth="85"/>
-                                <TableColumn fx:id="annotationTextColumn"
-                                             text="Texto"
-                                             prefWidth="240"/>
-                                <TableColumn fx:id="annotationColorColumn"
-                                             text="Color"
-                                             prefWidth="90"/>
+                                <TableColumn fx:id="annotationTypeColumn" prefWidth="85" text="Tipo" />
+                                <TableColumn fx:id="annotationTextColumn" prefWidth="240" text="Texto" />
+                                <TableColumn fx:id="annotationColorColumn" prefWidth="90" text="Color" />
                             </columns>
                         </TableView>
                     </children>
