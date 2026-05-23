@@ -92,6 +92,8 @@ public class LoginController implements Initializable {
                 stage.setScene(scene);
                 stage.setMinWidth(900);
                 stage.setMinHeight(600);
+                stage.setX(scene.getWidth()/4);
+                stage.setY(scene.getHeight()/8);
                 stage.show();
             } catch (IOException ex) {
                 ex.printStackTrace();

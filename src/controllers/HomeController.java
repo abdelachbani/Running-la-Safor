@@ -22,6 +22,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import utils.AlertUtils;
+import utils.AvatarUtils;
+import utils.ui_navigation.NavigationTarget;
+import utils.ui_navigation.NavigationUtils;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
@@ -111,17 +115,20 @@ public class HomeController implements Initializable {
 
     private void loadUserData() {
         User currentUser = app.getCurrentUser();
-
         if (currentUser == null) {
             usernameLabel.setText("Usuario");
-            avatarImageView.setImage(null);
+            AvatarUtils.applyCircularAvatar(avatarImageView, AvatarUtils.getDefaultAvatar());
             return;
         }
 
         usernameLabel.setText(currentUser.getNickName());
 
         Image avatar = currentUser.getAvatar();
-        avatarImageView.setImage(avatar);
+        if (avatar == null) {
+            avatar = AvatarUtils.getDefaultAvatar();
+        }
+
+        AvatarUtils.applyCircularAvatar(avatarImageView, avatar);
     }
 
     private void loadActivities() {
@@ -142,31 +149,43 @@ public class HomeController implements Initializable {
         usernameLabel.getStyleClass().add("user-name");
         activitiesCountLabel.getStyleClass().add("summary-label");
         lastActivityLabel.getStyleClass().add("summary-label");
-
-        logoutButton.getStyleClass().add("top-action-button");
+        logoutButton.getStyleClass().add("profile-top-button");
         importButton.getStyleClass().add("import-button");
-
         openButton.getStyleClass().add("table-action-button");
         deleteButton.getStyleClass().add("table-action-button");
-
-        profileButton.getStyleClass().add("nav-button");
-        sessionsButton.getStyleClass().add("nav-button");
-        mapsButton.getStyleClass().add("nav-button");
-        accumulatedButton.getStyleClass().add("nav-button");
-
+        profileButton.getStyleClass().add("profile-menu-button");
+        sessionsButton.getStyleClass().add("profile-menu-button");
+        mapsButton.getStyleClass().add("profile-menu-button");
+        accumulatedButton.getStyleClass().add("profile-menu-button");
         activitiesTable.getStyleClass().add("activities-table");
     }
 
     @FXML
     private void handleOpenActivity(ActionEvent event) {
         Activity selected = activitiesTable.getSelectionModel().getSelectedItem();
-
         if (selected == null) {
-            showWarning("Selecciona una actividad", "Debes seleccionar una actividad para abrirla.");
+            AlertUtils.showWarning("Selecciona una actividad", "Debes seleccionar una actividad para abrirla.");
             return;
         }
 
-        showInfo("Pendiente", "La pantalla de visualización de actividad será la siguiente que conectemos.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ActivityDetails.fxml"));
+            Parent root = loader.load();
+
+            ActivityDetailsController controller = loader.getController();
+            controller.setActivity(selected);
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setMinWidth(1200);
+            stage.setMinHeight(780);
+            stage.show();
+        } catch (IOException ex) {
+            AlertUtils.showError("Error", "No se pudo abrir la pantalla de visualización de actividad.");
+        }
     }
 
     @FXML
@@ -174,7 +193,7 @@ public class HomeController implements Initializable {
         Activity selected = activitiesTable.getSelectionModel().getSelectedItem();
 
         if (selected == null) {
-            showWarning("Selecciona una actividad", "Debes seleccionar una actividad para eliminarla.");
+            AlertUtils.showWarning("Selecciona una actividad", "Debes seleccionar una actividad para eliminarla.");
             return;
         }
 
@@ -192,89 +211,58 @@ public class HomeController implements Initializable {
 
     @FXML
     private void handleImportActivity(ActionEvent event) {
-        URL importView = getClass().getResource("/view/ImportActivity.fxml");
-        URL styles = getClass().getResource("/resources/styles.css");
-        
-        if (importView == null || styles == null) {
-            showError("Error", "No se pudo abrir la pantalla de importar actividad.");
-            return;
-        }
-
-        try {
-            Parent root = FXMLLoader.load(importView);
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(styles.toExternalForm());
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setMinWidth(600);
-            stage.setMinHeight(420);
-            stage.show();
-        } catch (IOException ex) {
-            showError("Error", "No se pudo abrir la pantalla de importar actividad.");
-        }
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/ImportActivity.fxml")
+                .minSize(600, 420)
+                .onError("No se pudo abrir la pantalla de importar actividad.")
+                .build());
     }
 
     @FXML
     private void handleProfile(ActionEvent event) {
-        showInfo("Pendiente", "La pantalla de perfil será la siguiente que conectemos.");
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/EditProfile.fxml")
+                .minSize(900, 600)
+                .onError("No se pudo abrir la pantalla de perfil.")
+                .build());
     }
 
     @FXML
     private void handleSessions(ActionEvent event) {
-        showInfo("Pendiente", "La pantalla de historial de sesiones será la siguiente que conectemos.");
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/SessionHistory.fxml")
+                .minSize(900, 600)
+                .onError("No se pudo abrir el historial de sesiones.")
+                .build());
     }
 
     @FXML
     private void handleMaps(ActionEvent event) {
-        showInfo("Pendiente", "La pantalla de gestión de mapas será la siguiente que conectemos.");
-    }
-
-    @FXML
-    private void handleAccumulated(ActionEvent event) {
-        showInfo("Pendiente", "La pantalla de acumulado será la siguiente que conectemos.");
-    }
-
-    @FXML
-    private void handleLogout(ActionEvent event) {
-        app.logout();
-
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MapManagement.fxml"));
+            Parent root = loader.load();
+
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
-            stage.setMinWidth(400);
-            stage.setMinHeight(400);
+            stage.setMinWidth(1200);
+            stage.setMinHeight(780);
             stage.show();
-        } catch (IOException e) {
-            showError("Error", "No se pudo volver a la pantalla de login.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            AlertUtils.showError("Error", "No se pudo abrir la pantalla de gestión de mapas.");
         }
     }
 
-    private void showInfo(String title, String text) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(text);
-        alert.showAndWait();
+    @FXML
+    private void handleAccumulated(ActionEvent event) {
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/Accumulated.fxml")
+                .minSize(1200, 780)
+                .onError("No se pudo abrir la pantalla de acumulado.")
+                .build());
     }
 
-    private void showWarning(String title, String text) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(text);
-        alert.showAndWait();
-    }
-
-    private void showError(String title, String text) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(text);
-        alert.showAndWait();
+    @FXML
+    private void handleLogout(ActionEvent event) {
+        NavigationUtils.logoutAndNavigateToLogin(event);
     }
 }
