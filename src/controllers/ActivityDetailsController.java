@@ -64,7 +64,6 @@ public class ActivityDetailsController implements Initializable {
 
     @FXML private Button logoutButton;
     @FXML private Button backButton;
-    @FXML private Button addAnnotationButton;
 
     @FXML private Slider zoomSlider;
 
@@ -104,6 +103,10 @@ public class ActivityDetailsController implements Initializable {
     private double dragStartV;
     
     private List<GeoPoint> selectedGeoPoints = new ArrayList<>();
+    @FXML
+    private Button DeleteAnnotationButton;
+    @FXML
+    private Button addAnnotationButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -360,6 +363,8 @@ public class ActivityDetailsController implements Initializable {
         c.setFill(color);
         c.setStroke(Color.WHITE);
         mapPane.getChildren().add(c);
+        
+        c.setUserData("annotation");
     }
 
     private void drawLineAnnotation(Annotation annotation, Color color) {
@@ -374,6 +379,8 @@ public class ActivityDetailsController implements Initializable {
         line.setStroke(color);
         line.setStrokeWidth(2);
         mapPane.getChildren().add(line);
+        
+        line.setUserData("annotation");
     }
     
     private void drawTextAnnotation(Annotation annotation, Color color) {
@@ -397,6 +404,9 @@ public class ActivityDetailsController implements Initializable {
         );
 
         mapPane.getChildren().addAll(anchor, label);
+        
+        anchor.setUserData("annotation");
+        label.setUserData("annotation");
     }
     
     private void drawCircleAnnotation(Annotation annotation, Color color) {
@@ -417,6 +427,8 @@ public class ActivityDetailsController implements Initializable {
         circle.setStrokeWidth(annotation.getStrokeWidth());
 
         mapPane.getChildren().add(circle);
+        
+        circle.setUserData("annotation");
     }
 
     private void addMarker(Point2D p, Color color, String text) {
@@ -607,4 +619,43 @@ public class ActivityDetailsController implements Initializable {
             }
         };
     }
+
+    @FXML
+    private void handleDeleteAnnotation(ActionEvent event) {
+        Annotation selected = (Annotation) annotationTable.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            AlertUtils.showWarning("Sin selección", "Selecciona una anotación para eliminarla.");
+            return;
+        }
+
+       
+        javafx.scene.control.Alert confirm = new javafx.scene.control.Alert(
+            javafx.scene.control.Alert.AlertType.CONFIRMATION
+        );
+        confirm.setTitle("Eliminar anotación");
+        confirm.setHeaderText(null);
+        confirm.setContentText("¿Quieres eliminar esta anotación?");
+
+        confirm.showAndWait().ifPresent(response -> {
+            if (response == javafx.scene.control.ButtonType.OK) {
+                app.removeAnnotation(activity, selected);
+
+            
+            annotationTable.getItems().remove(selected);
+            redrawAnnotations();
+        }
+    });
+    }
+    
+    private void redrawAnnotations() {
+    if (mapPane == null) return;
+
+    // Eliminar solo los nodos de anotaciones (mantener mapa y ruta)
+    mapPane.getChildren().removeIf(node ->
+        node.getUserData() != null && node.getUserData().equals("annotation")
+    );
+
+    drawAnnotations();
+}
 }
