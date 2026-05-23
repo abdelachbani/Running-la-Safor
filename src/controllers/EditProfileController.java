@@ -1,19 +1,17 @@
 package controllers;
 
+import utils.AlertUtils;
 import utils.AvatarUtils;
+import utils.NavigationTarget;
+import utils.NavigationUtils;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -182,7 +180,7 @@ public class EditProfileController implements Initializable {
             return;
         }
 
-        showInfo("Perfil actualizado", "Los cambios se han guardado correctamente.");
+        AlertUtils.showInfo("Perfil actualizado", "Los cambios se han guardado correctamente.");
         navigateToHome(event);
     }
 
@@ -200,52 +198,17 @@ public class EditProfileController implements Initializable {
 
     @FXML
     private void handleLogout(ActionEvent event) {
-        app.logout();
-
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setMinWidth(400);
-            stage.setMinHeight(400);
-            stage.show();
-        } catch (IOException e) {
-            showError("Error", "No se pudo volver a la pantalla de login.");
-        }
+        NavigationUtils.logoutAndNavigateToLogin(event);
     }
 
     private void navigateToHome(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Home.fxml"));
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setMinWidth(900);
-            stage.setMinHeight(600);
-            stage.show();
-        } catch (IOException e) {
-            showError("Error", "No se pudo volver a la pantalla principal.");
-        }
-    }
-
-    private void showInfo(String title, String text) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(text);
-        alert.showAndWait();
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/Home.fxml")
+                .minSize(900, 600)
+                .onError("No se pudo volver a la pantalla principal.")
+                .build());
     }
 
     private void showError(String title, String text) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(text);
-        alert.showAndWait();
+        AlertUtils.showError(title, text);
     }
 }

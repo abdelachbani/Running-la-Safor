@@ -1,22 +1,16 @@
 package controllers;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -31,7 +25,10 @@ import javafx.stage.Stage;
 import upv.ipc.sportlib.MapRegion;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
+import utils.AlertUtils;
 import utils.AvatarUtils;
+import utils.NavigationTarget;
+import utils.NavigationUtils;
 
 public class MapManagementController implements Initializable {
 
@@ -194,69 +191,104 @@ public class MapManagementController implements Initializable {
         String lonMinText = text(lonMinField);
         String lonMaxText = text(lonMaxField);
 
-        if (name.isBlank() || imagePath.isBlank() || latMinText.isBlank() || latMaxText.isBlank()
-                || lonMinText.isBlank() || lonMaxText.isBlank()) {
-            showError("Rellena todos los campos del mapa.");
+        if (!allFieldsFilled(name, imagePath, latMinText, latMaxText, lonMinText, lonMaxText)) {
             return;
         }
 
         File imageFile = new File(imagePath);
-        if (!imageFile.exists()) {
-            showError("El fichero de imagen no existe.");
+        if (!validateImageFile(imageFile)) {
             return;
         }
 
-        if (!imageFile.getName().toLowerCase().matches(".*\\.(jpg|jpeg|png)$")) {
-            showError("El fichero debe ser JPG, JPEG o PNG.");
+        double[] coords = parseCoordinates(latMinText, latMaxText, lonMinText, lonMaxText);
+        if (coords == null) {
             return;
         }
 
-        double latMin;
-        double latMax;
-        double lonMin;
-        double lonMax;
-
-        try {
-            latMin = Double.parseDouble(latMinText);
-            latMax = Double.parseDouble(latMaxText);
-            lonMin = Double.parseDouble(lonMinText);
-            lonMax = Double.parseDouble(lonMaxText);
-        } catch (NumberFormatException ex) {
-            showError("Las coordenadas deben ser números válidos.");
+        if (!validateCoordinateRanges(coords[0], coords[1], coords[2], coords[3])) {
             return;
         }
 
-        if (latMin >= latMax) {
-            showError("La latitud mínima debe ser menor que la máxima.");
-            return;
-        }
-        if (lonMin >= lonMax) {
-            showError("La longitud mínima debe ser menor que la máxima.");
-            return;
-        }
-
-        MapRegion created = app.addMapRegion(name, imageFile, latMin, latMax, lonMin, lonMax);
+        MapRegion created = app.addMapRegion(name, imageFile, coords[0], coords[1], coords[2], coords[3]);
         if (created == null) {
-            showError("No se pudo añadir el mapa. Revisa el nombre y las coordenadas.");
+            AlertUtils.showError("Error", "No se pudo añadir el mapa. Revisa el nombre y las coordenadas.");
             return;
         }
 
-        showInfo("Mapa añadido correctamente.\n\nRecuerda que las coordenadas deben ser exactamente las que imprime el script generar_mapas_hd.py.");
+        AlertUtils.showInfo("Información",
+                "Mapa añadido correctamente.\n\nRecuerda que las coordenadas deben ser "
+                + "exactamente las que imprime el script generar_mapas_hd.py.");
         clearForm();
         loadMaps();
         selectMapByName(created.getName());
+    }
+
+    private boolean allFieldsFilled(String... fields) {
+        for (String field : fields) {
+            if (field.isBlank()) {
+                AlertUtils.showError("Error", "Rellena todos los campos del mapa.");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean validateImageFile(File imageFile) {
+        if (!imageFile.exists()) {
+            AlertUtils.showError("Error", "El fichero de imagen no existe.");
+            return false;
+        }
+        if (!imageFile.getName().toLowerCase().matches(".*\\.(jpg|jpeg|png)$")) {
+            AlertUtils.showError("Error", "El fichero debe ser JPG, JPEG o PNG.");
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Parses four coordinate strings into doubles.
+     *
+     * @return an array {@code [latMin, latMax, lonMin, lonMax]}, or {@code null}
+     *         if any value is not a valid number.
+     */
+    private double[] parseCoordinates(String latMinText, String latMaxText,
+                                      String lonMinText, String lonMaxText) {
+        try {
+            return new double[] {
+                Double.parseDouble(latMinText),
+                Double.parseDouble(latMaxText),
+                Double.parseDouble(lonMinText),
+                Double.parseDouble(lonMaxText)
+            };
+        } catch (NumberFormatException ex) {
+            AlertUtils.showError("Error", "Las coordenadas deben ser números válidos.");
+            return null;
+        }
+    }
+
+    private boolean validateCoordinateRanges(double latMin, double latMax,
+                                             double lonMin, double lonMax) {
+        if (latMin >= latMax) {
+            AlertUtils.showError("Error", "La latitud mínima debe ser menor que la máxima.");
+            return false;
+        }
+        if (lonMin >= lonMax) {
+            AlertUtils.showError("Error", "La longitud mínima debe ser menor que la máxima.");
+            return false;
+        }
+        return true;
     }
 
     @FXML
     private void handleDeleteMap(ActionEvent event) {
         MapRegion selected = mapsTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            showWarning("Selecciona un mapa", "Debes seleccionar un mapa para eliminarlo.");
+            AlertUtils.showWarning("Selecciona un mapa", "Debes seleccionar un mapa para eliminarlo.");
             return;
         }
 
         if (!isRemovable(selected)) {
-            showWarning("Mapa en uso", "Este mapa está referenciado por alguna actividad y no puede eliminarse.");
+            AlertUtils.showWarning("Mapa en uso", "Este mapa está referenciado por alguna actividad y no puede eliminarse.");
             return;
         }
 
@@ -266,19 +298,19 @@ public class MapManagementController implements Initializable {
         confirm.setContentText("¿Quieres eliminar \"" + selected.getName() + "\"?");
 
         Optional<ButtonType> result = confirm.showAndWait();
-        if (result.isEmpty() || result.get() != ButtonType.OK) {
+        if (result.isEmpty() || !result.get().equals(ButtonType.OK)) {
             return;
         }
 
         try {
             app.removeMapRegion(selected);
         } catch (Exception ex) {
-            showError("No se pudo eliminar el mapa.");
+            AlertUtils.showError("Error", "No se pudo eliminar el mapa.");
             return;
         }
 
         loadMaps();
-        showInfo("Mapa eliminado correctamente.");
+        AlertUtils.showInfo("Información", "Mapa eliminado correctamente.");
     }
 
     @FXML
@@ -288,35 +320,15 @@ public class MapManagementController implements Initializable {
 
     @FXML
     private void handleBack(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Home.fxml"));
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setMinWidth(900);
-            stage.setMinHeight(600);
-            stage.show();
-        } catch (IOException ex) {
-            showError("No se pudo volver a la pantalla principal.");
-        }
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/Home.fxml")
+                .minSize(900, 600)
+                .onError("No se pudo volver a la pantalla principal.")
+                .build());
     }
 
     @FXML
     private void handleLogout(ActionEvent event) {
-        app.logout();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setMinWidth(400);
-            stage.setMinHeight(400);
-            stage.show();
-        } catch (IOException ex) {
-            showError("No se pudo cerrar sesión.");
-        }
+        NavigationUtils.logoutAndNavigateToLogin(event);
     }
 
     private boolean isRemovable(MapRegion region) {
@@ -354,27 +366,4 @@ public class MapManagementController implements Initializable {
         return field.getText() == null ? "" : field.getText().trim();
     }
 
-    private void showInfo(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Información");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    private void showWarning(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 }
