@@ -235,7 +235,22 @@ public class HomeController implements Initializable {
 
     @FXML
     private void handleMaps(ActionEvent event) {
-        AlertUtils.showInfo("Pendiente", "La pantalla de gestión de mapas será la siguiente que conectemos.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MapManagement.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setMinWidth(1200);
+            stage.setMinHeight(780);
+            stage.show();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            AlertUtils.showError("Error", "No se pudo abrir la pantalla de gestión de mapas.");
+        }
     }
 
     @FXML
