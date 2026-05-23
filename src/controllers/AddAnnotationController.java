@@ -26,6 +26,7 @@ import upv.ipc.sportlib.AnnotationType;
 import upv.ipc.sportlib.GeoPoint;
 import upv.ipc.sportlib.SportActivityApp;
 import java.util.ResourceBundle;
+import utils.AlertUtils;
 import utils.AvatarUtils;
 import utils.ui_navigation.NavigationTarget;
 import utils.ui_navigation.NavigationUtils;
@@ -107,10 +108,7 @@ public class AddAnnotationController implements Initializable {
 
     @FXML
     private void handleBack(ActionEvent event) {
-        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/ActivityDetails.fxml")
-                .minSize(1200, 780)
-                .onError("No se pudo abrir la pantalla de visualización de actividad.")
-                .build());
+         navigateBackToDetails(event);
     }
     
 
@@ -127,14 +125,14 @@ public class AddAnnotationController implements Initializable {
 
     @FXML
     private void handleCancel(ActionEvent event) {
-       handleBack(event);
+        navigateBackToDetails(event);
     }
 
     @FXML
     private void handleSave(ActionEvent event) {
           
         if (currentActivity == null || geoPoints == null || geoPoints.isEmpty()) {
-            showError("Error", "No hay actividad o puntos geográficos seleccionados.");
+            AlertUtils.showError("Error", "No hay actividad o puntos geográficos seleccionados.");
             return;
         }
 
@@ -144,7 +142,7 @@ public class AddAnnotationController implements Initializable {
         // Validar número de GeoPoints según el tipo
         int requiredPoints = (type == AnnotationType.POINT || type == AnnotationType.TEXT) ? 1 : 2;
         if (geoPoints.size() < requiredPoints) {
-            showError("Puntos insuficientes",
+            AlertUtils.showError("Puntos insuficientes",
                 "Este tipo de anotación necesita " + requiredPoints + " punto(s) en el mapa.");
             return;
         }
@@ -157,7 +155,7 @@ public class AddAnnotationController implements Initializable {
             raw = comboStrokeWidth.getValue().trim();
             strokeWidth = Double.parseDouble(raw);
         } catch (NumberFormatException e) {
-            showError("Grosor inválido", "Introduce un número válido para el grosor.");
+            AlertUtils.showError("Grosor inválido", "Introduce un número válido para el grosor.");
             return;
         }
 
@@ -173,10 +171,10 @@ public class AddAnnotationController implements Initializable {
         Annotation saved = app.addAnnotation(currentActivity, ann);
 
         if (saved != null) {
-            showInfo("Anotación guardada", "La anotación se ha guardado correctamente.");
+            AlertUtils.showInfo("Anotación guardada", "La anotación se ha guardado correctamente.");
             handleBack(event); // Volver a la pantalla anterior
         } else {
-            showError("Error", "No se pudo guardar la anotación.");
+            AlertUtils.showError("Error", "No se pudo guardar la anotación.");
         }
     }
     
@@ -198,7 +196,7 @@ public class AddAnnotationController implements Initializable {
         URL styles = getClass().getResource("/resources/styles.css");
 
         if (homeView == null || styles == null) {
-            showError("Error", "No se pudo volver a la pantalla principal.");
+            AlertUtils.showError("Error", "No se pudo volver a la pantalla principal.");
             return;
         }
 
@@ -213,24 +211,35 @@ public class AddAnnotationController implements Initializable {
             stage.setMinHeight(minHeight);
             stage.show();
         } catch (IOException ex) {
-            showError("Error", "No se pudo volver a la pantalla principal.");
+            AlertUtils.showError("Error", "No se pudo volver a la pantalla principal.");
         }
     }
      
-     private void showError(String title, String text) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(text);
-        alert.showAndWait();
+    
+      
+      private void navigateBackToDetails(ActionEvent event) {
+    try {
+        FXMLLoader loader = new FXMLLoader(
+            getClass().getResource("/view/ActivityDetails.fxml")
+        );
+        Parent root = loader.load();
+
+        ActivityDetailsController controller = loader.getController();
+        controller.setActivity(currentActivity); // ← pasa la actividad
+
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(
+            getClass().getResource("/resources/styles.css").toExternalForm()
+        );
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinWidth(1200);
+        stage.setMinHeight(780);
+        stage.setScene(scene);
+        stage.show();
+
+    } catch (IOException e) {
+        AlertUtils.showError("Error", "No se pudo volver a la actividad.");
     }
-     
-      private void showInfo(String title, String text) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(text);
-        alert.showAndWait();
-    }
+}
 }
 

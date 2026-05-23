@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -101,6 +102,8 @@ public class ActivityDetailsController implements Initializable {
     private double dragStartY;
     private double dragStartH;
     private double dragStartV;
+    
+    private List<GeoPoint> selectedGeoPoints = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -229,6 +232,20 @@ public class ActivityDetailsController implements Initializable {
         mapContentPane.getChildren().setAll(mapPane);
 
         Platform.runLater(this::fitInitialZoom);
+        
+            mapPane.setOnMouseClicked(e -> {
+        if (e.getButton() == javafx.scene.input.MouseButton.SECONDARY) {
+            GeoPoint geo = projection.unproject(e.getX(), e.getY());
+            selectedGeoPoints.add(geo);
+
+            // Marcador visual del punto seleccionado
+            Circle marker = new Circle(e.getX(), e.getY(), 5, Color.ORANGE);
+            marker.setStroke(Color.WHITE);
+            mapPane.getChildren().add(marker);
+
+            mapStatusLabel.setText("Puntos seleccionados: " + selectedGeoPoints.size());
+        }
+    });
     }
 
     private void fitInitialZoom() {
@@ -324,6 +341,8 @@ public class ActivityDetailsController implements Initializable {
             switch (annotation.getType()) {
                 case POINT -> drawPointAnnotation(annotation, color);
                 case LINE  -> drawLineAnnotation(annotation, color);
+                case TEXT   -> drawTextAnnotation(annotation, color);
+                case CIRCLE -> drawCircleAnnotation(annotation, color);
                 default -> { }
             }
         }
@@ -356,6 +375,49 @@ public class ActivityDetailsController implements Initializable {
         line.setStrokeWidth(2);
         mapPane.getChildren().add(line);
     }
+    
+    private void drawTextAnnotation(Annotation annotation, Color color) {
+        Point2D p = projection.project(annotation.getGeoPoints().get(0));
+
+      
+        Circle anchor = new Circle(p.getX(), p.getY(), 4);
+        anchor.setFill(color);
+        anchor.setStroke(Color.WHITE);
+
+        
+        Label label = new Label(annotation.getText());
+        label.setLayoutX(p.getX() + 8);
+        label.setLayoutY(p.getY() - 18);
+        label.setStyle(
+            "-fx-background-color: rgba(0,0,0,0.6);" +
+            "-fx-text-fill: white;" +
+            "-fx-padding: 2 6;" +
+            "-fx-background-radius: 4;" +
+            "-fx-font-size: 11;"
+        );
+
+        mapPane.getChildren().addAll(anchor, label);
+    }
+    
+    private void drawCircleAnnotation(Annotation annotation, Color color) {
+        if (annotation.getGeoPoints().size() < 2) return;
+
+        Point2D center = projection.project(annotation.getGeoPoints().get(0));
+        Point2D edge   = projection.project(annotation.getGeoPoints().get(1));
+
+      
+        double radius = Math.sqrt(
+            Math.pow(edge.getX() - center.getX(), 2) +
+            Math.pow(edge.getY() - center.getY(), 2)
+        );
+
+        Circle circle = new Circle(center.getX(), center.getY(), radius);
+        circle.setFill(Color.TRANSPARENT);
+        circle.setStroke(color);
+        circle.setStrokeWidth(annotation.getStrokeWidth());
+
+        mapPane.getChildren().add(circle);
+    }
 
     private void addMarker(Point2D p, Color color, String text) {
         Circle circle = new Circle(p.getX(), p.getY(), 7);
@@ -379,32 +441,39 @@ public class ActivityDetailsController implements Initializable {
     }
 
     @FXML
-    private void handleAddAnnotation(ActionEvent event, Activity activity, List<GeoPoint> geoPoints) {
+    private void handleAddAnnotation(ActionEvent event) {
+            if (activity == null) {
+            AlertUtils.showError("Error", "No hay actividad cargada.");
+            return;
+        }
+        if (selectedGeoPoints.isEmpty()) {
+            AlertUtils.showWarning("Sin puntos", "Haz clic derecho en el mapa para marcar puntos antes de añadir una anotación.");
+            return;
+        }
+
         try {
-        FXMLLoader loader = new FXMLLoader(
-            getClass().getResource("/view/AddAnnotation.fxml")
-        );
-        Parent root = loader.load();
+            FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/view/AddAnnotation.fxml")
+            );
+            Parent root = loader.load();
 
-        // Pasar datos al controller destino
-        AddAnnotationController controller = loader.getController();
-        controller.setData(activity, geoPoints);
+            AddAnnotationController controller = loader.getController();
+            controller.setData(activity, selectedGeoPoints);
 
-     
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(
-            getClass().getResource("/resources/styles.css").toExternalForm()
-        );
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(
+                getClass().getResource("/resources/styles.css").toExternalForm()
+            );
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setMinWidth(520);
-        stage.setMinHeight(400);
-        stage.setScene(scene);
-        stage.show();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setMinWidth(520);
+            stage.setMinHeight(400);
+            stage.setScene(scene);
+            stage.show();
 
-    } catch (IOException e) {
-        AlertUtils.showError("Error", "No se pudo abrir la pantalla de anotación.");
-    }
+        } catch (IOException e) {
+            AlertUtils.showError("Error", "No se pudo abrir la pantalla de anotación.");
+        }
     }
 
     @FXML
