@@ -53,7 +53,7 @@
             <Separator prefWidth="200.0" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#handleReturn" styleClass="profile-back-button" stylesheets="@../resources/styles.css" text="&lt;- Volver" />
+                  <Button mnemonicParsing="false" onAction="#handleReturn" styleClass="profile-back-button" stylesheets="@../resources/styles.css" text="← Volver" />
                   <Region prefHeight="69.0" prefWidth="55.0" />
                   <Label prefHeight="40.0" prefWidth="333.0" styleClass="screen-title" stylesheets="@../resources/styles.css" text="Importar Actividad GPX">
                      <font>
