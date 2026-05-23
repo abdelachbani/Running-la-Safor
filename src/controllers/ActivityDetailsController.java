@@ -1,8 +1,10 @@
 package controllers;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -11,10 +13,14 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
@@ -35,6 +41,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polyline;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.Annotation;
@@ -57,7 +64,6 @@ public class ActivityDetailsController implements Initializable {
 
     @FXML private Button logoutButton;
     @FXML private Button backButton;
-    @FXML private Button addAnnotationButton;
 
     @FXML private Slider zoomSlider;
 
@@ -95,6 +101,12 @@ public class ActivityDetailsController implements Initializable {
     private double dragStartY;
     private double dragStartH;
     private double dragStartV;
+    
+    private List<GeoPoint> selectedGeoPoints = new ArrayList<>();
+    @FXML
+    private Button DeleteAnnotationButton;
+    @FXML
+    private Button addAnnotationButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -223,6 +235,20 @@ public class ActivityDetailsController implements Initializable {
         mapContentPane.getChildren().setAll(mapPane);
 
         Platform.runLater(this::fitInitialZoom);
+        
+            mapPane.setOnMouseClicked(e -> {
+        if (e.getButton() == javafx.scene.input.MouseButton.SECONDARY) {
+            GeoPoint geo = projection.unproject(e.getX(), e.getY());
+            selectedGeoPoints.add(geo);
+
+            // Marcador visual del punto seleccionado
+            Circle marker = new Circle(e.getX(), e.getY(), 5, Color.ORANGE);
+            marker.setStroke(Color.WHITE);
+            mapPane.getChildren().add(marker);
+
+            mapStatusLabel.setText("Puntos seleccionados: " + selectedGeoPoints.size());
+        }
+    });
     }
 
     private void fitInitialZoom() {
@@ -318,6 +344,8 @@ public class ActivityDetailsController implements Initializable {
             switch (annotation.getType()) {
                 case POINT -> drawPointAnnotation(annotation, color);
                 case LINE  -> drawLineAnnotation(annotation, color);
+                case TEXT   -> drawTextAnnotation(annotation, color);
+                case CIRCLE -> drawCircleAnnotation(annotation, color);
                 default -> { }
             }
         }
@@ -335,6 +363,8 @@ public class ActivityDetailsController implements Initializable {
         c.setFill(color);
         c.setStroke(Color.WHITE);
         mapPane.getChildren().add(c);
+        
+        c.setUserData("annotation");
     }
 
     private void drawLineAnnotation(Annotation annotation, Color color) {
@@ -349,6 +379,56 @@ public class ActivityDetailsController implements Initializable {
         line.setStroke(color);
         line.setStrokeWidth(2);
         mapPane.getChildren().add(line);
+        
+        line.setUserData("annotation");
+    }
+    
+    private void drawTextAnnotation(Annotation annotation, Color color) {
+        Point2D p = projection.project(annotation.getGeoPoints().get(0));
+
+      
+        Circle anchor = new Circle(p.getX(), p.getY(), 4);
+        anchor.setFill(color);
+        anchor.setStroke(Color.WHITE);
+
+        
+        Label label = new Label(annotation.getText());
+        label.setLayoutX(p.getX() + 8);
+        label.setLayoutY(p.getY() - 18);
+        label.setStyle(
+            "-fx-background-color: rgba(0,0,0,0.6);" +
+            "-fx-text-fill: white;" +
+            "-fx-padding: 2 6;" +
+            "-fx-background-radius: 4;" +
+            "-fx-font-size: 11;"
+        );
+
+        mapPane.getChildren().addAll(anchor, label);
+        
+        anchor.setUserData("annotation");
+        label.setUserData("annotation");
+    }
+    
+    private void drawCircleAnnotation(Annotation annotation, Color color) {
+        if (annotation.getGeoPoints().size() < 2) return;
+
+        Point2D center = projection.project(annotation.getGeoPoints().get(0));
+        Point2D edge   = projection.project(annotation.getGeoPoints().get(1));
+
+      
+        double radius = Math.sqrt(
+            Math.pow(edge.getX() - center.getX(), 2) +
+            Math.pow(edge.getY() - center.getY(), 2)
+        );
+
+        Circle circle = new Circle(center.getX(), center.getY(), radius);
+        circle.setFill(Color.TRANSPARENT);
+        circle.setStroke(color);
+        circle.setStrokeWidth(annotation.getStrokeWidth());
+
+        mapPane.getChildren().add(circle);
+        
+        circle.setUserData("annotation");
     }
 
     private void addMarker(Point2D p, Color color, String text) {
@@ -374,13 +454,38 @@ public class ActivityDetailsController implements Initializable {
 
     @FXML
     private void handleAddAnnotation(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Añadir anotación");
-        alert.setHeaderText("Próxima funcionalidad");
-        alert.setContentText(
-                "La siguiente pantalla que implementaremos será la de añadir anotaciones sobre el mapa."
-        );
-        alert.showAndWait();
+            if (activity == null) {
+            AlertUtils.showError("Error", "No hay actividad cargada.");
+            return;
+        }
+        if (selectedGeoPoints.isEmpty()) {
+            AlertUtils.showWarning("Sin puntos", "Haz clic derecho en el mapa para marcar puntos antes de añadir una anotación.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/view/AddAnnotation.fxml")
+            );
+            Parent root = loader.load();
+
+            AddAnnotationController controller = loader.getController();
+            controller.setData(activity, selectedGeoPoints);
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(
+                getClass().getResource("/resources/styles.css").toExternalForm()
+            );
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setMinWidth(520);
+            stage.setMinHeight(400);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            AlertUtils.showError("Error", "No se pudo abrir la pantalla de anotación.");
+        }
     }
 
     @FXML
@@ -514,4 +619,43 @@ public class ActivityDetailsController implements Initializable {
             }
         };
     }
+
+    @FXML
+    private void handleDeleteAnnotation(ActionEvent event) {
+        Annotation selected = (Annotation) annotationTable.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            AlertUtils.showWarning("Sin selección", "Selecciona una anotación para eliminarla.");
+            return;
+        }
+
+       
+        javafx.scene.control.Alert confirm = new javafx.scene.control.Alert(
+            javafx.scene.control.Alert.AlertType.CONFIRMATION
+        );
+        confirm.setTitle("Eliminar anotación");
+        confirm.setHeaderText(null);
+        confirm.setContentText("¿Quieres eliminar esta anotación?");
+
+        confirm.showAndWait().ifPresent(response -> {
+            if (response == javafx.scene.control.ButtonType.OK) {
+                app.removeAnnotation(activity, selected);
+
+            
+            annotationTable.getItems().remove(selected);
+            redrawAnnotations();
+        }
+    });
+    }
+    
+    private void redrawAnnotations() {
+    if (mapPane == null) return;
+
+    // Eliminar solo los nodos de anotaciones (mantener mapa y ruta)
+    mapPane.getChildren().removeIf(node ->
+        node.getUserData() != null && node.getUserData().equals("annotation")
+    );
+
+    drawAnnotations();
+}
 }

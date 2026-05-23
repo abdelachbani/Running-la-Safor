@@ -23,6 +23,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.SportActivityApp;
+import utils.ui_navigation.NavigationTarget;
+import utils.ui_navigation.NavigationUtils;
 
 /**
  * FXML Controller class
@@ -117,9 +119,7 @@ public class ImportActivityController implements Initializable {
 
     @FXML
     private void handleLogOut(ActionEvent event) {
-        app.logout(); // Saves session
-
-        handleWindowChange("/view/Login.fxml", 400, 400, event);
+        NavigationUtils.logoutAndNavigateToLogin(event);
     }
 
     private void showError(String message) {
@@ -142,7 +142,11 @@ public class ImportActivityController implements Initializable {
 
     @FXML
     private void handleReturn(ActionEvent event) {
-        handleWindowChange("/view/Home.fxml", 900, 600, event);
+        NavigationUtils.navigateTo(event,
+        NavigationTarget.to("/view/Home.fxml")
+            .minSize(900, 600)
+            .onError("No se pudo volver al menú principal.")
+            .build());
     }
 
     public void handleWindowChange(String path, int minWidth, int minHeight, ActionEvent event) {
