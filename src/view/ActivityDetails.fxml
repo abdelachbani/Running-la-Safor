@@ -34,7 +34,7 @@
                         <Button fx:id="backButton"
                                 text="← Volver"
                                 onAction="#handleBack"
-                                styleClass="nav-button"/>
+                                styleClass="profile-back-button"/>
 
                         <Label fx:id="titleLabel"
                                text="Running la Safor - Activity"
@@ -58,7 +58,7 @@
                         <Button fx:id="logoutButton"
                                 text="Cerrar sesión"
                                 onAction="#handleLogout"
-                                styleClass="top-action-button"/>
+                                styleClass="profile-top-button"/>
                     </children>
                 </HBox>
 
