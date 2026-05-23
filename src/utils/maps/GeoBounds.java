@@ -1,4 +1,4 @@
-package utils;
+package utils.maps;
 
 /**
  * Immutable value object that represents a geographic bounding box

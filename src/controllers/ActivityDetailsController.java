@@ -46,8 +46,8 @@ import upv.ipc.sportlib.TrackPoint;
 import upv.ipc.sportlib.User;
 import utils.AlertUtils;
 import utils.AvatarUtils;
-import utils.NavigationTarget;
-import utils.NavigationUtils;
+import utils.ui_navigation.NavigationTarget;
+import utils.ui_navigation.NavigationUtils;
 
 public class ActivityDetailsController implements Initializable {
 

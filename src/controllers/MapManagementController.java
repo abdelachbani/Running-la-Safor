@@ -27,10 +27,11 @@ import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
 import utils.AlertUtils;
 import utils.AvatarUtils;
-import utils.GeoBounds;
-import utils.MapFormData;
-import utils.NavigationTarget;
-import utils.NavigationUtils;
+import utils.maps.GeoBounds;
+import utils.maps.MapFormData;
+import utils.maps.MapFormInput;
+import utils.ui_navigation.NavigationTarget;
+import utils.ui_navigation.NavigationUtils;
 
 public class MapManagementController implements Initializable {
 
@@ -186,10 +187,16 @@ public class MapManagementController implements Initializable {
 
     @FXML
     private void handleAddMap(ActionEvent event) {
-        MapFormData.Result result = MapFormData.parse(
-                text(nameField), text(imagePathField),
-                text(latMinField), text(latMaxField),
-                text(lonMinField), text(lonMaxField));
+        MapFormInput input = MapFormInput.builder()
+                .name(text(nameField))
+                .imagePath(text(imagePathField))
+                .latMin(text(latMinField))
+                .latMax(text(latMaxField))
+                .lonMin(text(lonMinField))
+                .lonMax(text(lonMaxField))
+                .build();
+
+        MapFormData.Result result = MapFormData.parse(input);
 
         if (!result.isOk()) {
             AlertUtils.showError("Error", result.getError());
