@@ -26,6 +26,9 @@ import upv.ipc.sportlib.AnnotationType;
 import upv.ipc.sportlib.GeoPoint;
 import upv.ipc.sportlib.SportActivityApp;
 import java.util.ResourceBundle;
+import utils.AvatarUtils;
+import utils.ui_navigation.NavigationTarget;
+import utils.ui_navigation.NavigationUtils;
 
 /**
  * FXML Controller class
@@ -92,15 +95,11 @@ public class AddAnnotationController implements Initializable {
     
     private void loadAvatar() {
         Image avatar = app.getCurrentUser().getAvatar();
-        if (avatar != null) {
-            double radius = imgUser.getFitWidth() / 2;
-            Circle clip = new Circle(radius);
-            clip.setCenterX(radius);
-            clip.setCenterY(radius);
-            imgUser.setClip(clip);
-            imgUser.setImage(avatar);
-            // Recortar el ImageView en forma circular
+        if (avatar == null) {
+            avatar = AvatarUtils.getDefaultAvatar();
         }
+
+        AvatarUtils.applyCircularAvatar(imgUser, avatar);
     }
     
     
@@ -108,13 +107,13 @@ public class AddAnnotationController implements Initializable {
 
     @FXML
     private void handleBack(ActionEvent event) {
-         handleWindowChange("/view/Home.fxml", 900, 600, event);
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/ActivityDetails.fxml")
+                .minSize(1200, 780)
+                .onError("No se pudo abrir la pantalla de visualización de actividad.")
+                .build());
     }
     
 
-    @FXML
-    private void handleTypeChange(ActionEvent event) {
-    }
 
     @FXML
     private void handleColorPickerChange(ActionEvent event) {
@@ -191,9 +190,7 @@ public class AddAnnotationController implements Initializable {
 
     @FXML
     private void handleLogOut(ActionEvent event) {
-        app.logout(); // Saves session
-
-        handleWindowChange("/view/Login.fxml", 400, 400, event);
+        NavigationUtils.logoutAndNavigateToLogin(event);
     }
     
      public void handleWindowChange(String path, int minWidth, int minHeight, ActionEvent event) {

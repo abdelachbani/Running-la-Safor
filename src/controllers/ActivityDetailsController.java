@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.List;
@@ -11,10 +12,14 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
@@ -35,6 +40,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polyline;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.Annotation;
@@ -373,14 +379,32 @@ public class ActivityDetailsController implements Initializable {
     }
 
     @FXML
-    private void handleAddAnnotation(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Añadir anotación");
-        alert.setHeaderText("Próxima funcionalidad");
-        alert.setContentText(
-                "La siguiente pantalla que implementaremos será la de añadir anotaciones sobre el mapa."
+    private void handleAddAnnotation(ActionEvent event, Activity activity, List<GeoPoint> geoPoints) {
+        try {
+        FXMLLoader loader = new FXMLLoader(
+            getClass().getResource("/view/AddAnnotation.fxml")
         );
-        alert.showAndWait();
+        Parent root = loader.load();
+
+        // Pasar datos al controller destino
+        AddAnnotationController controller = loader.getController();
+        controller.setData(activity, geoPoints);
+
+     
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(
+            getClass().getResource("/resources/styles.css").toExternalForm()
+        );
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setMinWidth(520);
+        stage.setMinHeight(400);
+        stage.setScene(scene);
+        stage.show();
+
+    } catch (IOException e) {
+        AlertUtils.showError("Error", "No se pudo abrir la pantalla de anotación.");
+    }
     }
 
     @FXML

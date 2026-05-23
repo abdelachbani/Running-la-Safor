@@ -9,6 +9,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -35,13 +36,13 @@
             <!-- Tipo de anotación -->
             <Label style="-fx-font-weight:bold;" text="Tipo de anotación" />
             <HBox alignment="CENTER_LEFT" spacing="16">
-                <RadioButton fx:id="rbPoint" onAction="#handleTypeChange" selected="true" text="Punto">
+                <RadioButton fx:id="rbPoint" selected="true" stylesheets="@../resources/styles.css" text="Punto">
                <toggleGroup>
                   <ToggleGroup fx:id="tipoGroup" />
                </toggleGroup></RadioButton>
-                <RadioButton fx:id="rbText" onAction="#handleTypeChange" text="Texto" toggleGroup="$tipoGroup" />
-                <RadioButton fx:id="rbLine" onAction="#handleTypeChange" text="Línea" toggleGroup="$tipoGroup" />
-                <RadioButton fx:id="rbCircle" onAction="#handleTypeChange" text="Círculo" toggleGroup="$tipoGroup" />
+                <RadioButton fx:id="rbText" stylesheets="@../resources/styles.css" text="Texto" toggleGroup="$tipoGroup" />
+                <RadioButton fx:id="rbLine" stylesheets="@../resources/styles.css" text="Línea" toggleGroup="$tipoGroup" />
+                <RadioButton fx:id="rbCircle" stylesheets="@../resources/styles.css" text="Círculo" toggleGroup="$tipoGroup" />
             </HBox>
 
             <!-- Texto -->
@@ -92,7 +93,10 @@
             </Label>
             <Region prefHeight="44.0" prefWidth="22.0" HBox.hgrow="ALWAYS" />
             <Label fx:id="lblUser" prefHeight="44.0" prefWidth="122.0" styleClass="user-name" stylesheets="@../resources/styles.css" text="usuarioejemplo" HBox.hgrow="ALWAYS" />
-            <ImageView fx:id="imgUser" fitHeight="47.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS" />
+            <ImageView fx:id="imgUser" fitHeight="47.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+               <image>
+                  <Image url="@../resources/UsuarioEjemplo.png" />
+               </image></ImageView>
             <Button mnemonicParsing="false" onAction="#handleLogOut" prefHeight="42.0" prefWidth="134.0" styleClass="top-action-button" stylesheets="@../resources/styles.css" text="Cerrar Sesión" HBox.hgrow="ALWAYS" />
          </children>
          <padding>
