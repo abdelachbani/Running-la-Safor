@@ -2,8 +2,8 @@ package controllers;
 
 import utils.AlertUtils;
 import utils.AvatarUtils;
-import utils.NavigationTarget;
-import utils.NavigationUtils;
+import utils.ui_navigation.NavigationTarget;
+import utils.ui_navigation.NavigationUtils;
 import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
