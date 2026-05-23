@@ -241,7 +241,6 @@ public class ActivityDetailsController implements Initializable {
             GeoPoint geo = projection.unproject(e.getX(), e.getY());
             selectedGeoPoints.add(geo);
 
-            // Marcador visual del punto seleccionado
             Circle marker = new Circle(e.getX(), e.getY(), 5, Color.ORANGE);
             marker.setStroke(Color.WHITE);
             mapPane.getChildren().add(marker);
@@ -651,7 +650,6 @@ public class ActivityDetailsController implements Initializable {
     private void redrawAnnotations() {
     if (mapPane == null) return;
 
-    // Eliminar solo los nodos de anotaciones (mantener mapa y ruta)
     mapPane.getChildren().removeIf(node ->
         node.getUserData() != null && node.getUserData().equals("annotation")
     );

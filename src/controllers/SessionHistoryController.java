@@ -21,7 +21,6 @@ import upv.ipc.sportlib.Session;
 import upv.ipc.sportlib.SportActivityApp;
 import upv.ipc.sportlib.User;
 
-// AI generated
 public class SessionHistoryController implements Initializable {
 
     @FXML private TableView<Session> sessionsTable;
@@ -49,6 +48,7 @@ public class SessionHistoryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        sessionsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         configureTable();
         loadSessions();
         loadUserData();
