@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.FlowPane?>
 
 <BorderPane prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SessionHistoryController">
        
@@ -51,15 +52,17 @@
     </center>
 
     <bottom>
-        <VBox spacing="8">
-            <padding><Insets bottom="18" left="24" right="24" top="10" /></padding>
-            <HBox alignment="CENTER_LEFT" spacing="12">
+    <VBox spacing="8">
+        <padding><Insets bottom="18" left="24" right="24" top="10" /></padding>
+        <FlowPane hgap="12" vgap="12">
+            <children>
                 <Label fx:id="totalSessionsLabel" styleClass="summary-label" text="Total sesiones: 0" />
                 <Label fx:id="totalImportedLabel" styleClass="summary-label" text="Actividades importadas (total): 0" />
                 <Label fx:id="totalViewedLabel" styleClass="summary-label" text="Actividades vistas (total): 0" />
                 <Label fx:id="totalAnnotationsLabel" styleClass="summary-label" text="Anotaciones creadas (total): 0" />
-            </HBox>
-        </VBox>
-    </bottom>
+            </children>
+        </FlowPane>
+    </VBox>
+</bottom>
 
 </BorderPane>
