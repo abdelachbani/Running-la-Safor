@@ -427,4 +427,7 @@
     -fx-background-color: #5BBFD6;
     -fx-text-fill: #ffffff;
 }
+.activities-table { 
+    -fx-padding: 0 0 10px 0; 
+}
 
