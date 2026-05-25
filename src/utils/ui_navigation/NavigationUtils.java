@@ -12,9 +12,9 @@ import upv.ipc.sportlib.SportActivityApp;
 import utils.AlertUtils;
 
 /**
- * Centralises FXML scene‐switching logic so that every controller can
- * navigate with a single method call instead of duplicating the
- * load → scene → stylesheet → stage boilerplate.
+ * Centralises FXML scene‐switching logic so that every controller can navigate
+ * with a single method call instead of duplicating the load → scene →
+ * stylesheet → stage boilerplate.
  */
 public final class NavigationUtils {
 
@@ -26,44 +26,40 @@ public final class NavigationUtils {
 
     /**
      * Loads an FXML view described by {@code target}, applies the shared
-     * stylesheet, and replaces the current scene on the stage obtained
-     * from {@code event}.
+     * stylesheet, and replaces the current scene on the stage obtained from
+     * {@code event}.
      *
-     * @param event  the originating ActionEvent (used to obtain the Stage)
+     * @param event the originating ActionEvent (used to obtain the Stage)
      * @param target a {@link NavigationTarget} holding the FXML path,
-     *               dimensions, and error message
+     * dimensions, and error message
      */
     public static void navigateTo(ActionEvent event, NavigationTarget target) {
         try {
             Parent root = FXMLLoader.load(
                     NavigationUtils.class.getResource(target.getFxmlPath()));
 
-            Scene scene;
-            if (target.hasExplicitSize()) {
-                scene = new Scene(root, target.getWidth(), target.getHeight());
-            } else {
-                scene = new Scene(root);
-            }
-            scene.getStylesheets().add(
-                    NavigationUtils.class.getResource(STYLESHEET).toExternalForm());
-
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            boolean wasMaximized = stage.isMaximized();
+            Scene currentScene = stage.getScene();
 
-            if (target.hasExplicitSize()) {
-                stage.setMaximized(false);
-            }
-
-            stage.setScene(scene);
-
-            if (target.hasExplicitSize()) {
-                stage.setWidth(target.getWidth());
-                stage.setHeight(target.getHeight());
+            if (currentScene != null) {
+                currentScene.setRoot(root);
+                currentScene.getStylesheets().setAll(NavigationUtils.class.getResource(STYLESHEET).toExternalForm());
+            } else {
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(NavigationUtils.class.getResource(STYLESHEET).toExternalForm());
+                stage.setScene(scene);
             }
 
             stage.setMinWidth(target.getMinWidth());
             stage.setMinHeight(target.getMinHeight());
 
-            if (target.isCenterOnScreen()) {
+            if (!wasMaximized && target.hasExplicitSize()) {
+                stage.setWidth(target.getWidth());
+                stage.setHeight(target.getHeight());
+            }
+
+            if (!wasMaximized) {
                 stage.centerOnScreen();
             }
 
@@ -74,16 +70,18 @@ public final class NavigationUtils {
     }
 
     /**
-     * Logs out the current user and navigates to the Login screen.
-     * Encapsulates the common {@code app.logout() + navigateTo(Login)}
-     * pattern shared by every controller's logout handler.
+     * Logs out the current user and navigates to the Login screen. Encapsulates
+     * the common {@code app.logout() + navigateTo(Login)} pattern shared by
+     * every controller's logout handler.
      *
      * @param event the originating ActionEvent
      */
     public static void logoutAndNavigateToLogin(ActionEvent event) {
         SportActivityApp.getInstance().logout();
         navigateTo(event, NavigationTarget.to("/view/Login.fxml")
+                .size(640, 400)
                 .minSize(400, 400)
+                .center()
                 .onError("No se pudo volver a la pantalla de login.")
                 .build());
     }

@@ -1,49 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="780.0"
-            prefWidth="1200.0"
-            xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.MapManagementController">
+<BorderPane prefHeight="780.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MapManagementController">
 
     <top>
         <VBox spacing="8.0">
             <padding>
-                <Insets top="14.0" right="24.0" bottom="6.0" left="24.0"/>
+                <Insets bottom="6.0" left="24.0" right="24.0" top="14.0" />
             </padding>
 
             <children>
                 <HBox alignment="CENTER_LEFT" spacing="14.0">
                     <children>
-                        <Button fx:id="backButton"
-                                text="← Volver"
-                                onAction="#handleBack"
-                                styleClass="profile-back-button"/>
+                        <Button fx:id="backButton" onAction="#handleBack" styleClass="profile-back-button" text="← Volver" />
 
-                        <Label fx:id="titleLabel"
-                               text="Running la Safor - Gestión de mapas"
-                               styleClass="screen-title"/>
+                        <Label fx:id="titleLabel" styleClass="screen-title" text="Running la Safor - Gestión de mapas" />
 
-                        <Region HBox.hgrow="ALWAYS"/>
+                        <Region HBox.hgrow="ALWAYS" />
 
-                        <Label fx:id="usernameLabel"
-                               text="usuario"
-                               styleClass="user-name"/>
+                        <Label fx:id="usernameLabel" styleClass="user-name" text="usuario" />
 
-                        <ImageView fx:id="avatarImageView"
-                                   fitHeight="42"
-                                   fitWidth="42"
-                                   preserveRatio="true"/>
+                        <ImageView fx:id="avatarImageView" fitHeight="42" fitWidth="42" pickOnBounds="true" preserveRatio="true" styleClass="image-view">
+                            <image>
+                                <Image url="@../resources/UsuarioEjemplo.png" />
+                            </image>
+                        </ImageView>
 
-                        <Button fx:id="logoutButton"
-                                text="Cerrar sesión"
-                                onAction="#handleLogout"
-                                styleClass="profile-top-button"/>
+                        <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="profile-top-button" text="Cerrar Sesión" />
                     </children>
                 </HBox>
             </children>
@@ -56,139 +58,133 @@
 
                 <VBox spacing="12.0">
                     <padding>
-                        <Insets top="12.0" right="12.0" bottom="12.0" left="24.0"/>
+                        <Insets bottom="12.0" left="24.0" right="12.0" top="12.0" />
                     </padding>
 
                     <children>
                         <HBox alignment="CENTER_LEFT">
                             <children>
-                                <Label text="Mapas registrados"
-                                       styleClass="section-title"/>
-                                <Region HBox.hgrow="ALWAYS"/>
-                                <Label fx:id="mapsCountLabel"
-                                       text="Mapas: 0"
-                                       styleClass="summary-label"/>
+                                <Label styleClass="section-title" text="Mapas registrados" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="mapsCountLabel" styleClass="summary-label" text="Mapas: 0" />
                             </children>
                         </HBox>
 
-                        <TableView fx:id="mapsTable"
-                                   VBox.vgrow="ALWAYS"
-                                   styleClass="activities-table">
+                        <TableView fx:id="mapsTable" styleClass="activities-table" VBox.vgrow="ALWAYS">
                             <columns>
-                                <TableColumn fx:id="nameColumn"
-                                             text="Nombre"
-                                             prefWidth="170.0"/>
-                                <TableColumn fx:id="imageColumn"
-                                             text="Imagen"
-                                             prefWidth="220.0"/>
-                                <TableColumn fx:id="statusColumn"
-                                             text="Estado"
-                                             prefWidth="100.0"/>
+                                <TableColumn fx:id="nameColumn" prefWidth="170.0" text="Nombre" />
+                                <TableColumn fx:id="imageColumn" prefWidth="220.0" text="Imagen" />
+                                <TableColumn fx:id="statusColumn" prefWidth="100.0" text="Estado" />
                             </columns>
                         </TableView>
 
                         <HBox alignment="CENTER_RIGHT" spacing="10.0">
                             <children>
-                                <Button fx:id="deleteButton"
-                                        text="Eliminar mapa"
-                                        onAction="#handleDeleteMap"
-                                        styleClass="table-action-button"/>
-                                <Button fx:id="refreshButton"
-                                        text="Actualizar"
-                                        onAction="#handleRefresh"
-                                        styleClass="table-action-button"/>
+                                <Button fx:id="deleteButton" onAction="#handleDeleteMap" styleClass="table-action-button" text="Eliminar mapa" />
+                                <Button fx:id="refreshButton" onAction="#handleRefresh" styleClass="table-action-button" text="Actualizar" />
                             </children>
                         </HBox>
                     </children>
                 </VBox>
 
-                <ScrollPane fitToWidth="true" fitToHeight="true">
+                <ScrollPane fitToHeight="true" fitToWidth="true">
                     <content>
                         <VBox spacing="14.0">
                             <padding>
-                                <Insets top="12.0" right="24.0" bottom="12.0" left="12.0"/>
+                                <Insets bottom="12.0" left="12.0" right="24.0" top="12.0" />
                             </padding>
 
                             <children>
-                                <Label text="Detalle del mapa seleccionado"
-                                       styleClass="section-title"/>
+                                <Label styleClass="section-title" text="Detalle del mapa seleccionado" />
 
-                                <StackPane prefHeight="240.0" maxWidth="420.0">
+                                <StackPane maxWidth="420.0" prefHeight="240.0">
                                     <children>
-                                        <ImageView fx:id="previewImageView"
-                                                   fitWidth="420.0"
-                                                   fitHeight="240.0"
-                                                   preserveRatio="true"
-                                                   pickOnBounds="true"/>
-                                        <Label fx:id="previewPlaceholderLabel"
-                                               text="Selecciona un mapa para ver la vista previa"
-                                               styleClass="summary-label"/>
+                                        <ImageView fx:id="previewImageView" fitHeight="240.0" fitWidth="420.0" pickOnBounds="true" preserveRatio="true" />
+                                        <Label fx:id="previewPlaceholderLabel" styleClass="summary-label" text="Selecciona un mapa para ver la vista previa" />
                                     </children>
                                 </StackPane>
 
                                 <GridPane hgap="10.0" vgap="8.0">
                                     <children>
-                                        <Label text="Nombre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                                        <Label fx:id="selectedNameLabel" text="-" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                                        <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                        <Label fx:id="selectedNameLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                                        <Label text="Archivo:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                                        <Label fx:id="selectedPathLabel" text="-" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                                        <Label text="Archivo:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                        <Label fx:id="selectedPathLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                                        <Label text="Latitud mín.:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                                        <Label fx:id="selectedLatMinLabel" text="-" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                                        <Label text="Latitud mín.:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                        <Label fx:id="selectedLatMinLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                                        <Label text="Latitud máx.:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                                        <Label fx:id="selectedLatMaxLabel" text="-" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                                        <Label text="Latitud máx.:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                        <Label fx:id="selectedLatMaxLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                                        <Label text="Longitud mín.:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                                        <Label fx:id="selectedLonMinLabel" text="-" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                                        <Label text="Longitud mín.:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                        <Label fx:id="selectedLonMinLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                                        <Label text="Longitud máx.:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                                        <Label fx:id="selectedLonMaxLabel" text="-" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                                        <Label text="Longitud máx.:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                                        <Label fx:id="selectedLonMaxLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-                                        <Label text="Estado:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                                        <Label fx:id="selectedStatusLabel" text="-" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                                        <Label text="Estado:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                                        <Label fx:id="selectedStatusLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                                     </children>
+                           <columnConstraints>
+                              <ColumnConstraints />
+                              <ColumnConstraints />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                           </rowConstraints>
                                 </GridPane>
 
-                                <Separator/>
+                                <Separator />
 
-                                <Label text="Añadir nuevo mapa" styleClass="section-title"/>
+                                <Label styleClass="section-title" text="Añadir nuevo mapa" />
 
                                 <GridPane hgap="10.0" vgap="10.0">
                                     <children>
-                                        <Label text="Nombre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                                        <TextField fx:id="nameField" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"/>
+                                        <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                        <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" />
 
-                                        <Label text="Archivo JPG:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                                        <TextField fx:id="imagePathField" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"/>
-                                        <Button fx:id="browseButton"
-                                                text="Examinar"
-                                                onAction="#handleBrowseMap"
-                                                styleClass="nav-button"
-                                                GridPane.rowIndex="1"
-                                                GridPane.columnIndex="2"/>
+                                        <Label text="Archivo JPG:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                        <TextField fx:id="imagePathField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                                        <Button fx:id="browseButton" onAction="#handleBrowseMap" styleClass="nav-button" text="Examinar" GridPane.columnIndex="2" GridPane.rowIndex="1" />
 
-                                        <Label text="Latitud mín.:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                                        <TextField fx:id="latMinField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                                        <Label text="Latitud mín.:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                        <TextField fx:id="latMinField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                                        <Label text="Latitud máx.:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                                        <TextField fx:id="latMaxField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                                        <Label text="Latitud máx.:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                        <TextField fx:id="latMaxField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                                        <Label text="Longitud mín.:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                                        <TextField fx:id="lonMinField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                                        <Label text="Longitud mín.:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                        <TextField fx:id="lonMinField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                                        <Label text="Longitud máx.:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                                        <TextField fx:id="lonMaxField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                                        <Label text="Longitud máx.:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                                        <TextField fx:id="lonMaxField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                     </children>
+                           <columnConstraints>
+                              <ColumnConstraints />
+                              <ColumnConstraints />
+                              <ColumnConstraints />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                              <RowConstraints />
+                           </rowConstraints>
                                 </GridPane>
 
                                 <HBox alignment="CENTER_RIGHT">
                                     <children>
-                                        <Button fx:id="addButton"
-                                                text="Añadir mapa"
-                                                onAction="#handleAddMap"
-                                                styleClass="import-button"/>
+                                        <Button fx:id="addButton" onAction="#handleAddMap" styleClass="import-button" text="Añadir mapa" />
                                     </children>
                                 </HBox>
                             </children>

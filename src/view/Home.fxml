@@ -12,10 +12,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="650.0" prefWidth="1000.0"
-            xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.HomeController">
+<BorderPane prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
 
     <top>
         <VBox spacing="8.0" BorderPane.alignment="CENTER">
@@ -25,25 +22,19 @@
             <children>
                 <HBox alignment="TOP_LEFT">
                     <children>
-                        <Label fx:id="titleLabel" text="Running la Safor - Mis actividades" />
+                        <Label fx:id="titleLabel" styleClass="screen-title" text="Running la Safor - Mis actividades" />
                         <Region HBox.hgrow="ALWAYS" />
                         <VBox alignment="TOP_RIGHT" spacing="8.0">
                             <children>
                                 <HBox alignment="CENTER_RIGHT" spacing="10.0">
                                     <children>
-                                        <Label fx:id="usernameLabel" text="usuarioejemplo" />
-                                        <ImageView fx:id="avatarImageView"
-                                                   fitHeight="42.0"
-                                                   fitWidth="42.0"
-                                                   pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <Label fx:id="usernameLabel" styleClass="user-name" text="usuarioejemplo" />
+                                        <ImageView fx:id="avatarImageView" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view">
                                             <image>
                                                 <Image url="@../resources/UsuarioEjemplo.png" />
                                             </image>
                                         </ImageView>
-                                        <Button fx:id="logoutButton"
-                                                onAction="#handleLogout"
-                                                text="Cerrar sesión" />
+                                        <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="profile-top-button" text="Cerrar Sesión" />
                                     </children>
                                 </HBox>
                             </children>
@@ -66,9 +57,7 @@
                         <Label fx:id="activitiesCountLabel" text="Actividades 0" />
                         <Label fx:id="lastActivityLabel" text="Última actividad -" />
                         <Region HBox.hgrow="ALWAYS" />
-                        <Button fx:id="importButton"
-                                onAction="#handleImportActivity"
-                                text="Importar actividad" />
+                        <Button fx:id="importButton" onAction="#handleImportActivity" text="Importar actividad" />
                     </children>
                 </HBox>
 
@@ -79,7 +68,7 @@
                         <TableColumn fx:id="distanceColumn" prefWidth="220.0" text="Distancia" />
                     </columns>
                     <VBox.margin>
-                        <Insets top="4.0" bottom="6.0" />
+                        <Insets bottom="6.0" top="4.0" />
                     </VBox.margin>
                 </TableView>
 
@@ -88,18 +77,10 @@
 
                         <HBox alignment="CENTER_LEFT" spacing="16.0">
                             <children>
-                                <Button fx:id="profileButton"
-                                        onAction="#handleProfile"
-                                        text="Perfil" />
-                                <Button fx:id="sessionsButton"
-                                        onAction="#handleSessions"
-                                        text="Historial de Sesiones" />
-                                <Button fx:id="mapsButton"
-                                        onAction="#handleMaps"
-                                        text="Gestión de Mapas" />
-                                <Button fx:id="accumulatedButton"
-                                        onAction="#handleAccumulated"
-                                        text="Acumulado" />
+                                <Button fx:id="profileButton" onAction="#handleProfile" text="Perfil" />
+                                <Button fx:id="sessionsButton" onAction="#handleSessions" text="Historial de Sesiones" />
+                                <Button fx:id="mapsButton" onAction="#handleMaps" text="Gestión de Mapas" />
+                                <Button fx:id="accumulatedButton" onAction="#handleAccumulated" text="Acumulado" />
                             </children>
                         </HBox>
 
@@ -107,12 +88,8 @@
 
                         <HBox alignment="CENTER_RIGHT" spacing="12.0">
                             <children>
-                                <Button fx:id="openButton"
-                                        onAction="#handleOpenActivity"
-                                        text="Abrir actividad" />
-                                <Button fx:id="deleteButton"
-                                        onAction="#handleDeleteActivity"
-                                        text="Eliminar" />
+                                <Button fx:id="openButton" onAction="#handleOpenActivity" text="Abrir actividad" />
+                                <Button fx:id="deleteButton" onAction="#handleDeleteActivity" text="Eliminar" />
                             </children>
                         </HBox>
 

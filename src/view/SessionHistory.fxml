@@ -5,39 +5,43 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.FlowPane?>
 
 <BorderPane prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SessionHistoryController">
        
     <top>
-        <VBox>
-            <padding><Insets bottom="6" left="24" right="24" top="14" /></padding>
-            <HBox alignment="TOP_LEFT">
-                <Label fx:id="titleLabel" styleClass="screen-title" text="Running la Safor - Historial de Sesiones" />
-                <Region HBox.hgrow="ALWAYS" />
-                <VBox alignment="TOP_RIGHT" spacing="8.0">
-                    <HBox alignment="CENTER_RIGHT" spacing="10.0">
-                        <Label fx:id="usernameLabel" styleClass="user-name" text="usuario" />
-                        <ImageView fx:id="avatarImageView" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true" />
-                        <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="profile-top-button" text="Cerrar sesión" />
-                    </HBox>
-                </VBox>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" spacing="12">
-                <padding><Insets top="4" /></padding>
-                <Button fx:id="backButton" onAction="#handleBack" styleClass="profile-back-button" text="← Volver" />
+        <VBox spacing="8.0">
+            <padding>
+                <Insets bottom="6" left="24" right="24" top="14" />
+            </padding>
+            <HBox alignment="CENTER_LEFT" spacing="14.0">
+                <children>
+                    <Button fx:id="backButton" onAction="#handleBack" styleClass="profile-back-button" text="← Volver" />
+                    <Label fx:id="titleLabel" styleClass="screen-title" text="Running la Safor - Historial de Sesiones" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="usernameLabel" styleClass="user-name" text="usuario" />
+                    <ImageView fx:id="avatarImageView" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view">
+                        <image>
+                            <Image url="@../resources/UsuarioEjemplo.png" />
+                        </image>
+                    </ImageView>
+                    <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="profile-top-button" text="Cerrar Sesión" />
+                </children>
             </HBox>
         </VBox>
     </top>
 
     <center>
         <VBox spacing="12">
-            <padding><Insets bottom="8" left="24" right="24" top="6" /></padding>
+            <padding>
+                <Insets bottom="8" left="24" right="24" top="6" />
+            </padding>
             <TableView fx:id="sessionsTable" styleClass="activities-table" VBox.vgrow="ALWAYS">
                 <columns>
                     <TableColumn fx:id="startColumn" prefWidth="190" text="Inicio" />
@@ -52,17 +56,19 @@
     </center>
 
     <bottom>
-    <VBox spacing="8">
-        <padding><Insets bottom="18" left="24" right="24" top="10" /></padding>
-        <FlowPane hgap="12" vgap="12">
-            <children>
-                <Label fx:id="totalSessionsLabel" styleClass="summary-label" text="Total sesiones: 0" />
-                <Label fx:id="totalImportedLabel" styleClass="summary-label" text="Actividades importadas (total): 0" />
-                <Label fx:id="totalViewedLabel" styleClass="summary-label" text="Actividades vistas (total): 0" />
-                <Label fx:id="totalAnnotationsLabel" styleClass="summary-label" text="Anotaciones creadas (total): 0" />
-            </children>
-        </FlowPane>
-    </VBox>
-</bottom>
+        <VBox spacing="8">
+            <padding>
+                <Insets bottom="18" left="24" right="24" top="10" />
+            </padding>
+            <FlowPane hgap="12" vgap="12">
+                <children>
+                    <Label fx:id="totalSessionsLabel" styleClass="summary-label" text="Total sesiones: 0" />
+                    <Label fx:id="totalImportedLabel" styleClass="summary-label" text="Actividades importadas (total): 0" />
+                    <Label fx:id="totalViewedLabel" styleClass="summary-label" text="Actividades vistas (total): 0" />
+                    <Label fx:id="totalAnnotationsLabel" styleClass="summary-label" text="Anotaciones creadas (total): 0" />
+                </children>
+            </FlowPane>
+        </VBox>
+    </bottom>
 
 </BorderPane>

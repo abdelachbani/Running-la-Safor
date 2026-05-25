@@ -67,6 +67,7 @@ public class EditProfileController implements Initializable {
         nicknameField.setText(currentUser.getNickName());
         emailField.setText(currentUser.getEmail());
         datePicker.setValue(currentUser.getBirthDate());
+        newAvatarPath = currentUser.getAvatarPath();
         loadUserAvatar(currentUser);
     }
 
@@ -81,9 +82,6 @@ public class EditProfileController implements Initializable {
     }
 
     private void applyStyles() {
-        usernameLabel.getStyleClass().add("user-name");
-        logoutButton.getStyleClass().add("profile-top-button");
-        backButton.getStyleClass().add("profile-back-button");
         changeAvatarButton.getStyleClass().add("import-button");
         saveButton.getStyleClass().add("top-action-button");
     }
@@ -136,8 +134,8 @@ public class EditProfileController implements Initializable {
 
     private String getPasswordValue() {
         String password = passwordField.getText();
-        if (password.isEmpty()) {
-            return null;
+        if (password == null || password.isEmpty()) {
+            return app.getCurrentUser().getPassword();
         }
         return password;
     }

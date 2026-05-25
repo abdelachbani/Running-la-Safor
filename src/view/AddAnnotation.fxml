@@ -26,28 +26,28 @@
 
             <!-- Volver -->
             <HBox alignment="CENTER_LEFT">
-                <Button onAction="#handleBack" styleClass="nav-button" stylesheets="@../resources/styles.css" text="← Volver" />
+                <Button onAction="#handleBack" styleClass="profile-back-button" text="← Volver" />
             <Region prefHeight="41.0" prefWidth="120.0" />
    
                <!-- Título -->
-               <Label style="-fx-font-size:20; -fx-font-weight:bold;" styleClass="screen-title" stylesheets="@../resources/styles.css" text="Añadir Anotación" />
+               <Label style="-fx-font-size:20; -fx-font-weight:bold;" styleClass="screen-title" text="Añadir Anotación" />
             </HBox>
 
             <!-- Tipo de anotación -->
             <Label style="-fx-font-weight:bold;" text="Tipo de anotación" />
             <HBox alignment="CENTER_LEFT" spacing="16">
-                <RadioButton fx:id="rbPoint" selected="true" stylesheets="@../resources/styles.css" text="Punto">
+                <RadioButton fx:id="rbPoint" selected="true" text="Punto">
                <toggleGroup>
                   <ToggleGroup fx:id="tipoGroup" />
                </toggleGroup></RadioButton>
-                <RadioButton fx:id="rbText" stylesheets="@../resources/styles.css" text="Texto" toggleGroup="$tipoGroup" />
-                <RadioButton fx:id="rbLine" stylesheets="@../resources/styles.css" text="Línea" toggleGroup="$tipoGroup" />
-                <RadioButton fx:id="rbCircle" stylesheets="@../resources/styles.css" text="Círculo" toggleGroup="$tipoGroup" />
+                <RadioButton fx:id="rbText" text="Texto" toggleGroup="$tipoGroup" />
+                <RadioButton fx:id="rbLine" text="Línea" toggleGroup="$tipoGroup" />
+                <RadioButton fx:id="rbCircle" text="Círculo" toggleGroup="$tipoGroup" />
             </HBox>
 
             <!-- Texto -->
-            <Label styleClass="floating-label" stylesheets="@../resources/styles.css" text="Texto:" />
-            <TextField fx:id="txtAnnotationText" promptText="Escribe una descripción..." styleClass="custom-textfield" stylesheets="@../resources/styles.css" VBox.vgrow="ALWAYS" />
+            <Label styleClass="floating-label" text="Texto:" />
+            <TextField fx:id="txtAnnotationText" promptText="Escribe una descripción..." styleClass="custom-textfield" VBox.vgrow="ALWAYS" />
 
             <!-- Color y Grosor -->
             <HBox alignment="CENTER_LEFT" spacing="24">
@@ -74,8 +74,8 @@
 
             <!-- Botones -->
             <HBox alignment="CENTER_RIGHT" spacing="12" style="-fx-padding: 10 0 0 0;">
-                <Button onAction="#handleCancel" styleClass="nav-button" stylesheets="@../resources/styles.css" text="CANCELAR" />
-                <Button onAction="#handleSave" styleClass="import-button" stylesheets="@../resources/styles.css" text="GUARDAR" />
+                <Button onAction="#handleCancel" styleClass="nav-button" text="CANCELAR" />
+                <Button onAction="#handleSave" styleClass="import-button" text="GUARDAR" />
             </HBox>
          <padding>
             <Insets bottom="24.0" left="24.0" right="24.0" />
@@ -86,22 +86,24 @@
    <top>
       <HBox maxHeight="-Infinity" prefHeight="60.0" prefWidth="600.0" spacing="10.0" BorderPane.alignment="CENTER_LEFT">
          <children>
-            <Label prefHeight="44.0" prefWidth="242.0" styleClass="screen-title" stylesheets="@../resources/styles.css" text="Running la Safor" HBox.hgrow="ALWAYS">
+            <Label prefHeight="44.0" prefWidth="242.0" styleClass="screen-title" text="Running la Safor" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
             <Region prefHeight="44.0" prefWidth="22.0" HBox.hgrow="ALWAYS" />
-            <Label fx:id="lblUser" prefHeight="44.0" prefWidth="122.0" styleClass="user-name" stylesheets="@../resources/styles.css" text="usuarioejemplo" HBox.hgrow="ALWAYS" />
-            <ImageView fx:id="imgUser" fitHeight="47.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+            <Label fx:id="usernameLabel" prefHeight="44.0" styleClass="user-name" text="usuarioejemplo" />
+            <ImageView fx:id="avatarImageView" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view">
                <image>
                   <Image url="@../resources/UsuarioEjemplo.png" />
-               </image></ImageView>
-            <Button mnemonicParsing="false" onAction="#handleLogOut" prefHeight="42.0" prefWidth="134.0" styleClass="top-action-button" stylesheets="@../resources/styles.css" text="Cerrar Sesión" HBox.hgrow="ALWAYS" />
+               </image>
+            </ImageView>
+            <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#handleLogOut" styleClass="profile-top-button" text="Cerrar Sesión" />
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding></HBox>
+         </padding>
+      </HBox>
    </top>
 
 </BorderPane>

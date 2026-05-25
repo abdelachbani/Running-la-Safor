@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -39,6 +40,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polyline;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
@@ -58,33 +60,54 @@ import utils.ui_navigation.NavigationUtils;
 
 public class ActivityDetailsController implements Initializable {
 
-    @FXML private Label titleLabel;
-    @FXML private Label usernameLabel;
-    @FXML private ImageView avatarImageView;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private ImageView avatarImageView;
 
-    @FXML private Button logoutButton;
-    @FXML private Button backButton;
+    @FXML
+    private Button logoutButton;
+    @FXML
+    private Button backButton;
 
-    @FXML private Slider zoomSlider;
+    @FXML
+    private Slider zoomSlider;
 
-    @FXML private Label mapStatusLabel;
+    @FXML
+    private Label mapStatusLabel;
 
-    @FXML private Label distanceValueLabel;
-    @FXML private Label durationValueLabel;
-    @FXML private Label speedValueLabel;
-    @FXML private Label paceValueLabel;
-    @FXML private Label gainValueLabel;
-    @FXML private Label lossValueLabel;
-    @FXML private Label minElevationValueLabel;
-    @FXML private Label maxElevationValueLabel;
+    @FXML
+    private Label distanceValueLabel;
+    @FXML
+    private Label durationValueLabel;
+    @FXML
+    private Label speedValueLabel;
+    @FXML
+    private Label paceValueLabel;
+    @FXML
+    private Label gainValueLabel;
+    @FXML
+    private Label lossValueLabel;
+    @FXML
+    private Label minElevationValueLabel;
+    @FXML
+    private Label maxElevationValueLabel;
 
-    @FXML private ScrollPane mapScrollPane;
-    @FXML private StackPane mapContentPane;
+    @FXML
+    private ScrollPane mapScrollPane;
+    @FXML
+    private Pane mapContentPane;
 
-    @FXML private TableView<Annotation> annotationTable;
-    @FXML private TableColumn<Annotation, String> annotationTypeColumn;
-    @FXML private TableColumn<Annotation, String> annotationTextColumn;
-    @FXML private TableColumn<Annotation, String> annotationColorColumn;
+    @FXML
+    private TableView<Annotation> annotationTable;
+    @FXML
+    private TableColumn<Annotation, String> annotationTypeColumn;
+    @FXML
+    private TableColumn<Annotation, String> annotationTextColumn;
+    @FXML
+    private TableColumn<Annotation, String> annotationColorColumn;
 
     private final SportActivityApp app = SportActivityApp.getInstance();
 
@@ -92,7 +115,7 @@ public class ActivityDetailsController implements Initializable {
     private MapProjection projection;
 
     private Pane mapPane;
-    private final Scale mapScale = new Scale(1, 1);
+    private final Scale mapScale = new Scale(1, 1, 0, 0);
 
     private double currentMapWidth;
     private double currentMapHeight;
@@ -101,7 +124,9 @@ public class ActivityDetailsController implements Initializable {
     private double dragStartY;
     private double dragStartH;
     private double dragStartV;
-    
+
+    private boolean isInitialZoomSet = false;
+
     private List<GeoPoint> selectedGeoPoints = new ArrayList<>();
     @FXML
     private Button DeleteAnnotationButton;
@@ -112,40 +137,38 @@ public class ActivityDetailsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         annotationTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        annotationTypeColumn.setCellValueFactory(cell ->
-                new SimpleStringProperty(
-                        cell.getValue() != null &&
-                        cell.getValue().getType() != null
-                                ? cell.getValue().getType().name()
-                                : "-"
+        annotationTypeColumn.setCellValueFactory(cell
+                -> new SimpleStringProperty(
+                        cell.getValue() != null
+                        && cell.getValue().getType() != null
+                        ? cell.getValue().getType().name()
+                        : "-"
                 ));
 
-        annotationTextColumn.setCellValueFactory(cell ->
-                new SimpleStringProperty(
+        annotationTextColumn.setCellValueFactory(cell
+                -> new SimpleStringProperty(
                         safeText(
                                 cell.getValue() == null
-                                        ? null
-                                        : cell.getValue().getText()
+                                ? null
+                                : cell.getValue().getText()
                         )
                 ));
 
-        annotationColorColumn.setCellValueFactory(cell ->
-                new SimpleStringProperty(
+        annotationColorColumn.setCellValueFactory(cell
+                -> new SimpleStringProperty(
                         safeText(
                                 cell.getValue() == null
-                                        ? null
-                                        : cell.getValue().getColor()
+                                ? null
+                                : cell.getValue().getColor()
                         )
                 ));
 
         annotationTextColumn.setCellFactory(createWrappingCellFactory());
 
-        mapContentPane.setAlignment(Pos.CENTER);
-
-        mapScrollPane.setPannable(false);
-
-        zoomSlider.valueProperty().addListener((obs, oldVal, newVal) ->
-                applyZoom(newVal.doubleValue()));
+        // We let the ScrollPane handle panning naturally
+        // mapContentPane is now a Pane, no alignment needed
+        zoomSlider.valueProperty().addListener((obs, oldVal, newVal)
+                -> applyZoom(newVal.doubleValue()));
 
         mapScrollPane.viewportBoundsProperty().addListener((obs, oldBounds, newBounds) -> {
             if (activity != null && mapPane != null) {
@@ -170,7 +193,7 @@ public class ActivityDetailsController implements Initializable {
 
         titleLabel.setText(
                 "Running la Safor - "
-                        + safeText(activity.getName())
+                + safeText(activity.getName())
         );
 
         distanceValueLabel.setText(formatDistance(activity.getTotalDistance()));
@@ -221,10 +244,6 @@ public class ActivityDetailsController implements Initializable {
         mapPane.setPrefSize(currentMapWidth, currentMapHeight);
         mapPane.setMinSize(currentMapWidth, currentMapHeight);
         mapPane.setMaxSize(currentMapWidth, currentMapHeight);
-        mapPane.getTransforms().setAll(mapScale);
-
-        mapPane.addEventFilter(MouseEvent.MOUSE_PRESSED, this::startMapDrag);
-        mapPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, this::dragMap);
 
         mapPane.getChildren().add(mapView);
 
@@ -232,22 +251,29 @@ public class ActivityDetailsController implements Initializable {
         drawEndpoints();
         drawAnnotations();
 
-        mapContentPane.getChildren().setAll(mapPane);
+        Rectangle mapBounds = new Rectangle(currentMapWidth, currentMapHeight);
+        mapPane.setClip(mapBounds);
+        mapPane.setShape(mapBounds);
 
+        mapPane.getTransforms().add(mapScale);
+        Group contentGroup = new Group(mapPane);
+        mapScrollPane.setContent(contentGroup);
+
+        isInitialZoomSet = false;
         Platform.runLater(this::fitInitialZoom);
-        
-            mapPane.setOnMouseClicked(e -> {
-        if (e.getButton() == javafx.scene.input.MouseButton.SECONDARY) {
-            GeoPoint geo = projection.unproject(e.getX(), e.getY());
-            selectedGeoPoints.add(geo);
 
-            Circle marker = new Circle(e.getX(), e.getY(), 5, Color.ORANGE);
-            marker.setStroke(Color.WHITE);
-            mapPane.getChildren().add(marker);
+        mapPane.setOnMouseClicked(e -> {
+            if (e.getButton() == javafx.scene.input.MouseButton.SECONDARY) {
+                GeoPoint geo = projection.unproject(e.getX(), e.getY());
+                selectedGeoPoints.add(geo);
 
-            mapStatusLabel.setText("Puntos seleccionados: " + selectedGeoPoints.size());
-        }
-    });
+                Circle marker = new Circle(e.getX(), e.getY(), 5, Color.ORANGE);
+                marker.setStroke(Color.WHITE);
+                mapPane.getChildren().add(marker);
+
+                mapStatusLabel.setText("Puntos seleccionados: " + selectedGeoPoints.size());
+            }
+        });
     }
 
     private void fitInitialZoom() {
@@ -266,13 +292,16 @@ public class ActivityDetailsController implements Initializable {
         double scaleX = viewportW / currentMapWidth;
         double scaleY = viewportH / currentMapHeight;
 
-        double initialZoom = sanitizeZoom(Math.min(scaleX, scaleY));
+        double initialZoom = sanitizeZoom(Math.max(scaleX, scaleY));
 
         zoomSlider.setMin(initialZoom);
-        zoomSlider.setMax(Math.max(2.0, initialZoom + 1.0));
-        zoomSlider.setValue(initialZoom);
+        zoomSlider.setMax(Math.max(3.0, initialZoom * 3.0));
 
-        applyZoom(initialZoom);
+        if (!isInitialZoomSet) {
+            zoomSlider.setValue(initialZoom);
+            applyZoom(initialZoom);
+            isInitialZoomSet = true;
+        }
     }
 
     private boolean hasValidDimensions(double viewportW, double viewportH) {
@@ -289,16 +318,14 @@ public class ActivityDetailsController implements Initializable {
             return;
         }
 
-        mapScale.setPivotX(currentMapWidth / 2.0);
-        mapScale.setPivotY(currentMapHeight / 2.0);
+        double scrollH = mapScrollPane.getHvalue();
+        double scrollV = mapScrollPane.getVvalue();
+
         mapScale.setX(zoom);
         mapScale.setY(zoom);
 
-        Platform.runLater(() -> {
-            mapScrollPane.layout();
-            mapScrollPane.setHvalue(0.5);
-            mapScrollPane.setVvalue(0.5);
-        });
+        mapScrollPane.setHvalue(scrollH);
+        mapScrollPane.setVvalue(scrollV);
     }
 
     private void drawRoute() {
@@ -341,11 +368,16 @@ public class ActivityDetailsController implements Initializable {
             Color color = safeColor(annotation.getColor(), Color.ORANGE);
 
             switch (annotation.getType()) {
-                case POINT -> drawPointAnnotation(annotation, color);
-                case LINE  -> drawLineAnnotation(annotation, color);
-                case TEXT   -> drawTextAnnotation(annotation, color);
-                case CIRCLE -> drawCircleAnnotation(annotation, color);
-                default -> { }
+                case POINT ->
+                    drawPointAnnotation(annotation, color);
+                case LINE ->
+                    drawLineAnnotation(annotation, color);
+                case TEXT ->
+                    drawTextAnnotation(annotation, color);
+                case CIRCLE ->
+                    drawCircleAnnotation(annotation, color);
+                default -> {
+                }
             }
         }
     }
@@ -362,7 +394,7 @@ public class ActivityDetailsController implements Initializable {
         c.setFill(color);
         c.setStroke(Color.WHITE);
         mapPane.getChildren().add(c);
-        
+
         c.setUserData("annotation");
     }
 
@@ -378,46 +410,45 @@ public class ActivityDetailsController implements Initializable {
         line.setStroke(color);
         line.setStrokeWidth(2);
         mapPane.getChildren().add(line);
-        
+
         line.setUserData("annotation");
     }
-    
+
     private void drawTextAnnotation(Annotation annotation, Color color) {
         Point2D p = projection.project(annotation.getGeoPoints().get(0));
 
-      
         Circle anchor = new Circle(p.getX(), p.getY(), 4);
         anchor.setFill(color);
         anchor.setStroke(Color.WHITE);
 
-        
         Label label = new Label(annotation.getText());
         label.setLayoutX(p.getX() + 8);
         label.setLayoutY(p.getY() - 18);
         label.setStyle(
-            "-fx-background-color: rgba(0,0,0,0.6);" +
-            "-fx-text-fill: white;" +
-            "-fx-padding: 2 6;" +
-            "-fx-background-radius: 4;" +
-            "-fx-font-size: 11;"
+                "-fx-background-color: rgba(0,0,0,0.6);"
+                + "-fx-text-fill: white;"
+                + "-fx-padding: 2 6;"
+                + "-fx-background-radius: 4;"
+                + "-fx-font-size: 11;"
         );
 
         mapPane.getChildren().addAll(anchor, label);
-        
+
         anchor.setUserData("annotation");
         label.setUserData("annotation");
     }
-    
+
     private void drawCircleAnnotation(Annotation annotation, Color color) {
-        if (annotation.getGeoPoints().size() < 2) return;
+        if (annotation.getGeoPoints().size() < 2) {
+            return;
+        }
 
         Point2D center = projection.project(annotation.getGeoPoints().get(0));
-        Point2D edge   = projection.project(annotation.getGeoPoints().get(1));
+        Point2D edge = projection.project(annotation.getGeoPoints().get(1));
 
-      
         double radius = Math.sqrt(
-            Math.pow(edge.getX() - center.getX(), 2) +
-            Math.pow(edge.getY() - center.getY(), 2)
+                Math.pow(edge.getX() - center.getX(), 2)
+                + Math.pow(edge.getY() - center.getY(), 2)
         );
 
         Circle circle = new Circle(center.getX(), center.getY(), radius);
@@ -426,7 +457,7 @@ public class ActivityDetailsController implements Initializable {
         circle.setStrokeWidth(annotation.getStrokeWidth());
 
         mapPane.getChildren().add(circle);
-        
+
         circle.setUserData("annotation");
     }
 
@@ -453,7 +484,7 @@ public class ActivityDetailsController implements Initializable {
 
     @FXML
     private void handleAddAnnotation(ActionEvent event) {
-            if (activity == null) {
+        if (activity == null) {
             AlertUtils.showError("Error", "No hay actividad cargada.");
             return;
         }
@@ -464,22 +495,33 @@ public class ActivityDetailsController implements Initializable {
 
         try {
             FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/view/AddAnnotation.fxml")
+                    getClass().getResource("/view/AddAnnotation.fxml")
             );
             Parent root = loader.load();
 
             AddAnnotationController controller = loader.getController();
             controller.setData(activity, selectedGeoPoints);
 
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(
-                getClass().getResource("/resources/styles.css").toExternalForm()
-            );
-
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            boolean wasMaximized = stage.isMaximized();
+            Scene currentScene = stage.getScene();
+            URL styles = getClass().getResource("/resources/styles.css");
+
+            if (currentScene != null) {
+                currentScene.setRoot(root);
+                currentScene.getStylesheets().setAll(styles.toExternalForm());
+            } else {
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(styles.toExternalForm());
+                stage.setScene(scene);
+            }
+
             stage.setMinWidth(520);
             stage.setMinHeight(400);
-            stage.setScene(scene);
+
+            if (!wasMaximized) {
+                stage.centerOnScreen();
+            }
             stage.show();
 
         } catch (IOException e) {
@@ -515,7 +557,7 @@ public class ActivityDetailsController implements Initializable {
             avatar = AvatarUtils.getDefaultAvatar();
         }
         AvatarUtils.applyCircularAvatar(avatarImageView, avatar);
-    }   
+    }
 
     private void startMapDrag(MouseEvent event) {
         if (!event.isPrimaryButtonDown()) {
@@ -628,9 +670,8 @@ public class ActivityDetailsController implements Initializable {
             return;
         }
 
-       
         javafx.scene.control.Alert confirm = new javafx.scene.control.Alert(
-            javafx.scene.control.Alert.AlertType.CONFIRMATION
+                javafx.scene.control.Alert.AlertType.CONFIRMATION
         );
         confirm.setTitle("Eliminar anotación");
         confirm.setHeaderText(null);
@@ -640,20 +681,21 @@ public class ActivityDetailsController implements Initializable {
             if (response == javafx.scene.control.ButtonType.OK) {
                 app.removeAnnotation(activity, selected);
 
-            
-            annotationTable.getItems().remove(selected);
-            redrawAnnotations();
-        }
-    });
+                annotationTable.getItems().remove(selected);
+                redrawAnnotations();
+            }
+        });
     }
-    
+
     private void redrawAnnotations() {
-    if (mapPane == null) return;
+        if (mapPane == null) {
+            return;
+        }
 
-    mapPane.getChildren().removeIf(node ->
-        node.getUserData() != null && node.getUserData().equals("annotation")
-    );
+        mapPane.getChildren().removeIf(node
+                -> node.getUserData() != null && node.getUserData().equals("annotation")
+        );
 
-    drawAnnotations();
-}
+        drawAnnotations();
+    }
 }

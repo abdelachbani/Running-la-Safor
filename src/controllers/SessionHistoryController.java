@@ -142,21 +142,13 @@ public class SessionHistoryController implements Initializable {
     @FXML
     private void handleBack(ActionEvent event) {
         NavigationUtils.navigateTo(event, NavigationTarget.to("/view/Home.fxml")
-                .size(1000, 650)
-                .minSize(1000, 650)
-                .center()
+                .minSize(900, 600)
                 .onError("No se pudo volver a la pantalla principal.")
                 .build());
     }
 
     @FXML
     private void handleLogout(ActionEvent event) {
-        app.logout();
-        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/Login.fxml")
-                .size(640, 400)
-                .minSize(640, 400)
-                .center()
-                .onError("No se pudo volver al login.")
-                .build());
+        NavigationUtils.logoutAndNavigateToLogin(event);
     }
 }

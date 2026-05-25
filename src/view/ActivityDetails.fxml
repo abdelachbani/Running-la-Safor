@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
 
 <BorderPane prefHeight="780.0" prefWidth="1200.0" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ActivityDetailsController">
 
@@ -26,10 +27,7 @@
             <children>
                 <HBox alignment="CENTER_LEFT" spacing="14.0">
                     <children>
-                        <Button fx:id="backButton"
-                                text="← Volver"
-                                onAction="#handleBack"
-                                styleClass="profile-back-button"/>
+                        <Button fx:id="backButton" onAction="#handleBack" styleClass="profile-back-button" text="← Volver" />
 
                         <Label fx:id="titleLabel" styleClass="screen-title" text="Running la Safor - Activity" />
 
@@ -37,16 +35,13 @@
 
                         <Label fx:id="usernameLabel" styleClass="user-name" text="usuario" />
 
-                        <ImageView fx:id="avatarImageView" fitHeight="42" fitWidth="42" preserveRatio="true">
+                        <ImageView fx:id="avatarImageView" fitHeight="42" fitWidth="42" pickOnBounds="true" preserveRatio="true" styleClass="image-view">
                             <image>
-                                <Image url="@../resources/logo.png" />
+                                <Image url="@../resources/UsuarioEjemplo.png" />
                             </image>
                         </ImageView>
 
-                        <Button fx:id="logoutButton"
-                                text="Cerrar sesión"
-                                onAction="#handleLogout"
-                                styleClass="profile-top-button"/>
+                        <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="profile-top-button" text="Cerrar Sesión" />
                     </children>
                 </HBox>
 
@@ -73,9 +68,9 @@
                     <children>
                         <Label styleClass="section-title" text="Mapa y trazado" />
 
-                        <ScrollPane fx:id="mapScrollPane" fitToHeight="false" fitToWidth="false" pannable="false" HBox.hgrow="ALWAYS">
+                        <ScrollPane fx:id="mapScrollPane" styleClass="map-scroll-pane" hbarPolicy="ALWAYS" vbarPolicy="ALWAYS" pannable="true" VBox.vgrow="ALWAYS">
                             <content>
-                                <StackPane fx:id="mapContentPane" prefHeight="560" prefWidth="900" />
+                                <Pane fx:id="mapContentPane" />
                             </content>
                         </ScrollPane>
 
@@ -154,7 +149,7 @@
                                 <Region HBox.hgrow="ALWAYS" />
 
                                 <Button fx:id="DeleteAnnotationButton" onAction="#handleDeleteAnnotation" styleClass="import-button" text="- Eliminar" />
-                        <Button fx:id="addAnnotationButton" layoutX="282.0" layoutY="10.0" onAction="#handleAddAnnotation" styleClass="import-button" text="+ Añadir" />
+                                <Button fx:id="addAnnotationButton" layoutX="282.0" layoutY="10.0" onAction="#handleAddAnnotation" styleClass="import-button" text="+ Añadir" />
                             </children>
                         </HBox>
 
