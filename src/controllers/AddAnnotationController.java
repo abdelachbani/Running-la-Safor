@@ -74,7 +74,6 @@ public class AddAnnotationController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         comboStrokeWidth.getItems().addAll("2", "3", "4", "5");
         comboStrokeWidth.setValue("2");
-        comboStrokeWidth.setEditable(true);
 
         colorPicker.setValue(Color.web("#E74C3C"));
 
