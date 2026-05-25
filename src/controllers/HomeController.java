@@ -111,6 +111,13 @@ public class HomeController implements Initializable {
             double km = cellData.getValue().getTotalDistance() / 1000.0;
             return new SimpleStringProperty(String.format("%.1f km", km));
         });
+
+        // Add double-click listener to open activity details
+        activitiesTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2 && activitiesTable.getSelectionModel().getSelectedItem() != null) {
+                openSelectedActivity(activitiesTable.getScene().getWindow());
+            }
+        });
     }
 
     private void loadUserData() {
@@ -159,6 +166,10 @@ public class HomeController implements Initializable {
 
     @FXML
     private void handleOpenActivity(ActionEvent event) {
+        openSelectedActivity(((Node) event.getSource()).getScene().getWindow());
+    }
+
+    private void openSelectedActivity(javafx.stage.Window window) {
         Activity selected = activitiesTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
             AlertUtils.showWarning("Selecciona una actividad", "Debes seleccionar una actividad para abrirla.");
@@ -172,7 +183,7 @@ public class HomeController implements Initializable {
             ActivityDetailsController controller = loader.getController();
             controller.setActivity(selected);
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) window;
             boolean wasMaximized = stage.isMaximized();
             Scene currentScene = stage.getScene();
             URL styles = getClass().getResource("/resources/styles.css");
