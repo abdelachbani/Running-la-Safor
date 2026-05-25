@@ -37,33 +37,52 @@ import utils.AvatarUtils;
 
 public class AccumulatedController implements Initializable {
 
-    @FXML private Label titleLabel;
-    @FXML private Label usernameLabel;
-    @FXML private ImageView avatarImageView;
-    @FXML private Button logoutButton;
-    @FXML private Button backButton;
-    @FXML private Button periodButton;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private ImageView avatarImageView;
+    @FXML
+    private Button logoutButton;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button periodButton;
 
-    @FXML private Label activitiesCountLabel;
-    @FXML private Label totalTimeLabel;
-    @FXML private Label totalDistanceLabel;
-    @FXML private Label totalGainLabel;
-    @FXML private Label totalLossLabel;
-    @FXML private Label statusLabel;
+    @FXML
+    private Label activitiesCountLabel;
+    @FXML
+    private Label totalTimeLabel;
+    @FXML
+    private Label totalDistanceLabel;
+    @FXML
+    private Label totalGainLabel;
+    @FXML
+    private Label totalLossLabel;
+    @FXML
+    private Label statusLabel;
 
-    @FXML private TableView<Activity> monthlyActivitiesTable;
-    @FXML private TableColumn<Activity, String> nameColumn;
-    @FXML private TableColumn<Activity, String> dateColumn;
-    @FXML private TableColumn<Activity, String> distanceColumn;
-    @FXML private TableColumn<Activity, String> durationColumn;
-    @FXML private TableColumn<Activity, String> gainColumn;
-    @FXML private TableColumn<Activity, String> lossColumn;
+    @FXML
+    private TableView<Activity> monthlyActivitiesTable;
+    @FXML
+    private TableColumn<Activity, String> nameColumn;
+    @FXML
+    private TableColumn<Activity, String> dateColumn;
+    @FXML
+    private TableColumn<Activity, String> distanceColumn;
+    @FXML
+    private TableColumn<Activity, String> durationColumn;
+    @FXML
+    private TableColumn<Activity, String> gainColumn;
+    @FXML
+    private TableColumn<Activity, String> lossColumn;
 
     private final SportActivityApp app = SportActivityApp.getInstance();
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final Locale spanishLocale = new Locale("es", "ES");
 
-    private YearMonth selectedPeriod = YearMonth.of(2026, 3);
+    private YearMonth selectedPeriod = YearMonth.now();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -87,8 +106,8 @@ public class AccumulatedController implements Initializable {
     }
 
     private void configureTable() {
-        nameColumn.setCellValueFactory(cell ->
-                new SimpleStringProperty(safeText(cell.getValue().getName())));
+        nameColumn.setCellValueFactory(cell
+                -> new SimpleStringProperty(safeText(cell.getValue().getName())));
 
         dateColumn.setCellValueFactory(cell -> {
             Activity activity = cell.getValue();
@@ -98,26 +117,24 @@ public class AccumulatedController implements Initializable {
             return new SimpleStringProperty(value);
         });
 
-        distanceColumn.setCellValueFactory(cell ->
-                new SimpleStringProperty(formatDistance(cell.getValue().getTotalDistance())));
+        distanceColumn.setCellValueFactory(cell
+                -> new SimpleStringProperty(formatDistance(cell.getValue().getTotalDistance())));
 
-        durationColumn.setCellValueFactory(cell ->
-                new SimpleStringProperty(formatDuration(cell.getValue().getDuration())));
+        durationColumn.setCellValueFactory(cell
+                -> new SimpleStringProperty(formatDuration(cell.getValue().getDuration())));
 
-        gainColumn.setCellValueFactory(cell ->
-                new SimpleStringProperty(String.format(Locale.ROOT, "%.0f m", cell.getValue().getElevationGain())));
+        gainColumn.setCellValueFactory(cell
+                -> new SimpleStringProperty(String.format(Locale.ROOT, "%.0f m", cell.getValue().getElevationGain())));
 
-        lossColumn.setCellValueFactory(cell ->
-                new SimpleStringProperty(String.format(Locale.ROOT, "%.0f m", cell.getValue().getElevationLoss())));
+        lossColumn.setCellValueFactory(cell
+                -> new SimpleStringProperty(String.format(Locale.ROOT, "%.0f m", cell.getValue().getElevationLoss())));
 
         monthlyActivitiesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         monthlyActivitiesTable.setPlaceholder(new Label("No hay actividades en este periodo."));
     }
 
     private void updatePeriodButtonText() {
-        String monthName = selectedPeriod.getMonth().getDisplayName(TextStyle.FULL, spanishLocale);
-        monthName = Character.toUpperCase(monthName.charAt(0)) + monthName.substring(1);
-        periodButton.setText(monthName + " " + selectedPeriod.getYear());
+        periodButton.setText("Elegir fecha");
     }
 
     private void loadAccumulatedData() {

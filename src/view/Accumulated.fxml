@@ -66,7 +66,7 @@
 
                         <Label fx:id="statusLabel" styleClass="summary-label" text="" />
 
-                        <Button fx:id="periodButton" onAction="#handlePeriodSelection" styleClass="import-button" text="Marzo 2026" />
+                        <Button fx:id="periodButton" onAction="#handlePeriodSelection" styleClass="import-button" text="Elegir Fecha" />
                     </children>
                 </HBox>
 

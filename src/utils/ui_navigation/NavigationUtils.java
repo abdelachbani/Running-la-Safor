@@ -77,12 +77,23 @@ public final class NavigationUtils {
      * @param event the originating ActionEvent
      */
     public static void logoutAndNavigateToLogin(ActionEvent event) {
-        SportActivityApp.getInstance().logout();
-        navigateTo(event, NavigationTarget.to("/view/Login.fxml")
-                .size(770, 700)
-                .minSize(400, 400)
-                .center()
-                .onError("No se pudo volver a la pantalla de login.")
-                .build());
+        javafx.scene.control.Alert confirm = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION);
+        Stage stage = (Stage) confirm.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(
+                new javafx.scene.image.Image(AlertUtils.class.getResource("/resources/logo.png").toString()));
+        confirm.setTitle("Confirmar cierre de sesión");
+        confirm.setHeaderText(null);
+        confirm.setContentText("¿Estás seguro de que quieres cerrar sesión?");
+
+        java.util.Optional<javafx.scene.control.ButtonType> result = confirm.showAndWait();
+        if (result.isPresent() && result.get() == javafx.scene.control.ButtonType.OK) {
+            SportActivityApp.getInstance().logout();
+            navigateTo(event, NavigationTarget.to("/view/Login.fxml")
+                    .size(770, 700)
+                    .minSize(400, 400)
+                    .center()
+                    .onError("No se pudo volver a la pantalla de login.")
+                    .build());
+        }
     }
 }
