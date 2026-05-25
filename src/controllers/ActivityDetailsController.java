@@ -31,6 +31,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -267,7 +268,7 @@ public class ActivityDetailsController implements Initializable {
                 GeoPoint geo = projection.unproject(e.getX(), e.getY());
                 selectedGeoPoints.add(geo);
 
-                Circle marker = new Circle(e.getX(), e.getY(), 5, Color.ORANGE);
+                Circle marker = new Circle(e.getX(), e.getY(), 10, Color.DARKRED);
                 marker.setStroke(Color.WHITE);
                 mapPane.getChildren().add(marker);
 
@@ -656,7 +657,10 @@ public class ActivityDetailsController implements Initializable {
             {
                 label.setWrapText(true);
                 label.maxWidthProperty().bind(column.widthProperty().subtract(10));
+                label.setAlignment(Pos.CENTER);
+                label.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                setAlignment(Pos.CENTER);
             }
 
             @Override
@@ -665,9 +669,15 @@ public class ActivityDetailsController implements Initializable {
 
                 if (empty || item == null) {
                     setGraphic(null);
+                    setTooltip(null);
                 } else {
                     label.setText(item);
                     setGraphic(label);
+
+                    Tooltip tooltip = new Tooltip(item);
+                    tooltip.setWrapText(true);
+                    tooltip.setMaxWidth(400);
+                    setTooltip(tooltip);
                 }
             }
         };

@@ -43,15 +43,7 @@
                         <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="profile-top-button" text="Cerrar Sesión" />
                     </children>
                 </HBox>
-
-                <HBox alignment="CENTER_RIGHT" spacing="8.0">
-                    <children>
-                        <Label text="Zoom" />
-                        <Button onAction="#handleZoomOut" text="-" />
-                        <Slider fx:id="zoomSlider" max="2.0" min="0.5" prefWidth="220" value="1.0" />
-                        <Button onAction="#handleZoomIn" text="+" />
-                    </children>
-                </HBox>
+                  <Label styleClass="section-title" text="Mapa y trazado" />
             </children>
         </VBox>
     </top>
@@ -65,7 +57,15 @@
             <children>
                 <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <Label styleClass="section-title" text="Mapa y trazado" />
+      
+                      <HBox alignment="CENTER_LEFT" spacing="8.0">
+                          <children>
+                              <Label text="Zoom" />
+                              <Button onAction="#handleZoomOut" text="-" />
+                              <Slider fx:id="zoomSlider" max="2.0" min="0.5" prefWidth="220" value="1.0" />
+                              <Button onAction="#handleZoomIn" text="+" />
+                          </children>
+                      </HBox>
 
                         <ScrollPane fx:id="mapScrollPane" hbarPolicy="ALWAYS" pannable="true" styleClass="map-scroll-pane" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
                             <content>
@@ -144,9 +144,9 @@
                                 <Label styleClass="section-title" text="Anotaciones" />
 
                                 <Region HBox.hgrow="ALWAYS" />
+                                <Button fx:id="addAnnotationButton" layoutX="282.0" layoutY="10.0" onAction="#handleAddAnnotation" styleClass="import-button" text="Añadir" />
 
-                                <Button fx:id="DeleteAnnotationButton" onAction="#handleDeleteAnnotation" styleClass="import-button" text="- Eliminar" />
-                                <Button fx:id="addAnnotationButton" layoutX="282.0" layoutY="10.0" onAction="#handleAddAnnotation" styleClass="import-button" text="+ Añadir" />
+                                <Button fx:id="DeleteAnnotationButton" onAction="#handleDeleteAnnotation" styleClass="import-button" text="Eliminar" />
                             </children>
                         </HBox>
 
