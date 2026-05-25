@@ -23,6 +23,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import upv.ipc.sportlib.Activity;
 import upv.ipc.sportlib.SportActivityApp;
+import utils.AlertUtils;
 import utils.ui_navigation.NavigationTarget;
 import utils.ui_navigation.NavigationUtils;
 
@@ -91,13 +92,13 @@ public class ImportActivityController implements Initializable {
     private void handleImport(ActionEvent event) {
 
         if (selectedFile == null || txtFileRoute.getText().isBlank()) {
-            showError("Por favor, selecciona un fichero GPX antes de importar.");
+            AlertUtils.showError("Error", "Por favor, selecciona un fichero GPX antes de importar.");
             return;
         }
 
         // Validar que el archivo existe y tiene extensión .gpx
         if (!selectedFile.exists() || !selectedFile.getName().endsWith(".gpx")) {
-            showError("El fichero seleccionado no es válido o no existe.");
+            AlertUtils.showError("Error", "El fichero seleccionado no es válido o no existe.");
             return;
         }
 
@@ -106,14 +107,14 @@ public class ImportActivityController implements Initializable {
             Activity activity = app.importActivity(selectedFile);
 
             if (activity != null) {
-                showSuccess("Actividad \"" + activity.getName() + "\" importada correctamente.");
+                AlertUtils.showInfo("Éxito", "Actividad \"" + activity.getName() + "\" importada correctamente.");
 
             } else {
-                showError("No se pudo importar la actividad. Comprueba que el fichero GPX es válido.");
+                AlertUtils.showError("Error", "No se pudo importar la actividad. Comprueba que el fichero GPX es válido.");
             }
 
         } catch (Exception e) {
-            showError("Error al importar: " + e.getMessage());
+            AlertUtils.showError("Error", "Error al importar: " + e.getMessage());
         }
     }
 
@@ -122,31 +123,13 @@ public class ImportActivityController implements Initializable {
         NavigationUtils.logoutAndNavigateToLogin(event);
     }
 
-    private void showError(String message) {
-        // Alert
-        Alert alert = new javafx.scene.control.Alert(
-                javafx.scene.control.Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    private void showSuccess(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Éxito");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
     @FXML
     private void handleReturn(ActionEvent event) {
         NavigationUtils.navigateTo(event,
-        NavigationTarget.to("/view/Home.fxml")
-            .minSize(900, 600)
-            .onError("No se pudo volver al menú principal.")
-            .build());
+                NavigationTarget.to("/view/Home.fxml")
+                        .minSize(900, 600)
+                        .onError("No se pudo volver al menú principal.")
+                        .build());
     }
 
     public void handleWindowChange(String path, int minWidth, int minHeight, ActionEvent event) {
@@ -154,7 +137,7 @@ public class ImportActivityController implements Initializable {
         URL styles = getClass().getResource("/resources/styles.css");
 
         if (homeView == null || styles == null) {
-            showError("Error, No se pudo volver a la pantalla principal.");
+            AlertUtils.showError("Error", "No se pudo volver a la pantalla principal.");
             return;
         }
 
@@ -181,7 +164,7 @@ public class ImportActivityController implements Initializable {
             }
             stage.show();
         } catch (IOException ex) {
-            showError("Error, No se pudo volver a la pantalla principal.");
+            AlertUtils.showError("Error", "No se pudo volver a la pantalla principal.");
         }
     }
 }
