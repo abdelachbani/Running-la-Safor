@@ -274,6 +274,18 @@ public class ActivityDetailsController implements Initializable {
                 mapStatusLabel.setText("Puntos seleccionados: " + selectedGeoPoints.size());
             }
         });
+
+        mapPane.setOnScroll(e -> {
+            if (e.isControlDown()) {
+                double delta = e.getDeltaY();
+                if (delta > 0) {
+                    zoomSlider.setValue(Math.min(zoomSlider.getValue() + 0.05, zoomSlider.getMax()));
+                } else if (delta < 0) {
+                    zoomSlider.setValue(Math.max(zoomSlider.getValue() - 0.05, zoomSlider.getMin()));
+                }
+                e.consume();
+            }
+        });
     }
 
     private void fitInitialZoom() {
