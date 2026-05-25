@@ -74,6 +74,7 @@ public class AddAnnotationController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         comboStrokeWidth.getItems().addAll("2", "3", "4", "5");
         comboStrokeWidth.setValue("2");
+        comboStrokeWidth.setEditable(true);
 
         colorPicker.setValue(Color.web("#E74C3C"));
 
@@ -166,12 +167,32 @@ public class AddAnnotationController implements Initializable {
     }
 
     private Double getValidStrokeWidth() {
-        try {
-            return Double.parseDouble(comboStrokeWidth.getValue().trim());
-        } catch (NumberFormatException e) {
-            AlertUtils.showError("Grosor inválido", "Introduce un número válido para el grosor.");
+    String raw;
+
+    // Si es editable, el texto escrito está en el editor
+    if (comboStrokeWidth.isEditable()) {
+        raw = comboStrokeWidth.getEditor().getText().trim();
+    } else {
+        Object val = comboStrokeWidth.getValue();
+        raw = val != null ? val.toString().trim() : "";
+    }
+
+    if (raw.isEmpty()) {
+        AlertUtils.showError("Grosor inválido", "El grosor no puede estar vacío.");
+        return null;
+    }
+
+    try {
+        double strokeWidth = Double.parseDouble(raw);
+        if (strokeWidth <= 0) {
+            AlertUtils.showError("Grosor inválido", "El grosor debe ser mayor que 0.");
             return null;
         }
+        return strokeWidth;
+    } catch (NumberFormatException e) {
+        AlertUtils.showError("Grosor inválido", "Introduce un número válido para el grosor.");
+        return null;
+    }
     }
 
     private void processSave(AnnotationType type, double strokeWidth, ActionEvent event) {
