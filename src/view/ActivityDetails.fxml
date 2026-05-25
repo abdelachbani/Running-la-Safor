@@ -11,10 +11,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="780.0" prefWidth="1200.0" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ActivityDetailsController">
 
@@ -68,13 +67,13 @@
                     <children>
                         <Label styleClass="section-title" text="Mapa y trazado" />
 
-                        <ScrollPane fx:id="mapScrollPane" styleClass="map-scroll-pane" hbarPolicy="ALWAYS" vbarPolicy="ALWAYS" pannable="true" VBox.vgrow="ALWAYS">
+                        <ScrollPane fx:id="mapScrollPane" hbarPolicy="ALWAYS" pannable="true" styleClass="map-scroll-pane" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
                             <content>
                                 <Pane fx:id="mapContentPane" />
                             </content>
                         </ScrollPane>
 
-                        <Label fx:id="mapStatusLabel" styleClass="summary-label" text="" />
+                        <Label fx:id="mapStatusLabel" styleClass="summary-label" text="Puntos Seleccionados: 0" />
                     </children>
                 </VBox>
 

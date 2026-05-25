@@ -36,7 +36,7 @@
         </VBox>
    </top>
    <center>
-      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="258.0" prefWidth="458.0" spacing="20.0" BorderPane.alignment="TOP_CENTER">
+      <VBox alignment="CENTER" maxHeight="300" maxWidth="600" prefHeight="258.0" prefWidth="458.0" spacing="20.0" BorderPane.alignment="TOP_CENTER" styleClass="form-card">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>

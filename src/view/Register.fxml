@@ -10,77 +10,84 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterController">
-    <children>
-        <Label text="Running la Safor">
-            <font>
-                <Font name="System Bold" size="24.0" />
-            </font>
-        </Label>
-        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
-            <children>
-                <TextField fx:id="usernameField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
-                <Label labelFor="$usernameField" mouseTransparent="true" styleClass="floating-label" text="Usuario*" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
-                <Label fx:id="usernameError" styleClass="error-icon" text="!" visible="false" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="15">
-               <tooltip>
-                  <Tooltip fx:id="usernameErrorTooltip" text="Entre 6 y 15 caracteres, solo letras, dígitos, guion o subguion." />
-               </tooltip></Label>
-            </children>
-        </AnchorPane>
-        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
-            <children>
-                <TextField fx:id="emailField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
-                <Label labelFor="$emailField" mouseTransparent="true" styleClass="floating-label" text="Email*" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
-                <Label fx:id="emailError" styleClass="error-icon" text="!" visible="false" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="15">
-               <tooltip>
-                  <Tooltip fx:id="mailErrorTooltip" text="Formato de email no válido (usuario@dominio)." />
-               </tooltip></Label>
-            </children>
-        </AnchorPane>
-        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
-            <children>
-                <PasswordField fx:id="passwordField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
-                <Label labelFor="$passwordField" mouseTransparent="true" styleClass="floating-label" text="Contraseña*" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
-                <Label fx:id="passwordError" styleClass="error-icon" text="!" visible="false" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="15">
-               <tooltip>
-                  <Tooltip fx:id="passwordErrorTooltip" text="Entre 8 y 20 caracteres, al menos una mayúscula, una minúscula, un dígito y un símbolo (!@#$%&amp;*()-+=).&quot;" />
-               </tooltip></Label>
-            </children>
-        </AnchorPane>
-        <HBox alignment="BOTTOM_LEFT" maxWidth="-Infinity" prefHeight="30.0" prefWidth="300.0">
-            <children>
-                <Label text="Fecha de Nacimiento*" />
-            </children>
-        </HBox>
-        <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="30.0" prefWidth="300.0" spacing="10.0">
-            <children>
-                <DatePicker fx:id="datePicker" />
-                <Label fx:id="dateError" styleClass="error-icon" text="!" visible="false">
-               <tooltip>
-                  <Tooltip fx:id="ageErrorTooltip" text="Debes tener más de 12 años." />
-               </tooltip></Label>
-            </children>
-        </HBox>
-        <HBox alignment="BOTTOM_LEFT" maxWidth="-Infinity" prefWidth="300.0" spacing="5">
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="260.0" styleClass="floating-field">
+<StackPane prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterController">
+    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" spacing="10.0" styleClass="form-card">
+        <children>
+            <Label text="Running la Safor">
+                <font>
+                    <Font name="System Bold" size="24.0" />
+                </font>
+            </Label>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
                 <children>
-                    <TextField fx:id="usernameField11" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
-                    <Label labelFor="$usernameField11" mouseTransparent="true" styleClass="floating-label" text="Subir avatar" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+                    <TextField fx:id="usernameField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
+                    <Label labelFor="$usernameField" mouseTransparent="true" styleClass="floating-label" text="Usuario*" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+                    <Label fx:id="usernameError" styleClass="error-icon" text="!" visible="false" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="15">
+                        <tooltip>
+                            <Tooltip fx:id="usernameErrorTooltip" text="Entre 6 y 15 caracteres, solo letras, dígitos, guion o subguion." />
+                        </tooltip>
+                    </Label>
                 </children>
             </AnchorPane>
-            <Button fx:id="browseButton" onAction="#handleBrowse" prefHeight="40.0" prefWidth="30.0" text="..." />
-        </HBox>
-        <Button id="login-button" fx:id="registerButton" defaultButton="true" mnemonicParsing="false" onAction="#onRegisterClick" text="REGISTRARSE">
-            <font>
-                <Font name="System Bold" size="14.0" />
-            </font>
-        </Button>
-        <Hyperlink fx:id="loginLink" mnemonicParsing="false" onAction="#handleLoginAction" text="¿Ya tienes cuenta? Inicia sesión">
-            <font>
-                <Font size="14.0" />
-            </font>
-        </Hyperlink>
-    </children>
-</VBox>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
+                <children>
+                    <TextField fx:id="emailField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
+                    <Label labelFor="$emailField" mouseTransparent="true" styleClass="floating-label" text="Email*" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+                    <Label fx:id="emailError" styleClass="error-icon" text="!" visible="false" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="15">
+                        <tooltip>
+                            <Tooltip fx:id="mailErrorTooltip" text="Formato de email no válido (usuario@dominio)." />
+                        </tooltip>
+                    </Label>
+                </children>
+            </AnchorPane>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
+                <children>
+                    <PasswordField fx:id="passwordField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
+                    <Label labelFor="$passwordField" mouseTransparent="true" styleClass="floating-label" text="Contraseña*" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+                    <Label fx:id="passwordError" styleClass="error-icon" text="!" visible="false" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="15">
+                        <tooltip>
+                            <Tooltip fx:id="passwordErrorTooltip" text="Entre 8 y 20 caracteres, al menos una mayúscula, una minúscula, un dígito y un símbolo (!@#$%&amp;*()-+=).&quot;" />
+                        </tooltip>
+                    </Label>
+                </children>
+            </AnchorPane>
+            <HBox alignment="BOTTOM_LEFT" maxWidth="-Infinity" prefHeight="30.0" prefWidth="300.0">
+                <children>
+                    <Label text="Fecha de Nacimiento*" />
+                </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="30.0" prefWidth="300.0" spacing="10.0">
+                <children>
+                    <DatePicker fx:id="datePicker" />
+                    <Label fx:id="dateError" styleClass="error-icon" text="!" visible="false">
+                        <tooltip>
+                            <Tooltip fx:id="ageErrorTooltip" text="Debes tener más de 12 años." />
+                        </tooltip>
+                    </Label>
+                </children>
+            </HBox>
+            <HBox alignment="BOTTOM_LEFT" maxWidth="-Infinity" prefWidth="300.0" spacing="5">
+                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="260.0" styleClass="floating-field">
+                    <children>
+                        <TextField fx:id="usernameField11" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
+                        <Label labelFor="$usernameField11" mouseTransparent="true" styleClass="floating-label" text="Subir avatar" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+                    </children>
+                </AnchorPane>
+                <Button fx:id="browseButton" onAction="#handleBrowse" prefHeight="40.0" prefWidth="30.0" text="..." />
+            </HBox>
+            <Button id="login-button" fx:id="registerButton" defaultButton="true" mnemonicParsing="false" onAction="#onRegisterClick" text="REGISTRARSE">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+            </Button>
+            <Hyperlink fx:id="loginLink" mnemonicParsing="false" onAction="#handleLoginAction" text="¿Ya tienes cuenta? Inicia sesión">
+                <font>
+                    <Font size="14.0" />
+                </font>
+            </Hyperlink>
+        </children>
+    </VBox>
+</StackPane>
