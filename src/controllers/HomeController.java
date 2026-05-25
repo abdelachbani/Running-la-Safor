@@ -95,8 +95,8 @@ public class HomeController implements Initializable {
     }
 
     private void configureTable() {
-        nameColumn.setCellValueFactory(cellData ->
-            new SimpleStringProperty(cellData.getValue().getName())
+        nameColumn.setCellValueFactory(cellData
+                -> new SimpleStringProperty(cellData.getValue().getName())
         );
 
         dateColumn.setCellValueFactory(cellData -> {
@@ -208,6 +208,9 @@ public class HomeController implements Initializable {
         }
 
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        Stage stage = (Stage) confirm.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(
+                new Image(AlertUtils.class.getResource("/resources/logo.png").toString()));
         confirm.setTitle("Confirmar borrado");
         confirm.setHeaderText("Eliminar actividad");
         confirm.setContentText("¿Quieres eliminar \"" + selected.getName() + "\"?");
