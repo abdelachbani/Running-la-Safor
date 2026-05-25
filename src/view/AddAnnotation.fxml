@@ -6,7 +6,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
@@ -21,13 +20,12 @@
 
     <!-- CONTENIDO -->
     <center>
-        <VBox prefWidth="200.0" spacing="14.0">
-         <Separator prefWidth="200.0" />
+        <VBox maxHeight="-Infinity" maxWidth="500" prefHeight="400.0" prefWidth="200.0" spacing="14.0" styleClass="form-card">
 
             <!-- Volver -->
             <HBox alignment="CENTER_LEFT">
                 <Button onAction="#handleBack" styleClass="profile-back-button" text="← Volver" />
-            <Region prefHeight="41.0" prefWidth="120.0" />
+            <Region prefHeight="30.0" prefWidth="11.0" />
    
                <!-- Título -->
                <Label style="-fx-font-size:20; -fx-font-weight:bold;" styleClass="screen-title" text="Añadir Anotación" />
