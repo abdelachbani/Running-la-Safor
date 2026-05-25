@@ -111,7 +111,7 @@
                            <children>
                               <DatePicker fx:id="datePicker">
                                  <HBox.margin>
-                                    <Insets top="-25.0" />
+                                    <Insets />
                                  </HBox.margin></DatePicker>
                               <Label fx:id="dateError" styleClass="error-icon" text="!" visible="false">
                                  <tooltip>
@@ -119,6 +119,9 @@
                                  </tooltip>
                               </Label>
                            </children>
+                           <VBox.margin>
+                              <Insets top="-15.0" />
+                           </VBox.margin>
                         </HBox>
 
                             </children>
