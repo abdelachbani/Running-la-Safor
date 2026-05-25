@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -43,7 +44,7 @@
     </top>
 
     <center>
-        <VBox alignment="CENTER" spacing="32.0" BorderPane.alignment="CENTER" styleClass="form-card" maxWidth="600" maxHeight="550">
+        <VBox alignment="CENTER" maxHeight="550" maxWidth="600" spacing="32.0" styleClass="form-card" BorderPane.alignment="CENTER">
             <padding>
                 <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
             </padding>
@@ -72,7 +73,7 @@
                                 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="320.0" styleClass="floating-field">
                                     <children>
                                         <TextField fx:id="nicknameField" editable="false" styleClass="custom-textfield" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" />
-                                        <Label labelFor="$nicknameField" mouseTransparent="true" styleClass="floating-label" text="Nickname" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0" />
+                                        <Label labelFor="$nicknameField" mouseTransparent="true" styleClass="floating-label" text="Usuario" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0" />
                                     </children>
                                 </AnchorPane>
 
@@ -91,22 +92,27 @@
                                 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="320.0" styleClass="floating-field">
                                     <children>
                                         <PasswordField fx:id="passwordField" promptText="Dejar en blanco para mantener la actual" styleClass="custom-textfield" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" />
+                                        <TextField fx:id="passwordFieldVisible" managed="false" promptText="Dejar en blanco para mantener la actual" styleClass="custom-textfield" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" />
                                         <Label labelFor="$passwordField" mouseTransparent="true" styleClass="floating-label" text="Contraseña" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0" />
                                         <Label fx:id="passwordError" styleClass="error-icon" text="!" visible="false" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="15.0">
                                             <tooltip>
                                                 <Tooltip fx:id="passwordErrorTooltip" text="Entre 8 y 20 caracteres, al menos una mayúscula, una minúscula, un dígito y un símbolo." />
                                             </tooltip>
                                         </Label>
+                                        <javafx.scene.control.ToggleButton fx:id="togglePasswordButton" onAction="#togglePasswordVisibility" styleClass="password-toggle-button" text="👁" AnchorPane.rightAnchor="-27.0" AnchorPane.topAnchor="14.0" />
                                     </children>
                                 </AnchorPane>
                         <HBox alignment="BOTTOM_LEFT" maxWidth="-Infinity" prefHeight="30.0" prefWidth="300.0">
                            <children>
-                              <Label text="Fecha de Nacimiento*" />
+                              <Label text="Fecha de Nacimiento" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="30.0" prefWidth="300.0" spacing="10.0">
                            <children>
-                              <DatePicker fx:id="datePicker" />
+                              <DatePicker fx:id="datePicker">
+                                 <HBox.margin>
+                                    <Insets top="-25.0" />
+                                 </HBox.margin></DatePicker>
                               <Label fx:id="dateError" styleClass="error-icon" text="!" visible="false">
                                  <tooltip>
                                     <Tooltip fx:id="ageErrorTooltip" text="Debes tener más de 12 años." />

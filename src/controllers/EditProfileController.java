@@ -34,6 +34,8 @@ public class EditProfileController implements Initializable {
     @FXML private TextField nicknameField;
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
+    @FXML private TextField passwordFieldVisible;
+    @FXML private javafx.scene.control.ToggleButton togglePasswordButton;
     @FXML private DatePicker datePicker;
     @FXML private Button logoutButton;
     @FXML private Button backButton;
@@ -54,6 +56,26 @@ public class EditProfileController implements Initializable {
         loadUserData();
         applyStyles();
         setupValidation();
+        if (passwordField != null && passwordFieldVisible != null) {
+            passwordFieldVisible.textProperty().bindBidirectional(passwordField.textProperty());
+        }
+    }
+
+    @FXML
+    private void togglePasswordVisibility(ActionEvent event) {
+        if (togglePasswordButton.isSelected()) {
+            passwordFieldVisible.setVisible(true);
+            passwordFieldVisible.setManaged(true);
+            passwordField.setVisible(false);
+            passwordField.setManaged(false);
+            togglePasswordButton.setText("👁‍🗨");
+        } else {
+            passwordFieldVisible.setVisible(false);
+            passwordFieldVisible.setManaged(false);
+            passwordField.setVisible(true);
+            passwordField.setManaged(true);
+            togglePasswordButton.setText("👁");
+        }
     }
 
     private void loadUserData() {

@@ -40,6 +40,10 @@ public class RegisterController implements Initializable {
     @FXML
     private PasswordField passwordField;
     @FXML
+    private TextField passwordFieldVisible;
+    @FXML
+    private javafx.scene.control.ToggleButton togglePasswordButton;
+    @FXML
     private DatePicker datePicker;
     @FXML
     private TextField usernameField11;
@@ -76,6 +80,26 @@ public class RegisterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setupValidation();
+        if (passwordField != null && passwordFieldVisible != null) {
+            passwordFieldVisible.textProperty().bindBidirectional(passwordField.textProperty());
+        }
+    }
+
+    @FXML
+    private void togglePasswordVisibility(ActionEvent event) {
+        if (togglePasswordButton.isSelected()) {
+            passwordFieldVisible.setVisible(true);
+            passwordFieldVisible.setManaged(true);
+            passwordField.setVisible(false);
+            passwordField.setManaged(false);
+            togglePasswordButton.setText("👁‍🗨");
+        } else {
+            passwordFieldVisible.setVisible(false);
+            passwordFieldVisible.setManaged(false);
+            passwordField.setVisible(true);
+            passwordField.setManaged(true);
+            togglePasswordButton.setText("👁");
+        }
     }
 
     private void setupValidation() {

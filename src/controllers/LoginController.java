@@ -41,13 +41,38 @@ public class LoginController implements Initializable {
     @FXML
     private Text wrongCredentialsText;
 
+    @FXML
+    private TextField passwordFieldVisible;
+    @FXML
+    private javafx.scene.control.ToggleButton togglePasswordButton;
+
     /**
      * Initializes the controller class.
      */
     @Override
 
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        // Bind the text properties bidirectionally so they always match
+        if (passwordField != null && passwordFieldVisible != null) {
+            passwordFieldVisible.textProperty().bindBidirectional(passwordField.textProperty());
+        }
+    }
+
+    @FXML
+    private void togglePasswordVisibility(ActionEvent event) {
+        if (togglePasswordButton.isSelected()) {
+            passwordFieldVisible.setVisible(true);
+            passwordFieldVisible.setManaged(true);
+            passwordField.setVisible(false);
+            passwordField.setManaged(false);
+            togglePasswordButton.setText("👁‍🗨"); // crossed eye if possible, or just keep it
+        } else {
+            passwordFieldVisible.setVisible(false);
+            passwordFieldVisible.setManaged(false);
+            passwordField.setVisible(true);
+            passwordField.setManaged(true);
+            togglePasswordButton.setText("👁");
+        }
     }
 
     @FXML

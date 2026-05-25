@@ -38,6 +38,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
@@ -46,7 +47,7 @@
 
 <BorderPane prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
     <center>
-        <VBox alignment="CENTER" spacing="12.0" BorderPane.alignment="CENTER" styleClass="form-card" maxWidth="400" maxHeight="450">
+        <VBox alignment="CENTER" maxHeight="450" maxWidth="400" spacing="12.0" styleClass="form-card" BorderPane.alignment="CENTER">
             <children>
                 <Label text="Running la Safor">
                     <font>
@@ -65,7 +66,9 @@
 
                 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="floating-field">
                     <PasswordField fx:id="passwordField" styleClass="custom-textfield" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
+                    <TextField fx:id="passwordFieldVisible" managed="false" styleClass="custom-textfield" visible="false" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" />
                     <Label labelFor="$passwordField" mouseTransparent="true" styleClass="floating-label" text="Contraseña" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0" />
+                    <javafx.scene.control.ToggleButton fx:id="togglePasswordButton" onAction="#togglePasswordVisibility" styleClass="password-toggle-button" text="👁" AnchorPane.rightAnchor="-27.0" AnchorPane.topAnchor="14" />
                 </AnchorPane>
             <Text id="wrong-credentials-text" fx:id="wrongCredentialsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Las credenciales no son correctas" visible="false" />
                 <Button id="login-button" fx:id="loginButton" defaultButton="true" mnemonicParsing="false" onAction="#onLoginClick" text="ENTRAR">
