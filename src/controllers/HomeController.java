@@ -155,8 +155,8 @@ public class HomeController implements Initializable {
         activitiesCountLabel.getStyleClass().add("summary-label");
         lastActivityLabel.getStyleClass().add("summary-label");
         importButton.getStyleClass().add("import-button");
-        openButton.getStyleClass().add("table-action-button");
-        deleteButton.getStyleClass().add("table-action-button");
+        openButton.getStyleClass().add("open-button");
+        deleteButton.getStyleClass().add("delete-button");
         profileButton.getStyleClass().add("profile-menu-button");
         sessionsButton.getStyleClass().add("profile-menu-button");
         mapsButton.getStyleClass().add("profile-menu-button");
