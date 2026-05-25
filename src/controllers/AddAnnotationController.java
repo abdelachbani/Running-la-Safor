@@ -49,9 +49,9 @@ public class AddAnnotationController implements Initializable {
     @FXML
     private ColorPicker colorPicker;
     @FXML
-    private Label lblUser;
+    private Label usernameLabel;
     @FXML
-    private ImageView imgUser;
+    private ImageView avatarImageView;
     @FXML
     private ToggleGroup tipoGroup;
 
@@ -85,7 +85,7 @@ public class AddAnnotationController implements Initializable {
         });
 
         if (app.getCurrentUser() != null) {
-            lblUser.setText(app.getCurrentUser().getNickName());
+            usernameLabel.setText(app.getCurrentUser().getNickName());
             loadAvatar();
         }
     }
@@ -96,7 +96,7 @@ public class AddAnnotationController implements Initializable {
             avatar = AvatarUtils.getDefaultAvatar();
         }
 
-        AvatarUtils.applyCircularAvatar(imgUser, avatar);
+        AvatarUtils.applyCircularAvatar(avatarImageView, avatar);
     }
 
     @FXML
@@ -216,13 +216,25 @@ public class AddAnnotationController implements Initializable {
 
         try {
             Parent root = FXMLLoader.load(homeView);
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(styles.toExternalForm());
-
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
+            boolean wasMaximized = stage.isMaximized();
+            Scene currentScene = stage.getScene();
+
+            if (currentScene != null) {
+                currentScene.setRoot(root);
+                currentScene.getStylesheets().setAll(styles.toExternalForm());
+            } else {
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(styles.toExternalForm());
+                stage.setScene(scene);
+            }
+
             stage.setMinWidth(minWidth);
             stage.setMinHeight(minHeight);
+
+            if (!wasMaximized) {
+                stage.centerOnScreen();
+            }
             stage.show();
         } catch (IOException ex) {
             AlertUtils.showError("Error", "No se pudo volver a la pantalla principal.");
@@ -237,16 +249,28 @@ public class AddAnnotationController implements Initializable {
             Parent root = loader.load();
 
             ActivityDetailsController controller = loader.getController();
-            controller.setActivity(currentActivity); // ← pasa la actividad
+            controller.setActivity(currentActivity);
 
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(
-                    getClass().getResource("/resources/styles.css").toExternalForm()
-            );
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            boolean wasMaximized = stage.isMaximized();
+            Scene currentScene = stage.getScene();
+            URL styles = getClass().getResource("/resources/styles.css");
+
+            if (currentScene != null) {
+                currentScene.setRoot(root);
+                currentScene.getStylesheets().setAll(styles.toExternalForm());
+            } else {
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(styles.toExternalForm());
+                stage.setScene(scene);
+            }
+
             stage.setMinWidth(1200);
             stage.setMinHeight(780);
-            stage.setScene(scene);
+
+            if (!wasMaximized) {
+                stage.centerOnScreen();
+            }
             stage.show();
 
         } catch (IOException e) {

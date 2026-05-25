@@ -17,7 +17,7 @@
    <top>
     <HBox maxHeight="-Infinity" prefHeight="60.0" prefWidth="600.0" spacing="10.0" BorderPane.alignment="CENTER_LEFT">
       <children>
-         <Label prefHeight="44.0" prefWidth="242.0" styleClass="screen-title" stylesheets="@../resources/styles.css" text="Running la Safor">
+         <Label prefHeight="44.0" prefWidth="242.0" styleClass="screen-title" text="Running la Safor">
             <font>
                <Font size="20.0" />
             </font>
@@ -26,13 +26,13 @@
 
          <HBox alignment="CENTER" spacing="6.0">
             <children>
-               <Label fx:id="lblUser" prefHeight="44.0" styleClass="user-name" stylesheets="@../resources/styles.css" text="usuarioejemplo" />
-               <ImageView fx:id="imgUser" fitHeight="47.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+               <Label fx:id="usernameLabel" prefHeight="44.0" styleClass="user-name" text="usuarioejemplo" />
+               <ImageView fx:id="avatarImageView" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view">
                   <image>
                      <Image url="@../resources/UsuarioEjemplo.png" />
                   </image>
                </ImageView>
-               <Button mnemonicParsing="false" onAction="#handleLogOut" prefWidth="134.0" alignment="CENTER" styleClass="profile-top-button" stylesheets="@../resources/styles.css" text="Cerrar Sesión" />
+               <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#handleLogOut" styleClass="profile-top-button" text="Cerrar Sesión" />
             </children>
          </HBox>
       </children>
@@ -53,9 +53,9 @@
             <Separator prefWidth="200.0" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#handleReturn" styleClass="profile-back-button" stylesheets="@../resources/styles.css" text="← Volver" />
+                  <Button mnemonicParsing="false" onAction="#handleReturn" styleClass="profile-back-button" text="← Volver" />
                   <Region prefHeight="69.0" prefWidth="55.0" />
-                  <Label prefHeight="40.0" prefWidth="333.0" styleClass="screen-title" stylesheets="@../resources/styles.css" text="Importar Actividad GPX">
+                  <Label prefHeight="40.0" prefWidth="333.0" styleClass="screen-title" text="Importar Actividad GPX">
                      <font>
                         <Font size="25.0" />
                      </font>
@@ -67,22 +67,22 @@
             </HBox>
             <HBox prefHeight="18.0" prefWidth="539.0">
                <children>
-                  <Label styleClass="floating-label" stylesheets="@../resources/styles.css" text="Selecciona un fichero GPX de tu ordenador:" />
+                  <Label styleClass="floating-label" text="Selecciona un fichero GPX de tu ordenador:" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="txtFileRoute" prefHeight="30.0" prefWidth="402.0" styleClass="custom-textfield" stylesheets="@../resources/styles.css" HBox.hgrow="ALWAYS">
+                  <TextField fx:id="txtFileRoute" prefHeight="30.0" prefWidth="402.0" styleClass="custom-textfield" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets right="15.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button fx:id="btnExamine" mnemonicParsing="false" onAction="#handleExamine" prefHeight="30.0" styleClass="nav-button" stylesheets="@../resources/styles.css" text="Examinar" />
+                  <Button fx:id="btnExamine" mnemonicParsing="false" onAction="#handleExamine" prefHeight="30.0" styleClass="nav-button" text="Examinar" />
                </children>
             </HBox>
             <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="btnImport" mnemonicParsing="false" onAction="#handleImport" prefHeight="42.0" prefWidth="174.0" styleClass="import-button" stylesheets="@../resources/styles.css" text="Importar Actividad" />
+                  <Button fx:id="btnImport" mnemonicParsing="false" onAction="#handleImport" prefHeight="42.0" prefWidth="174.0" styleClass="import-button" text="Importar Actividad" />
                </children>
             </HBox>
          </children>

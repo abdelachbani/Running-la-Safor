@@ -178,13 +178,26 @@ public class RegisterController implements Initializable {
     private void handleLoginAction(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
-
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
+            boolean wasMaximized = stage.isMaximized();
+            Scene currentScene = stage.getScene();
+            URL styles = getClass().getResource("/resources/styles.css");
+
+            if (currentScene != null) {
+                currentScene.setRoot(root);
+                currentScene.getStylesheets().setAll(styles.toExternalForm());
+            } else {
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(styles.toExternalForm());
+                stage.setScene(scene);
+            }
+
             stage.setMinWidth(400);
             stage.setMinHeight(400);
+
+            if (!wasMaximized) {
+                stage.centerOnScreen();
+            }
             stage.show();
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -34,15 +34,15 @@
 
                         <Region HBox.hgrow="ALWAYS" />
 
-                        <Label fx:id="usernameLabel" text="" />
+                        <Label fx:id="usernameLabel" styleClass="user-name" text="" />
 
-                        <ImageView fx:id="headerAvatarImageView" fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view">
+                        <ImageView fx:id="headerAvatarImageView" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view">
                             <image>
                                 <Image url="@../resources/UsuarioEjemplo.png" />
                             </image>
                         </ImageView>
 
-                        <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#handleLogout" text="Cerrar Sesión" />
+                        <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#handleLogout" styleClass="profile-top-button" text="Cerrar Sesión" />
                     </children>
                 </HBox>
             </children>
@@ -58,7 +58,7 @@
 
                 <BorderPane prefWidth="860.0">
                     <left>
-                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="← Volver" BorderPane.alignment="CENTER_LEFT" />
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" styleClass="profile-back-button" text="← Volver" BorderPane.alignment="CENTER_LEFT" />
                     </left>
                     <center>
                         <Label styleClass="screen-title" text="Modificar Perfil" BorderPane.alignment="CENTER" />
@@ -104,7 +104,7 @@
 
                                 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="320.0" styleClass="floating-field">
                                     <children>
-                                        <PasswordField fx:id="passwordField" promptText="Escriba su contraseña para poder editar el perfil" styleClass="custom-textfield" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" />
+                                        <PasswordField fx:id="passwordField" promptText="Dejar en blanco para mantener la actual" styleClass="custom-textfield" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" />
                                         <Label labelFor="$passwordField" mouseTransparent="true" styleClass="floating-label" text="Contraseña" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0" />
                                         <Label fx:id="passwordError" styleClass="error-icon" text="!" visible="false" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="15.0">
                                             <tooltip>

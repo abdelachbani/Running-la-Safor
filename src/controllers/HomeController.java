@@ -145,11 +145,8 @@ public class HomeController implements Initializable {
     }
 
     private void applyStyles() {
-        titleLabel.getStyleClass().add("screen-title");
-        usernameLabel.getStyleClass().add("user-name");
         activitiesCountLabel.getStyleClass().add("summary-label");
         lastActivityLabel.getStyleClass().add("summary-label");
-        logoutButton.getStyleClass().add("profile-top-button");
         importButton.getStyleClass().add("import-button");
         openButton.getStyleClass().add("table-action-button");
         deleteButton.getStyleClass().add("table-action-button");
@@ -175,13 +172,26 @@ public class HomeController implements Initializable {
             ActivityDetailsController controller = loader.getController();
             controller.setActivity(selected);
 
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
-
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
+            boolean wasMaximized = stage.isMaximized();
+            Scene currentScene = stage.getScene();
+            URL styles = getClass().getResource("/resources/styles.css");
+
+            if (currentScene != null) {
+                currentScene.setRoot(root);
+                currentScene.getStylesheets().setAll(styles.toExternalForm());
+            } else {
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(styles.toExternalForm());
+                stage.setScene(scene);
+            }
+
             stage.setMinWidth(1200);
             stage.setMinHeight(780);
+
+            if (!wasMaximized) {
+                stage.centerOnScreen();
+            }
             stage.show();
         } catch (IOException ex) {
             AlertUtils.showError("Error", "No se pudo abrir la pantalla de visualización de actividad.");
@@ -235,22 +245,10 @@ public class HomeController implements Initializable {
 
     @FXML
     private void handleMaps(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MapManagement.fxml"));
-            Parent root = loader.load();
-
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setMinWidth(1200);
-            stage.setMinHeight(780);
-            stage.show();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            AlertUtils.showError("Error", "No se pudo abrir la pantalla de gestión de mapas.");
-        }
+        NavigationUtils.navigateTo(event, NavigationTarget.to("/view/MapManagement.fxml")
+                .minSize(1200, 780)
+                .onError("No se pudo abrir la pantalla de gestión de mapas.")
+                .build());
     }
 
     @FXML

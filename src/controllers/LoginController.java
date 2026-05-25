@@ -59,12 +59,25 @@ public class LoginController implements Initializable {
 
         try {
             Parent root = FXMLLoader.load(registerView);
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(styles.toExternalForm());
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
+            boolean wasMaximized = stage.isMaximized();
+            Scene currentScene = stage.getScene();
+
+            if (currentScene != null) {
+                currentScene.setRoot(root);
+                currentScene.getStylesheets().setAll(styles.toExternalForm());
+            } else {
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(styles.toExternalForm());
+                stage.setScene(scene);
+            }
+
             stage.setMinWidth(400);
             stage.setMinHeight(500);
+
+            if (!wasMaximized) {
+                stage.centerOnScreen();
+            }
             stage.show();
         } catch (IOException ex) {
             showRegisterLoadError();
@@ -86,14 +99,26 @@ public class LoginController implements Initializable {
         } else {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/view/Home.fxml"));
-                Scene scene = new Scene(root);
-                scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
+                boolean wasMaximized = stage.isMaximized();
+                Scene currentScene = stage.getScene();
+                URL styles = getClass().getResource("/resources/styles.css");
+
+                if (currentScene != null) {
+                    currentScene.setRoot(root);
+                    currentScene.getStylesheets().setAll(styles.toExternalForm());
+                } else {
+                    Scene scene = new Scene(root);
+                    scene.getStylesheets().add(styles.toExternalForm());
+                    stage.setScene(scene);
+                }
+
                 stage.setMinWidth(900);
                 stage.setMinHeight(600);
-                stage.setX(scene.getWidth()/4);
-                stage.setY(scene.getHeight()/8);
+
+                if (!wasMaximized) {
+                    stage.centerOnScreen();
+                }
                 stage.show();
             } catch (IOException ex) {
                 ex.printStackTrace();
