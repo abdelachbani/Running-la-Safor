@@ -72,8 +72,6 @@
                                 <Pane fx:id="mapContentPane" />
                             </content>
                         </ScrollPane>
-
-                        <Label fx:id="mapStatusLabel" styleClass="summary-label" text="Puntos Seleccionados: 0" />
                     </children>
                 </VBox>
 
@@ -164,5 +162,13 @@
             </children>
         </HBox>
     </center>
+   <bottom>
+
+            <Label fx:id="mapStatusLabel" styleClass="summary-label" text="Puntos Seleccionados: 0" BorderPane.alignment="CENTER_LEFT">
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="22.0" />
+         </BorderPane.margin>
+      </Label>
+   </bottom>
 
 </BorderPane>
