@@ -408,7 +408,7 @@ public class ActivityDetailsController implements Initializable {
 
         Line line = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
         line.setStroke(color);
-        line.setStrokeWidth(2);
+        line.setStrokeWidth(annotation.getStrokeWidth());
         mapPane.getChildren().add(line);
 
         line.setUserData("annotation");
