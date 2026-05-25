@@ -34,6 +34,18 @@
     -fx-padding: 30px;
 }
 
+.password-toggle-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #999999;
+    -fx-padding: 0;
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+}
+
+.password-toggle-button:hover {
+    -fx-text-fill: #0093ED;
+}
+
 /* Floating labels on fields*/
 
 #login-button {
