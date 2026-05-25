@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -11,60 +10,41 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ImportActivityController">
    <top>
-    <HBox maxHeight="-Infinity" prefHeight="60.0" prefWidth="600.0" spacing="10.0" BorderPane.alignment="CENTER_LEFT">
-      <children>
-         <Label prefHeight="44.0" prefWidth="242.0" styleClass="screen-title" text="Running la Safor">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Label>
-         <Region prefHeight="44.0" prefWidth="22.0" HBox.hgrow="ALWAYS" />
-
-         <HBox alignment="CENTER" spacing="6.0">
+        <VBox spacing="8.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="6" left="24" right="24" top="14" />
+            </padding>
             <children>
-               <Label fx:id="usernameLabel" prefHeight="44.0" styleClass="user-name" text="usuarioejemplo" />
-               <ImageView fx:id="avatarImageView" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view">
-                  <image>
-                     <Image url="@../resources/UsuarioEjemplo.png" />
-                  </image>
-               </ImageView>
-               <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#handleLogOut" styleClass="profile-top-button" text="Cerrar Sesión" />
+                <HBox alignment="CENTER_LEFT" spacing="14.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#handleReturn" styleClass="profile-back-button" text="← Volver" />
+                        <Label styleClass="screen-title" text="Running la Safor - Importar Actividad GPX" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label fx:id="usernameLabel" styleClass="user-name" text="usuarioejemplo" />
+                        <ImageView fx:id="avatarImageView" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view">
+                            <image>
+                                <Image url="@../resources/UsuarioEjemplo.png" />
+                            </image>
+                        </ImageView>
+                        <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#handleLogOut" styleClass="profile-top-button" text="Cerrar Sesión" />
+                    </children>
+                </HBox>
             </children>
-         </HBox>
-      </children>
-      <padding>
-         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-      </padding>
-   </HBox>
-</top>
+        </VBox>
+   </top>
    <center>
-      <VBox prefHeight="258.0" prefWidth="458.0" spacing="20.0" BorderPane.alignment="TOP_CENTER">
+      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="258.0" prefWidth="458.0" spacing="20.0" BorderPane.alignment="TOP_CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
          <padding>
-            <Insets bottom="30.0" left="30.0" right="30.0" />
+            <Insets bottom="30.0" left="70.0" right="70.0" />
          </padding>
          <children>
-            <Separator prefWidth="200.0" />
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#handleReturn" styleClass="profile-back-button" text="← Volver" />
-                  <Region prefHeight="69.0" prefWidth="55.0" />
-                  <Label prefHeight="40.0" prefWidth="333.0" styleClass="screen-title" text="Importar Actividad GPX">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
+
             <HBox prefHeight="18.0" prefWidth="539.0">
                <children>
                   <Label styleClass="floating-label" text="Selecciona un fichero GPX de tu ordenador:" />
