@@ -18,6 +18,8 @@ import javafx.scene.text.Text;
 import upv.ipc.sportlib.SportActivityApp;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import utils.ui_navigation.NavigationTarget;
+import utils.ui_navigation.NavigationUtils;
 
 /**
  * FXML Controller class
@@ -97,32 +99,10 @@ public class LoginController implements Initializable {
         if (!app.login(usernameField.getText(), passwordField.getText())) {
             wrongCredentialsText.setVisible(true);
         } else {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/view/Home.fxml"));
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                boolean wasMaximized = stage.isMaximized();
-                Scene currentScene = stage.getScene();
-                URL styles = getClass().getResource("/resources/styles.css");
-
-                if (currentScene != null) {
-                    currentScene.setRoot(root);
-                    currentScene.getStylesheets().setAll(styles.toExternalForm());
-                } else {
-                    Scene scene = new Scene(root);
-                    scene.getStylesheets().add(styles.toExternalForm());
-                    stage.setScene(scene);
-                }
-
-                stage.setMinWidth(900);
-                stage.setMinHeight(600);
-
-                if (!wasMaximized) {
-                    stage.centerOnScreen();
-                }
-                stage.show();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            NavigationUtils.navigateTo(event, NavigationTarget.to("/view/Home.fxml")
+                    .minSize(1000, 700)
+                    .onError("No se pudo ir a la pantalla principal.")
+                    .build());
         }
     }
 

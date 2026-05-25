@@ -79,7 +79,7 @@ public final class NavigationUtils {
     public static void logoutAndNavigateToLogin(ActionEvent event) {
         SportActivityApp.getInstance().logout();
         navigateTo(event, NavigationTarget.to("/view/Login.fxml")
-                .size(640, 400)
+                .size(770, 700)
                 .minSize(400, 400)
                 .center()
                 .onError("No se pudo volver a la pantalla de login.")
