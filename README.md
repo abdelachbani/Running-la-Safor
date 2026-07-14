@@ -64,6 +64,15 @@ To run and build this project, you will need:
 - `src/resources/`: Contains CSS stylesheets (`styles.css`, `nord-light.css`), images, and other assets used by the UI.
 - `src/utils/`: Utility classes for navigation, alerts, and formatting.
 
+## Prototypes & Conceptual Design
+
+The project includes a design document — [`Prototypes and Conceptual Design.pdf`](Prototypes%20and%20Conceptual%20Design.pdf) (written in Spanish) — containing:
+
+- **Medium-fidelity prototypes** for every screen: Login, Registration, Main Dashboard, Edit Profile, Session History, Import Activity, Activity Details, Add Annotation, Accumulated Statistics, and Map Management.
+- **Container descriptions** detailing the purpose, user/system functions, navigation links, and related objects for each screen.
+- **Object/Action tables** defining attributes and operations for each domain entity (User, Activity, Annotation, Session, Map).
+- **Content Diagram** illustrating the full navigation flow between all application screens.
+
 ## UI/UX Design Note
 
 The user interface was crafted with a strong emphasis on modern design patterns. It features custom-styled fields with floating labels, elevated white cards over beautifully generated abstract backgrounds, and an overall layout that emphasizes usability and aesthetics.
