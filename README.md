@@ -34,9 +34,6 @@ To run and build this project, you will need:
 ### Using NetBeans IDE
 
 1. Clone this repository to your local machine:
-   ```bash
-   git clone https://github.com/yourusername/Running-la-Safor.git
-   ```
 2. Open NetBeans IDE.
 3. Select **File > Open Project** and navigate to the cloned directory.
 4. Right-click the project and select **Run** to launch the application.
