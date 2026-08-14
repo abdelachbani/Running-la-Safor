@@ -73,7 +73,3 @@ The project includes a design document — [`Prototypes and Conceptual Design.pd
 ## UI/UX Design Note
 
 The user interface was crafted with a strong emphasis on modern design patterns. It features custom-styled fields with floating labels, elevated white cards over beautifully generated abstract backgrounds, and an overall layout that emphasizes usability and aesthetics.
-
-## License
-
-This project is intended for educational and personal use.
